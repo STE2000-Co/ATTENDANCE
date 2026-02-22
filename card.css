@@ -136,14 +136,7 @@
   margin-bottom: 24px;
 }
 
-/* ทำให้ Barcode เป็นสีขาว */
-.barcode rect {
-  fill: #ffffff !important;
-}
 
-.barcode text {
-  fill: #ffffff !important;
-}
 
 /* minimal serial */
 
