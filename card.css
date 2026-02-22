@@ -109,10 +109,13 @@
 }
 
 .meta-line {
-  display: flex;
-  justify-content: space-between;
+  margin-top: 12px;
   font-size: 12px;
-  opacity: 0.9;
+  letter-spacing: 1px;
+  display: flex;
+  flex-direction: column;   /* 👈 สำคัญ */
+  gap: 4px;
+  opacity: 0.85;
 }
 
 /* ============================= */
