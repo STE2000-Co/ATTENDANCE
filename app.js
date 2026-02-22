@@ -190,7 +190,7 @@ function loadEmployeeCard(data, uid) {
       format: "CODE128",
       width: 2,
       height: 60,
-      lineColor: "#ffffff",
+      lineColor: "#000000",
       background: "transparent",
       displayValue: false
     });
