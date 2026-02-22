@@ -8,6 +8,10 @@
   margin: 0 auto;
   perspective: 1200px;
   cursor: pointer;
+  position: relative;
+
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .card-inner {
