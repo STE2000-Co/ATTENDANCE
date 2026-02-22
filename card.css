@@ -1,74 +1,49 @@
 /* ================= EMPLOYEE CARD ================= */
 
 .employee-card {
-  width: 100%;
-  max-width: 420px;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  margin: 0 auto;
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-soft);
+  transition: 0.25s ease;
 }
 
-/* ===== HEADER ===== */
+.employee-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
 
 .card-header {
-  background: var(--accent);
-  height: 80px;
+  height: 60px;
+  background: var(--accent); /* STATE MACHINE คุม */
 }
-
-/* ===== BODY ===== */
 
 .card-body {
-  padding: 24px;
   display: flex;
+  padding: 20px;
   gap: 20px;
-  align-items: center;
-}
-
-/* PHOTO */
-
-.photo-section {
-  flex-shrink: 0;
 }
 
 .avatar {
   width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #f3f5fb;
+  height: 100px;
+  background: #eef2ff;
+  border-radius: 12px;
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.avatar svg {
-  width: 40px;
-  height: 40px;
-  stroke: #6b7280;
-  fill: none;
-  stroke-width: 1.5;
-}
-
-/* INFO */
-
-.info-section {
-  flex: 1;
+  align-items: center;
 }
 
 .emp-name {
   font-size: 18px;
   font-weight: 800;
-  margin-bottom: 6px;
+  color: var(--text-primary);
 }
 
 .emp-id {
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
   margin-bottom: 12px;
-  opacity: 0.8;
-}
-
-.barcode {
-  margin-top: 6px;
 }
