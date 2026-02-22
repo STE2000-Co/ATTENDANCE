@@ -16,6 +16,8 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+/* ================= FIREBASE CONFIG ================= */
+
 const firebaseConfig = {
   apiKey: "AIzaSyBIgAvKSmqBGzKWvnb0FgxOPVrDHp8TDaA",
   authDomain: "system-base-8b777.firebaseapp.com",
@@ -182,7 +184,9 @@ onAuthStateChanged(auth, async (user) => {
 
 function loadEmployeeCard(data, uid) {
   const empId = data.employeeId || uid;
+
   document.getElementById("empName").innerText = data.name || "-";
+  document.getElementById("empTitle").innerText = data.position || "POSITION";
   document.getElementById("empId").innerText = empId;
 
   if (window.JsBarcode) {
@@ -191,7 +195,7 @@ function loadEmployeeCard(data, uid) {
       width: 2,
       height: 60,
       lineColor: "#ffffff",
-      background: "transparent"
+      background: "transparent",
       displayValue: false
     });
   }
@@ -209,13 +213,13 @@ function startClock() {
   }, 1000);
 }
 
-/* ================= TIME FORMAT ================= */
+/* ================= FORMAT ================= */
 
 function formatTime(ts) {
   return ts?.toDate().toLocaleTimeString("th-TH") || "-";
 }
 
-/* ================= STATE MACHINE (ไม่แตะ) ================= */
+/* ================= STATE ================= */
 
 function applyTheme(color) {
   document.documentElement.style.setProperty("--accent", color);
@@ -281,160 +285,4 @@ function startCountdown() {
 
   update();
   countdownInterval = setInterval(update, 1000);
-}
-
-/* ================= RESTORE ================= */
-
-async function getTodaySummary(uid) {
-  const today = new Date().toISOString().split("T")[0];
-  const snap = await getDoc(doc(db, "attendance", uid));
-  if (!snap.exists()) return null;
-  return snap.data().days?.[today] || null;
-}
-
-async function restoreStateFromFirestore(uid) {
-  const now = new Date();
-  const hour = now.getHours();
-  const todayData = await getTodaySummary(uid);
-
-  if (!todayData) return evaluateNewDay(hour);
-
-  if (todayData.clockIn && !todayData.clockOut) {
-    if (hour >= 17) setState("checkout");
-    else setState("countdown");
-    return;
-  }
-
-  if (todayData.clockOut) {
-    setState("finished");
-    return;
-  }
-
-  evaluateNewDay(hour);
-}
-
-function evaluateNewDay(hour) {
-  if (hour >= 6 && hour < 17) setState("checkin");
-  else setState("locked");
-}
-
-/* ================= BUTTON ================= */
-
-window.actionHandler = async function () {
-
-  const btn = document.getElementById("actionBtn");
-
-  if (currentState === "checkin") {
-    btn.disabled = true;
-    btn.innerText = "กำลังบันทึก...";
-
-    const result = await processAttendance(true);
-
-    if (!result) return;
-
-    const todayData = await getTodaySummary(currentUserId);
-
-    showPopup(
-      `บันทึกเวลาเข้างานสำเร็จ\n\n` +
-      `สถานที่: ${todayData?.siteName || "-"}\n` +
-      `เข้างานเวลา: ${formatTime(todayData?.clockIn)}`
-    );
-    return;
-  }
-
-  if (currentState === "checkout") {
-    showConfirm("คุณแน่ใจหรือไม่ว่าต้องการเลิกงาน?", async () => {
-
-      btn.disabled = true;
-      btn.innerText = "กำลังบันทึก...";
-
-      const result = await processAttendance(false);
-      if (!result) return;
-
-      const todayData = await getTodaySummary(currentUserId);
-
-      showPopup(
-        `บันทึกเวลาเลิกงานสำเร็จ\n\n` +
-        `ไซต์งาน: ${todayData?.siteName || "-"}\n` +
-        `เลิกงานเวลา: ${formatTime(todayData?.clockOut)}\n` +
-        `${todayData?.checkoutOutside ? "(นอกพื้นที่ทำงาน)" : "(ภายในพื้นที่ทำงาน)"}`
-      );
-    });
-  }
-};
-
-/* ================= MULTI-SITE ATTENDANCE ================= */
-
-async function processAttendance(isCheckin) {
-
-  let coords;
-
-  try {
-    coords = await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        pos => resolve(pos.coords),
-        err => reject(err)
-      );
-    });
-  } catch {
-    showPopup("กรุณาเปิด GPS ก่อนทำรายการ", true);
-    setState(currentState);
-    return false;
-  }
-
-  const lat = coords.latitude;
-  const lng = coords.longitude;
-  const user = auth.currentUser;
-  const today = new Date().toISOString().split("T")[0];
-  const attendanceRef = doc(db, "attendance", user.uid);
-  const snap = await getDoc(attendanceRef);
-
-  if (isCheckin) {
-
-    const site = await detectSite(lat, lng);
-    if (!site) {
-      showPopup("คุณไม่ได้อยู่ในไซต์งานที่อนุญาต", true);
-      setState(currentState);
-      return false;
-    }
-
-    const payload = {
-      clockIn: serverTimestamp(),
-      locationIn: { lat, lng },
-      siteId: site.id,
-      siteName: site.id,
-      clockOut: null,
-      locationOut: null,
-      checkoutOutside: false
-    };
-
-    if (!snap.exists()) {
-      await setDoc(attendanceRef, {
-        name: (await getDoc(doc(db,"users",user.uid))).data().name,
-        days: { [today]: payload }
-      });
-    } else {
-      await updateDoc(attendanceRef, {
-        [`days.${today}`]: payload
-      });
-    }
-
-  } else {
-
-    const todayData = snap.data().days?.[today];
-    const siteSnap = await getDoc(doc(db, "sites", todayData.siteId));
-    const site = siteSnap.data();
-
-    const distance = getDistance(lat, lng, site.lat, site.lng);
-    const outside = distance > site.radius;
-
-    await updateDoc(attendanceRef, {
-      [`days.${today}.clockOut`]: serverTimestamp(),
-      [`days.${today}.locationOut`]: { lat, lng },
-      [`days.${today}.checkoutOutside`]: outside
-    });
-  }
-
-  await restoreStateFromFirestore(currentUserId);
-  return true;
 }
