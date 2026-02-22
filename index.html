@@ -33,27 +33,56 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
-      <div class="card-header"></div>
+    <!-- FLIP CARD WRAPPER -->
+    <div class="employee-card" onclick="this.classList.toggle('flipped')">
 
-      <div class="card-body">
-        <div class="photo-section">
-          <div class="avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
+      <div class="card-inner">
+
+        <!-- FRONT -->
+        <div class="card-face card-front">
+          <div class="card-header"></div>
+
+          <div class="card-body">
+
+            <div class="photo-section">
+              <div class="avatar">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="4"></circle>
+                  <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <div class="emp-name" id="empName">-</div>
+              <div class="emp-title" id="empTitle">POSITION</div>
+
+              <div class="meta-line">
+                <span>ID: <span id="empId">-</span></span>
+                <span>ISSUED: <span id="issuedDate">01/01/2026</span></span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <div class="info-section">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-id">
-            Employee ID: <span id="empId">-</span>
+        <!-- BACK -->
+        <div class="card-face card-back">
+
+          <div class="card-back-content">
+
+            <svg id="barcode" class="barcode"></svg>
+
+            <div class="back-id">
+              <span id="empIdBack">-</span>
+            </div>
+
           </div>
-          <svg id="barcode" class="barcode"></svg>
+
         </div>
+
       </div>
+
     </div>
 
     <div class="datetime">
@@ -85,5 +114,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script type="module" src="app.js"></script>
+
+<script>
+  // sync ID ไปด้านหลัง (ไม่แตะ logic เดิม)
+  const observer = new MutationObserver(() => {
+    const id = document.getElementById("empId").innerText;
+    document.getElementById("empIdBack").innerText = id;
+  });
+
+  observer.observe(document.getElementById("empId"), {
+    childList: true
+  });
+</script>
+
 </body>
 </html>
