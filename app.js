@@ -179,10 +179,11 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 /* ================= CARD ================= */
-
 function loadEmployeeCard(data, uid) {
   const empId = data.employeeId || uid;
+
   document.getElementById("empName").innerText = data.name || "-";
+  document.getElementById("empPosition").innerText = data.position || "-";
   document.getElementById("empId").innerText = empId;
 
   if (window.JsBarcode) {
