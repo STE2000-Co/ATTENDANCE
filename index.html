@@ -3,78 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendance System</title>
+  <title>Employee Time System</title>
 
-  <!-- Main Style -->
+  <!-- MAIN STYLE -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Employee Card Style -->
+  <!-- CARD STYLE (แยกเฉพาะบัตรพนักงาน) -->
   <link rel="stylesheet" href="card.css">
 
-  <!-- Barcode -->
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
 
-<div class="main-wrapper">
+<div class="app-wrapper">
 
-  <!-- ================= LOGIN SECTION ================= -->
-  <div id="loginSection">
-
+  <!-- LOGIN -->
+  <div id="loginSection" class="login-container">
     <div class="login-card">
-      <h2>เข้าสู่ระบบ</h2>
+      <div class="logo-text">EMPLOYEE SYSTEM</div>
 
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
+      <div class="input-group">
+        <input type="email" id="email" required>
+        <label>Email</label>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" required>
+        <label>Password</label>
+      </div>
 
       <button class="primary-btn" onclick="login()">Login</button>
     </div>
-
   </div>
 
-  <!-- ================= APP SECTION ================= -->
+  <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <!-- Employee Card -->
     <div class="employee-card">
-
-      <div class="card-header">
-        <div class="avatar" id="avatar">EMP</div>
-        <div class="emp-name" id="empName">-</div>
-        <div class="emp-id" id="empId">-</div>
-      </div>
+      <div class="card-header"></div>
 
       <div class="card-body">
-        <svg id="barcode"></svg>
+        <div class="photo-section">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="emp-name" id="empName">-</div>
+          <div class="emp-id">
+            Employee ID: <span id="empId">-</span>
+          </div>
+          <svg id="barcode" class="barcode"></svg>
+        </div>
       </div>
-
     </div>
 
-    <!-- Date Time -->
-    <div class="datetime-block">
-      <div id="liveDate"></div>
-      <div id="liveTime"></div>
+    <div class="datetime">
+      <div id="liveDate" class="date-text"></div>
+      <div id="liveTime" class="time-text"></div>
     </div>
 
-    <!-- Action Button -->
-    <button
-      id="actionBtn"
-      class="primary-btn"
-      onclick="actionHandler()">
+    <button id="actionBtn"
+            class="primary-btn action-btn"
+            onclick="actionHandler()">
       เข้างาน
     </button>
 
+    <div id="todayInfo"
+         style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
+    </div>
+
   </div>
 
 </div>
 
-<!-- ================= CUSTOM POPUP ================= -->
-<div id="customPopup">
-  <div class="popup-box"></div>
+<!-- CUSTOM POPUP -->
+<div id="customPopup" class="popup-overlay">
+  <div class="popup-box">
+    <div id="popupMessage" class="popup-message"></div>
+    <button class="popup-btn" onclick="closePopup()">ตกลง</button>
+  </div>
 </div>
 
-<!-- Firebase App -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script type="module" src="app.js"></script>
-
 </body>
 </html>
