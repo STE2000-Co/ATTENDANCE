@@ -1,76 +1,154 @@
-/* ================= EMPLOYEE CARD ================= */
+/* ============================= */
+/* FLIP CONTAINER */
+/* ============================= */
 
 .employee-card {
-  background: var(--card-bg);
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  margin-bottom: 28px;
-  box-shadow: var(--shadow-soft);
-  transition: 0.25s ease;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  perspective: 1200px;
+  cursor: pointer;
 }
 
-.employee-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-medium);
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  transition: transform 0.8s cubic-bezier(.4,.2,.2,1);
+  transform-style: preserve-3d;
+}
+
+.employee-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ============================= */
+/* FACES */
+/* ============================= */
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    rgba(0,0,0,0.55) 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* ============================= */
+/* FRONT */
+/* ============================= */
+
+.card-front {
+  z-index: 2;
 }
 
 .card-header {
-  height: 60px;
-  background: var(--accent);
+  height: 8px;
+  width: 60px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 4px;
+  margin-bottom: 12px;
 }
 
 .card-body {
   display: flex;
-  padding: 20px;
-  gap: 20px;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
 }
 
-/* ================= PHOTO ================= */
-
 .photo-section {
-  display: flex;
+  flex-shrink: 0;
 }
 
 .avatar {
-  width: 80px;
-  height: 100px;
-  background: #eef2ff;
-  border-radius: 12px;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .avatar svg {
-  width: 50px;
-  height: 50px;
-  fill: #111;
+  width: 40px;
+  height: 40px;
+  fill: #ffffff;
 }
 
-/* ================= INFO ================= */
-
 .info-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex: 1;
 }
 
 .emp-name {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
-.emp-id {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
+.emp-title {
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  margin-bottom: 16px;
 }
 
-/* ================= BARCODE ================= */
+.meta-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* ============================= */
+/* BACK */
+/* ============================= */
+
+.card-back {
+  transform: rotateY(180deg);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-back-content {
+  width: 100%;
+}
 
 .barcode {
   width: 100%;
-  max-width: 200px;
+  height: 90px;
+  margin-bottom: 24px;
+}
+
+/* ทำให้ Barcode เป็นสีขาว */
+.barcode rect {
+  fill: #ffffff !important;
+}
+
+.barcode text {
+  fill: #ffffff !important;
+}
+
+/* minimal serial */
+
+.back-id {
+  font-size: 11px;
+  letter-spacing: 4px;
+  opacity: 0.7;
 }
