@@ -1,0 +1,76 @@
+/* ================= EMPLOYEE CARD ================= */
+
+.employee-card {
+  background: var(--card-bg);
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-soft);
+  transition: 0.25s ease;
+}
+
+.employee-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.card-header {
+  height: 60px;
+  background: var(--accent);
+}
+
+.card-body {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* ================= PHOTO ================= */
+
+.photo-section {
+  display: flex;
+}
+
+.avatar {
+  width: 80px;
+  height: 100px;
+  background: #eef2ff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar svg {
+  width: 50px;
+  height: 50px;
+  fill: #111;
+}
+
+/* ================= INFO ================= */
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.emp-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.emp-id {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* ================= BARCODE ================= */
+
+.barcode {
+  width: 100%;
+  max-width: 200px;
+}
