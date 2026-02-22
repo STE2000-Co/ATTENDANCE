@@ -1,0 +1,57 @@
+/* ================= EMPLOYEE CARD ================= */
+
+.employee-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  padding: 26px 20px;
+  text-align: center;
+  color: white;
+}
+
+.card-header .avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: white;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 28px;
+  color: #2563eb;
+}
+
+.card-header .emp-name {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.card-header .emp-id {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ===== BODY ===== */
+
+.card-body {
+  padding: 22px;
+  text-align: center;
+}
+
+#barcode {
+  margin-top: 10px;
+}
