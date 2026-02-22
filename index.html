@@ -117,14 +117,17 @@
 
 <script>
   // sync ID ไปด้านหลัง (ไม่แตะ logic เดิม)
+  const empIdEl = document.getElementById("empId");
+
+if (empIdEl) {
   const observer = new MutationObserver(() => {
-    const id = document.getElementById("empId").innerText;
-    document.getElementById("empIdBack").innerText = id;
+    const id = empIdEl.innerText;
+    const back = document.getElementById("empIdBack");
+    if (back) back.innerText = id;
   });
 
-  observer.observe(document.getElementById("empId"), {
-    childList: true
-  });
+  observer.observe(empIdEl, { childList: true });
+}
 </script>
 
 </body>
