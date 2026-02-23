@@ -33,28 +33,44 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
-      <div class="card-header"></div>
+    <!-- FRONT CARD -->
+<div class="employee-card front-card">
 
-      <div class="card-body">
-        <div class="photo-section">
-          <div class="avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
-          </div>
-        </div>
+  <div class="card-bg"></div>
 
-        <div class="info-section">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-id">
-            Employee ID: <span id="empId">-</span>
-          </div>
-          <svg id="barcode" class="barcode"></svg>
-        </div>
-      </div>
+  <div class="card-content">
+
+    <div class="photo-box">
+      <div class="avatar"></div>
     </div>
+
+    <div class="field name" id="empName">-</div>
+    <div class="field empid">
+      ID : <span id="empId">-</span>
+    </div>
+
+    <div class="field position" id="empPosition">-</div>
+    <div class="field department" id="empDepartment">-</div>
+    <div class="field issue-date" id="empIssueDate">-</div>
+
+  </div>
+
+</div>
+
+<!-- BACK CARD -->
+<div class="employee-card back-card">
+
+  <div class="card-bg"></div>
+
+  <div class="card-content">
+
+    <div class="barcode-wrapper">
+      <svg id="barcode"></svg>
+    </div>
+
+  </div>
+
+</div>
 
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
