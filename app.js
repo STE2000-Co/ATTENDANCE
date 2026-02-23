@@ -191,12 +191,14 @@ function loadEmployeeCard(data, uid) {
   data.department || "-";
 
 if (data.issueDate) {
-  const d = data.issueDate.toDate
-    ? data.issueDate.toDate()
-    : new Date(data.issueDate);
-
-  document.getElementById("empIssue").innerText =
-    d.toLocaleDateString("th-TH");
+  const d = new Date(data.issueDate);
+  if (!isNaN(d)) {
+    document.getElementById("empIssue").innerText =
+      d.toLocaleDateString("th-TH");
+  } else {
+    document.getElementById("empIssue").innerText =
+      data.issueDate; // ถ้าเป็น string format อยู่แล้ว
+  }
 } else {
   document.getElementById("empIssue").innerText = "-";
 }
