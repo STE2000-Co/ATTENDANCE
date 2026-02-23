@@ -181,9 +181,23 @@ onAuthStateChanged(auth, async (user) => {
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
+
   const empId = data.employeeId || uid;
-  document.getElementById("empName").innerText = data.name || "-";
-  document.getElementById("empId").innerText = empId;
+
+  document.getElementById("empName").innerText =
+    data.name || "-";
+
+  document.getElementById("empId").innerText =
+    empId;
+
+  document.getElementById("empPosition").innerText =
+    data.position || "-";
+
+  document.getElementById("empDepartment").innerText =
+    data.department || "-";
+
+  document.getElementById("empIssueDate").innerText =
+    "ISSUED: " + (data.issueDate || "-");
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
@@ -194,7 +208,6 @@ function loadEmployeeCard(data, uid) {
     });
   }
 }
-
 /* ================= CLOCK ================= */
 
 function startClock() {
