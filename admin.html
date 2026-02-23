@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Monthly Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="admin-wrapper">
+
+  <!-- TOP HEADER -->
+  <div class="top-section">
+    <div class="top-title">Attendance</div>
+
+    <div class="top-controls">
+      <input type="month" id="monthPicker">
+      <button class="primary-btn small-btn" onclick="refreshData()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- MONTH BLOCK -->
+  <div class="month-block">
+
+    <div class="month-big-title" id="monthTitle"></div>
+
+    <div id="reportContainer"></div>
+
+  </div>
+
+</div>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>
