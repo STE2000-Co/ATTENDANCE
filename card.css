@@ -51,8 +51,8 @@
 .employeeName {
   font-size: 26px;
   font-weight: 800;
-  margin-top: -20px;
-  margin-left: 100px;
+  margin-top: -10px;
+  margin-left: 200px;
   line-height: 1.2;
 }
 
@@ -70,7 +70,7 @@
 
 /* Yellow Divider */
 .card-divider {
-  height: 15px;
+  height: 50px;
   background: #ffd60a;
   width: 100%;
   position: relative;
