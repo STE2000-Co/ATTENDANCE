@@ -1,4 +1,4 @@
-/* ===== EMPLOYEE CARD - MODERN CLEAN VERSION ===== */
+/* ===== EMPLOYEE CARD - MODERN ACCENT VERSION ===== */
 
 .employee-card {
   width: 360px;
@@ -17,12 +17,12 @@
   flex: 0 0 50%;
   background: linear-gradient(135deg, #0d3b66 0%, #145da0 100%);
   color: #ffffff;
-  padding: 22px 22px 40px 22px; /* ขยาย padding-bottom */
+  padding: 20px 22px;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
+  justify-content: flex-start;
+  align-items: flex-end;  /* ข้อมูลไปขวา */
   text-align: right;
 }
 
@@ -36,7 +36,38 @@
   letter-spacing: 0.5px;
 }
 
-/* Yellow Divider - เพิ่มกลับมา */
+.company-name::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #ffd60a;
+  margin-top: 4px;
+  margin-left: auto;
+  border-radius: 2px;
+}
+
+/* Employee Info (Top Right) */
+.employeeName {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 20px;
+  line-height: 1.2;
+}
+
+.employeePosition {
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.employeeDepartment {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* Yellow Divider */
 .card-divider {
   height: 8px;
   background: #ffd60a;
@@ -49,22 +80,19 @@
 .card-bottom {
   flex: 1;
   background: #ffffff;
-  padding: 22px;
+  padding: 22px 22px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   position: relative;
 }
 
-/* PROFILE (Overlapping Between Sections) */
+/* LEFT SIDE (PROFILE + ID) */
 .profile-section {
-  position: absolute;
-  left: 22px;
-  top: -40px; /* ขยับให้ล้ำขึ้นมากขึ้น */
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
+  margin-top: -40px;
 }
 
 .profile-img {
@@ -85,36 +113,45 @@
   fill: #0d3b66;
 }
 
-/* Name, Position, Department on the Right */
-.employeeName {
-  font-size: 26px;
-  font-weight: 800;
-  margin-top: 12px; /* ขยับขึ้นให้ใกล้กลาง */
-  line-height: 1.2;
-}
-
-.employeePosition {
-  font-size: 12px;
-  opacity: 0.9;
-  margin-top: 4px;
-}
-
-.employeeDepartment {
-  font-size: 11px;
-  opacity: 0.85;
-  margin-top: 2px;
-}
-
 .employeeId {
   margin-top: 8px;
   font-size: 13px;
   font-weight: 600;
   color: #0d3b66;
+  letter-spacing: 0.5px;
+}
+
+/* RIGHT SIDE (NAME + INFO) */
+.employee-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  text-align: right;
+}
+
+.employeeName {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0d3b66;
+  line-height: 1.2;
+}
+
+.employeePosition {
+  font-size: 12px;
+  color: #0d3b66;
+  opacity: 0.9;
+}
+
+.employeeDepartment {
+  font-size: 11px;
+  color: #0d3b66;
+  opacity: 0.8;
 }
 
 .employee-issued {
   font-size: 13px;
   font-weight: 600;
   color: #0d3b66;
-  margin-left: auto;
+  margin-top: 6px;
 }
