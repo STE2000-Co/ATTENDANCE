@@ -38,10 +38,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  /* 🔥 FIX SAFARI 3D */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 /* ================= LOGIN ================= */
 
