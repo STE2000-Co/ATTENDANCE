@@ -33,59 +33,43 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <!-- FRONT CARD -->
-<div class="employee-card front-card">
+    <!-- FLIP CARD CONTAINER -->
+    <div class="employee-card flip-card">
+      <!-- FRONT SIDE -->
+      <div class="front-card card-side">
+        <div class="card-bg"></div>
+        <div class="card-content">
+          <div class="photo-box">
+            <div class="avatar"></div>
+          </div>
+          <div class="field name" id="empName">-</div>
+          <div class="field empid">ID : <span id="empId">-</span></div>
+          <div class="field position" id="empPosition">-</div>
+          <div class="field department" id="empDepartment">-</div>
+          <div class="field issue-date" id="empIssueDate">-</div>
+        </div>
+      </div>
 
-  <div class="card-bg"></div>
-
-  <div class="card-content">
-
-    <div class="photo-box">
-      <div class="avatar"></div>
+      <!-- BACK SIDE -->
+      <div class="back-card card-side">
+        <div class="card-bg"></div>
+        <div class="card-content">
+          <div class="barcode-wrapper">
+            <svg id="barcode"></svg>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="field name" id="empName">-</div>
-    <div class="field empid">
-      ID : <span id="empId">-</span>
-    </div>
-
-    <div class="field position" id="empPosition">-</div>
-    <div class="field department" id="empDepartment">-</div>
-    <div class="field issue-date" id="empIssueDate">-</div>
-
-  </div>
-
-</div>
-
-<!-- BACK CARD -->
-<div class="employee-card back-card">
-
-  <div class="card-bg"></div>
-
-  <div class="card-content">
-
-    <div class="barcode-wrapper">
-      <svg id="barcode"></svg>
-    </div>
-
-  </div>
-
-</div>
 
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
       <div id="liveTime" class="time-text"></div>
     </div>
 
-    <button id="actionBtn"
-            class="primary-btn action-btn"
-            onclick="actionHandler()">
-      เข้างาน
-    </button>
+    <button id="actionBtn" class="primary-btn action-btn" onclick="actionHandler()">เข้างาน</button>
 
     <!-- ✅ เพิ่มตรงนี้ -->
-    <div id="todayInfo"
-         style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
+    <div id="todayInfo" style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
     </div>
 
   </div>
