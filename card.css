@@ -49,20 +49,20 @@
 
 /* Employee Info */
 .employee-name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   line-height: 1.2;
 }
 
 .employee-title {
-  font-size: 14px;
+  font-size: 11px;
   opacity: 0.95;
   margin-bottom: 4px;
 }
 
 .employee-department {
-  font-size: 13px;
+  font-size: 11px;
   opacity: 0.85;
 }
 
