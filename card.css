@@ -88,14 +88,14 @@
 
 .side-department {
   position: absolute;
-  right: -35px;
+  right: 0;               /* เอา -35px ออก */
   top: 50%;
-  transform: rotate(90deg) translateY(-50%);
-  transform-origin: right top;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 14px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.8);
 }
 
 /* ================= BARCODE ================= */
