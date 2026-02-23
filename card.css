@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end; /* ข้อมูลฝั่งขวา */
+  align-items: flex-end; /* ข้อมูลอยู่ขวา */
   text-align: right;
 }
 
@@ -49,10 +49,9 @@
 
 /* Employee Info (Right Side) */
 .employeeName {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
-  margin-top: -15px;
-  margin-left:80px;
+  margin-top: 10px;
   line-height: 1.2;
 }
 
@@ -68,9 +67,9 @@
   margin-top: 2px;
 }
 
-/* Yellow Divider */
+/* ===== YELLOW DIVIDER (10%) ===== */
 .card-divider {
-  height: 1000px;
+  height: 10%;
   background: #ffd60a;
   width: 100%;
   position: relative;
@@ -83,20 +82,17 @@
   background: #ffffff;
   padding: 22px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  position: relative;
+  flex-direction: column;
+  justify-content: flex-start; /* จัดให้ข้อมูลเริ่มต้นจากด้านบน */
+  align-items: flex-end; /* ข้อมูลอยู่ขวา */
 }
 
 /* PROFILE (Overlapping Between Sections) */
 .profile-section {
-  position: absolute;
-  left: 22px;
-  top: -35px; /* ล้ำเส้นน้ำเงิน 40% */
+  margin-top: -35px; /* ทำให้รูปทับน้ำเงิน 40% */
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
 }
 
 .profile-img {
@@ -130,5 +126,5 @@
   font-size: 13px;
   font-weight: 600;
   color: #0d3b66;
-  margin-left: auto;
+  margin-top: 4px;
 }
