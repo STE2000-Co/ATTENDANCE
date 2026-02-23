@@ -181,9 +181,27 @@ onAuthStateChanged(auth, async (user) => {
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
+
   const empId = data.employeeId || uid;
-  document.getElementById("empName").innerText = data.name || "-";
-  document.getElementById("empId").innerText = empId;
+
+  document.getElementById("empName").innerText =
+    data.name || "-";
+
+  document.getElementById("empId").innerText =
+    empId;
+
+  document.getElementById("empPosition").innerText =
+    data.position || "-";
+
+  document.getElementById("empDepartment").innerText =
+    data.department || "-";
+
+  const today = new Date();
+  const issued =
+    today.toLocaleDateString("th-TH");
+
+  document.getElementById("empIssued").innerText =
+    issued;
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
