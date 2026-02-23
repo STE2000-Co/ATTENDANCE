@@ -205,7 +205,9 @@ if (data.issueDate) {
       format: "CODE128",
       width: 2,
       height: 60,
-      displayValue: false
+      displayValue: false,
+      lineColor: "#ffffff",
+      background: "transparent"
     });
   }
 }
