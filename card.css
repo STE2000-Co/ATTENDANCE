@@ -16,7 +16,7 @@
 }
 
 .card-header {
-  height: 200px;
+  height: 60px;
   background: var(--accent); /* STATE MACHINE คุม */
 }
 
