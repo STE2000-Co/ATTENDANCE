@@ -33,28 +33,58 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
-      <div class="card-header"></div>
+<div class="employee-card">
 
-      <div class="card-body">
-        <div class="photo-section">
-          <div class="avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
-          </div>
-        </div>
+  <div class="card-front">
 
-        <div class="info-section">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-id">
-            Employee ID: <span id="empId">-</span>
-          </div>
-          <svg id="barcode" class="barcode"></svg>
+    <!-- Company -->
+    <div class="card-company">
+      <div class="company-name">
+        S.TUNTIVIVAT ENGINEERING 2000 CO.,LTD.
+      </div>
+      <div class="company-accent"></div>
+    </div>
+
+    <div class="card-content">
+
+      <!-- Photo -->
+      <div class="photo-section">
+        <div class="avatar">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+          </svg>
         </div>
       </div>
+
+      <!-- Info -->
+      <div class="info-section">
+
+        <div class="emp-name" id="empName">-</div>
+
+        <div class="emp-title" id="empPosition">
+          TITLE
+        </div>
+
+        <div class="emp-dept" id="empDepartment">
+          DEPARTMENT
+        </div>
+
+        <div class="emp-meta">
+          <div>ID: <span id="empId">-</span></div>
+          <div>ISSUED: <span id="empIssued">-</span></div>
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
+
+  <!-- barcode ซ่อนไว้ก่อน -->
+  <svg id="barcode" class="barcode" style="display:none;"></svg>
+
+</div>
 
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
