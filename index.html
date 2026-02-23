@@ -33,34 +33,39 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-<div class="employee-card">
+    <div class="employee-card">
 
-  <div class="card-top">
-    <div class="company-name">
-      S.TUNTIVIVAT ENGINEERING 2000 CO.,LTD.
-    </div>
+      <div class="card-top">
+        <div class="company-name">
+          S.TUNTIVIVAT ENGINEERING 2000 CO.,LTD.
+        </div>
 
-    <div class="employeeName">NAME</div>
-    <div class="employeePosition">TITLE</div>
-    <div class="employeeDepartment">DEPARTMENT</div>
-  </div>
-
-  <div class="card-divider"></div>
-
-  <div class="card-bottom">
-    <div class="profile-section">
-      <div class="profile-img">
-        <!-- SVG USER ICON -->
+        <!-- ✅ เพิ่ม id ตรงนี้ -->
+        <div id="employeeName" class="employeeName">NAME</div>
+        <div id="employeePosition" class="employeePosition">TITLE</div>
+        <div id="employeeDepartment" class="employeeDepartment">DEPARTMENT</div>
       </div>
-      <div class="employeeId">ID: 12345</div>
+
+      <div class="card-divider"></div>
+
+      <div class="card-bottom">
+        <div class="profile-section">
+          <div class="profile-img">
+            <!-- SVG USER ICON -->
+          </div>
+
+          <!-- ✅ เพิ่ม id -->
+          <div id="employeeId" class="employeeId">ID: 12345</div>
+        </div>
+
+        <!-- ✅ เพิ่ม id -->
+        <div id="employeeIssued" class="employee-issued">
+          ISSUED: DD/MM/YYYY
+        </div>
+      </div>
+
     </div>
 
-    <div class="employee-issued">
-      ISSUED: DD/MM/YYYY
-    </div>
-  </div>
-
-</div>
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
       <div id="liveTime" class="time-text"></div>
@@ -72,7 +77,6 @@
       เข้างาน
     </button>
 
-    <!-- ✅ เพิ่มตรงนี้ -->
     <div id="todayInfo"
          style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
     </div>
