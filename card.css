@@ -1,7 +1,7 @@
 .employee-card {
   width: 340px;
   background: linear-gradient(180deg, #2f49b8, #3b6bdc);
-  border-radius: 36px; /* โค้งมากขึ้น */
+  border-radius: 24px; /* โค้งมากขึ้น */
   padding: 28px 24px 24px;
   color: white;
   position: relative;
@@ -81,16 +81,16 @@
 
 /* ================= SIDE ID ================= */
 
-.side-id {
+.side-department {
   position: absolute;
-  right: -40px;
+  right: -35px;
   top: 50%;
   transform: rotate(90deg) translateY(-50%);
   transform-origin: right top;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.75);
 }
 
 /* ================= BARCODE ================= */
