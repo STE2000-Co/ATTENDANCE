@@ -1,4 +1,4 @@
-/* ===== EMPLOYEE CARD - CORPORATE VERSION ===== */
+/* ===== EMPLOYEE CARD - FLOATING ACCENT VERSION ===== */
 
 .employee-card {
   width: 360px;
@@ -12,17 +12,17 @@
   position: relative;
 }
 
-/* ===== TOP SECTION (BLUE 60%) ===== */
+/* ===== TOP (50% BLUE) ===== */
 .card-top {
-  flex: 0 0 60%;
+  flex: 0 0 50%;
   background: linear-gradient(135deg, #0d3b66 0%, #145da0 100%);
   color: #ffffff;
   padding: 22px;
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   justify-content: center;
-  align-items: flex-end; /* จัดข้อมูลไปฝั่งขวา */
   text-align: right;
 }
 
@@ -36,47 +36,46 @@
   letter-spacing: 0.5px;
 }
 
-.company-name::after {
+/* Floating Yellow Accent Block */
+.card-top::after {
   content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
+  position: absolute;
+  bottom: -18px;
+  right: 0;
+  width: 120px;
+  height: 36px;
   background: #ffd60a;
-  margin-top: 4px;
-  margin-left: auto;
-  border-radius: 2px;
+  border-top-left-radius: 12px;
+  z-index: 1;
 }
 
-/* Employee Info (Top Right) */
+/* Employee Info (Right Side) */
 .employeeName {
   font-size: 26px;
   font-weight: 800;
   margin-top: 20px;
   line-height: 1.2;
+  position: relative;
+  z-index: 2;
 }
 
 .employeePosition {
   font-size: 12px;
   opacity: 0.9;
   margin-top: 4px;
+  position: relative;
+  z-index: 2;
 }
 
 .employeeDepartment {
   font-size: 11px;
   opacity: 0.85;
   margin-top: 2px;
-}
-
-/* Yellow Divider */
-.card-divider {
-  height: 8px;
-  background: #ffd60a;
-  width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-/* ===== BOTTOM SECTION (WHITE) ===== */
+/* ===== BOTTOM (40% WHITE) ===== */
 .card-bottom {
   flex: 1;
   background: #ffffff;
@@ -87,15 +86,15 @@
   position: relative;
 }
 
-/* PROFILE (Overlapping Between Sections) */
+/* Profile - overlaps 40% into blue */
 .profile-section {
   position: absolute;
   left: 22px;
-  top: -35px; /* ทำให้ล้ำเส้น */
+  top: -30px; /* 40% overlap feel */
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 
 .profile-img {
@@ -121,10 +120,9 @@
   font-size: 13px;
   font-weight: 600;
   color: #0d3b66;
-  letter-spacing: 0.5px;
 }
 
-/* ISSUED */
+/* ISSUED right-bottom aligned with ID */
 .employee-issued {
   font-size: 13px;
   font-weight: 600;
