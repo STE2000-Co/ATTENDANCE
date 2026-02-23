@@ -51,25 +51,25 @@
 .employeeName {
   font-size: 26px;
   font-weight: 800;
-  margin-top: 50px;
+  margin-top: 10px;
   line-height: 1.2;
 }
 
 .employeePosition {
   font-size: 12px;
   opacity: 0.9;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .employeeDepartment {
   font-size: 11px;
   opacity: 0.85;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 /* Yellow Divider */
 .card-divider {
-  height: 8px;
+  height: 15px;
   background: #ffd60a;
   width: 100%;
   position: relative;
