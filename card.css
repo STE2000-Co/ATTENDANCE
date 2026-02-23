@@ -1,13 +1,14 @@
 /* ================= EMPLOYEE CARD ================= */
 
 .employee-card {
-  background: var(--card-bg);
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid var(--border);
   margin-bottom: 28px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
   transition: 0.25s ease;
+  color: white; /* ตัวอักษรในบัตรเป็นสีขาว */
+  border: none; /* เอาขอบเดิมออก */
 }
 
 .employee-card:hover {
@@ -16,8 +17,8 @@
 }
 
 .card-header {
-  height: 60px;
-  background: var(--accent); /* STATE MACHINE คุม */
+  height: 6px; /* เปลี่ยนเป็นเส้นเล็กแทน */
+  background: #facc15; /* เส้นเหลือง */
 }
 
 .card-body {
@@ -51,4 +52,15 @@
 .barcode {
   width: 100%;
   height: 60px;
+}
+.emp-name,
+.emp-id,
+.emp-position,
+.emp-department,
+.emp-issue {
+  color: white;
+}
+
+.emp-id span {
+  color: #facc15; /* ทำรหัสพนักงานเป็นเหลือง */
 }
