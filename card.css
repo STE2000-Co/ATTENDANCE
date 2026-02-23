@@ -1,4 +1,4 @@
-/* ===== EMPLOYEE CARD - FLOATING ACCENT VERSION ===== */
+/* ===== EMPLOYEE CARD - MODERN CLEAN VERSION ===== */
 
 .employee-card {
   width: 360px;
@@ -12,7 +12,7 @@
   position: relative;
 }
 
-/* ===== TOP (50% BLUE) ===== */
+/* ===== TOP SECTION (BLUE 50%) ===== */
 .card-top {
   flex: 0 0 50%;
   background: linear-gradient(135deg, #0d3b66 0%, #145da0 100%);
@@ -21,8 +21,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: center;
+  align-items: flex-end;
   text-align: right;
 }
 
@@ -36,57 +36,27 @@
   letter-spacing: 0.5px;
 }
 
-/* Floating Yellow Accent Block */
-.card-top::after {
-  content: "";
-  position: absolute;
-  bottom: -18px;
-  right: 0;
-  width: 120px;
-  height: 36px;
+/* Yellow Divider */
+.card-divider {
+  height: 8px;
   background: #ffd60a;
-  border-top-left-radius: 12px;
+  width: 100%;
+  position: relative;
   z-index: 1;
 }
 
-/* Employee Info (Right Side) */
-.employeeName {
-  font-size: 26px;
-  font-weight: 800;
-  margin-top: 20px;
-  line-height: 1.2;
-  position: relative;
-  z-index: 2;
-}
-
-.employeePosition {
-  font-size: 12px;
-  opacity: 0.9;
-  margin-top: 4px;
-  position: relative;
-  z-index: 2;
-}
-
-.employeeDepartment {
-  font-size: 11px;
-  opacity: 0.85;
-  margin-top: 2px;
-  position: relative;
-  z-index: 2;
-}
-
-/* ===== BOTTOM (40% WHITE) ===== */
+/* ===== BOTTOM SECTION (WHITE 40%) ===== */
 .card-bottom {
   flex: 1;
   background: #ffffff;
   padding: 22px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: flex-end; /* ชิดขวาทั้งหมด */
+  align-items: center;
   position: relative;
 }
 
-/* Profile - overlaps 40% into blue */
+/* PROFILE (Overlapping Between Sections) */
 .profile-section {
   position: absolute;
   left: 22px;
@@ -94,7 +64,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 3;
+  z-index: 2;
 }
 
 .profile-img {
@@ -115,6 +85,26 @@
   fill: #0d3b66;
 }
 
+/* Name, Position, Department on the Right */
+.employeeName {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 20px;
+  line-height: 1.2;
+}
+
+.employeePosition {
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.employeeDepartment {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
 .employeeId {
   margin-top: 8px;
   font-size: 13px;
@@ -122,7 +112,6 @@
   color: #0d3b66;
 }
 
-/* ISSUED right-bottom aligned with ID */
 .employee-issued {
   font-size: 13px;
   font-weight: 600;
