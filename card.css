@@ -51,7 +51,8 @@
 .employeeName {
   font-size: 26px;
   font-weight: 800;
-  margin-top: -10px;
+  margin-top: -15px;
+  margin-left: -20px;
   line-height: 1.2;
 }
 
