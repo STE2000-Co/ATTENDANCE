@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบบัตรพนักงาน</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Employee Card</title>
   <link rel="stylesheet" href="card.css">
 </head>
 <body>
 
-<div class="app-wrapper">
-
-  <!-- FLIP CARD WRAPPER -->
+  <!-- FLIP CARD -->
   <div class="employee-card" onclick="this.classList.toggle('flipped')">
-
     <div class="card-inner">
+      
       <!-- FRONT -->
       <div class="card-face card-front">
         <div class="card-header"></div>
-
         <div class="card-body">
           <div class="photo-section">
             <div class="avatar">
@@ -28,23 +24,17 @@
               </svg>
             </div>
           </div>
-
           <div class="info-section">
             <div class="emp-name" id="empName">-</div>
-            <div class="emp-position" id="empPosition">ตำแหน่ง</div>
-
+            <div class="emp-position" id="empPosition">TITLE</div>
             <div class="meta-line">
-              <div class="meta-id">
-                ID: <span id="empId">-</span>
-              </div>
-              <div class="meta-issued">
-                ISSUED: <span id="issuedDate">01/01/2026</span>
-              </div>
+              <div class="meta-id">ID: <span id="empId">-</span></div>
+              <div class="meta-issued">ISSUED: <span id="issuedDate">01/01/2026</span></div>
             </div>
           </div>
         </div>
       </div>
-
+      
       <!-- BACK -->
       <div class="card-face card-back">
         <div class="card-back-content">
@@ -57,30 +47,7 @@
     </div>
   </div>
 
-  <div class="datetime">
-    <div id="liveDate" class="date-text"></div>
-    <div id="liveTime" class="time-text"></div>
-  </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-<script type="module" src="app.js"></script>
-
-<script>
-  // sync ID ไปด้านหลัง (ไม่แตะ logic เดิม)
-  const empIdEl = document.getElementById("empId");
-
-  if (empIdEl) {
-    const observer = new MutationObserver(() => {
-      const id = empIdEl.innerText;
-      const back = document.getElementById("empIdBack");
-      if (back) back.innerText = id;
-    });
-
-    observer.observe(empIdEl, { childList: true });
-  }
-</script>
+  <script src="app.js"></script>
 
 </body>
 </html>
