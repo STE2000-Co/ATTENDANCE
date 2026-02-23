@@ -33,7 +33,11 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
+    <div class="employee-card" id="employeeCard" onclick="flipCard()">
+  <div class="card-inner">
+
+    <!-- FRONT -->
+    <div class="card-face card-front">
       <div class="card-header"></div>
 
       <div class="card-body">
@@ -56,6 +60,20 @@
       </div>
     </div>
 
+    <!-- BACK -->
+    <div class="card-face card-back">
+      <div class="back-content">
+        <h3>ข้อมูลพนักงาน</h3>
+        <p>ระบบบันทึกเวลาเข้า-ออกงาน</p>
+        <p>บริษัทของคุณ</p>
+        <p style="margin-top:20px;font-size:12px;opacity:.6;">
+          แตะเพื่อกลับด้าน
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
       <div id="liveTime" class="time-text"></div>
