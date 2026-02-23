@@ -10,56 +10,38 @@
   cursor: pointer;
 }
 
-/* แกนหมุนจริง */
 .card-inner {
   width: 100%;
   height: 240px;
   position: relative;
-
   transition: transform 0.8s ease;
   transform-style: preserve-3d;
 }
 
-/* หมุน */
 .employee-card.flipped .card-inner {
   transform: rotateY(180deg);
 }
-
-/* ============================= */
-/* FACES */
-/* ============================= */
 
 .card-face {
   position: absolute;
   width: 100%;
   height: 100%;
-
   border-radius: 18px;
   overflow: hidden;
-
   backface-visibility: hidden;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-
-  background: linear-gradient(
-    135deg,
-    var(--accent) 0%,
-    rgba(0,0,0,0.55) 100%
-  );
-
+  background: linear-gradient(135deg, var(--accent) 0%, rgba(0,0,0,0.55) 100%);
   color: #fff;
 }
 
-/* หน้า */
 .card-front {
   transform: rotateY(0deg);
   z-index: 2;
 }
 
-/* หลัง */
 .card-back {
   transform: rotateY(180deg);
   align-items: center;
