@@ -8,22 +8,16 @@
   margin: 0 auto;
   perspective: 1200px;
   cursor: pointer;
-  position: relative;
 }
 
-/* 🔥 สำคัญมาก */
+/* แกนหมุนจริง */
 .card-inner {
-  position: relative;
   width: 100%;
   height: 240px;
+  position: relative;
 
-  transition: transform 0.8s cubic-bezier(.4,.2,.2,1);
-
+  transition: transform 0.8s ease;
   transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-
-  /* ป้องกัน Chrome/Safari render ขาว */
-  will-change: transform;
 }
 
 /* หมุน */
@@ -39,13 +33,16 @@
   position: absolute;
   width: 100%;
   height: 100%;
+
   border-radius: 18px;
+  overflow: hidden;
 
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 
-  overflow: hidden;
-  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
 
   background: linear-gradient(
     135deg,
@@ -53,111 +50,19 @@
     rgba(0,0,0,0.55) 100%
   );
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
+  color: #fff;
 }
 
-/* ============================= */
-/* FRONT */
-/* ============================= */
-
+/* หน้า */
 .card-front {
+  transform: rotateY(0deg);
   z-index: 2;
-  transform: rotateY(0deg); /* 🔥 บังคับหน้าให้ชัด */
 }
 
-/* ============================= */
-/* BACK */
-/* ============================= */
-
+/* หลัง */
 .card-back {
   transform: rotateY(180deg);
   align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-/* ============================= */
-/* INNER CONTENT */
-/* ============================= */
-
-.card-header {
-  height: 8px;
-  width: 60px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 4px;
-  margin-bottom: 12px;
-}
-
-.card-body {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex: 1;
-}
-
-.photo-section {
-  flex-shrink: 0;
-}
-
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar svg {
-  width: 40px;
-  height: 40px;
-  fill: #ffffff;
-}
-
-.info-section {
-  flex: 1;
-}
-
-.emp-name {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.emp-title {
-  font-size: 12px;
-  letter-spacing: 2px;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-.meta-line {
-  margin-top: 12px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  opacity: 0.85;
-}
-
-.card-back-content {
-  width: 100%;
-}
-
-.barcode {
-  width: 100%;
-  height: 90px;
-  margin-bottom: 24px;
-}
-
-.back-id {
-  font-size: 11px;
-  letter-spacing: 4px;
-  opacity: 0.7;
 }
