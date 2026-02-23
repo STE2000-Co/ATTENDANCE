@@ -1,48 +1,18 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Time System</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="card.css">
-</head>
-<body>
-
-<div class="app-wrapper">
-
-  <!-- LOGIN -->
-  <div id="loginSection" class="login-container">
-    <div class="login-card">
-      <div class="logo-text">EMPLOYEE SYSTEM</div>
-
-      <div class="input-group">
-        <input type="email" id="email" required>
-        <label>Email</label>
-      </div>
-
-      <div class="input-group">
-        <input type="password" id="password" required>
-        <label>Password</label>
-      </div>
-
-      <button class="primary-btn" onclick="login()">Login</button>
-    </div>
-  </div>
-
-  <!-- APP -->
-  <div id="appSection" style="display:none;">
-
-   <div class="employee-card">
+<div class="employee-card">
 
   <div class="card-front">
 
-    <div class="card-top">
-      <div class="company-strip"></div>
+    <!-- Company -->
+    <div class="card-company">
+      <div class="company-name">
+        S.TUNTIVIVAT ENGINEERING 2000 CO.,LTD.
+      </div>
+      <div class="company-accent"></div>
     </div>
 
     <div class="card-content">
 
+      <!-- Photo -->
       <div class="photo-section">
         <div class="avatar">
           <svg viewBox="0 0 24 24">
@@ -52,10 +22,14 @@
         </div>
       </div>
 
+      <!-- Info -->
       <div class="info-section">
+
         <div class="emp-name" id="empName">-</div>
 
-        <div class="emp-title" id="empPosition">TITLE</div>
+        <div class="emp-title" id="empPosition">
+          TITLE
+        </div>
 
         <div class="emp-dept" id="empDepartment">
           DEPARTMENT
@@ -72,40 +46,7 @@
 
   </div>
 
-  <!-- barcode (ซ่อนไว้ก่อน รอบหน้าจะทำด้านหลังบัตรจริง) -->
+  <!-- barcode ซ่อนไว้ก่อน -->
   <svg id="barcode" class="barcode" style="display:none;"></svg>
 
 </div>
-
-    <div class="datetime">
-      <div id="liveDate" class="date-text"></div>
-      <div id="liveTime" class="time-text"></div>
-    </div>
-
-    <button id="actionBtn"
-            class="primary-btn action-btn"
-            onclick="actionHandler()">
-      เข้างาน
-    </button>
-
-    <!-- ✅ เพิ่มตรงนี้ -->
-    <div id="todayInfo"
-         style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
-    </div>
-
-  </div>
-
-</div>
-
-<!-- CUSTOM POPUP -->
-<div id="customPopup" class="popup-overlay">
-  <div class="popup-box">
-    <div id="popupMessage" class="popup-message"></div>
-    <button class="popup-btn" onclick="closePopup()">ตกลง</button>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-<script type="module" src="app.js"></script>
-</body>
-</html>
