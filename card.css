@@ -1,115 +1,54 @@
-
-/* ================= FLIP STRUCTURE ================= */
+/* ================= EMPLOYEE CARD ================= */
 
 .employee-card {
-  width: 100%;
-  height: 220px;
-  perspective: 1200px;
-  margin-bottom: 28px;
-  cursor: pointer;
-}
-
-.card-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transition: transform 0.8s cubic-bezier(.4,.2,.2,1);
-  transform-style: preserve-3d;
-}
-
-.employee-card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 26px;
-  backface-visibility: hidden;
+  background: var(--card-bg);
+  border-radius: 22px;
   overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-soft);
+  transition: 0.25s ease;
 }
 
-/* ================= FRONT ================= */
-
-.card-front {
-  background: linear-gradient(135deg, #e0f2fe, #ede9fe, #d1fae5);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-  border: 1px solid rgba(255,255,255,0.6);
+.employee-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
 }
 
 .card-header {
-  height: 55px;
-  background: var(--accent);
+  height: 60px;
+  background: var(--accent); /* STATE MACHINE คุม */
 }
 
-.card-body-horizontal {
+.card-body {
   display: flex;
   padding: 20px;
   gap: 20px;
-  align-items: center;
 }
 
 .avatar {
-  width: 85px;
-  height: 110px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.6);
+  width: 80px;
+  height: 100px;
+  background: #eef2ff;
+  border-radius: 12px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
-}
-
-.avatar svg {
-  width: 45px;
-  stroke: #4f46e5;
-  fill: none;
-  stroke-width: 1.5;
-}
-
-.info-section {
-  flex: 1;
+  align-items: center;
 }
 
 .emp-name {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
-  color: #1f2937;
+  color: var(--text-primary);
 }
 
-.emp-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4f46e5;
-  margin-bottom: 8px;
-}
-
-.emp-id-line,
-.emp-issued {
+.emp-id {
   font-size: 13px;
-  color: #475569;
-}
-
-/* ================= BACK ================= */
-
-.card-back {
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  transform: rotateY(180deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.barcode-wrapper {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  width: 85%;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
 }
 
 .barcode {
   width: 100%;
-  height: 70px;
+  height: 60px;
 }
