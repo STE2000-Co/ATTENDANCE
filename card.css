@@ -52,7 +52,7 @@
   font-size: 26px;
   font-weight: 800;
   margin-top: -10px;
-  margin-left: 200px;
+  margin-left: 150px;
   line-height: 1.2;
 }
 
@@ -70,7 +70,7 @@
 
 /* Yellow Divider */
 .card-divider {
-  height: 50px;
+  height: 15px;
   background: #ffd60a;
   width: 100%;
   position: relative;
