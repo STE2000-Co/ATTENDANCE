@@ -197,11 +197,12 @@ function loadEmployeeCard(data, uid) {
     data.department || "-";
 
   const today = new Date();
-  const issued =
-    today.toLocaleDateString("th-TH");
+  const day = today.getDate().toString().padStart(2, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const year = today.getFullYear() + 543;
 
   document.getElementById("empIssued").innerText =
-    issued;
+    `${day}/${month}/${year}`;
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
@@ -212,7 +213,6 @@ function loadEmployeeCard(data, uid) {
     });
   }
 }
-
 /* ================= CLOCK ================= */
 
 function startClock() {
