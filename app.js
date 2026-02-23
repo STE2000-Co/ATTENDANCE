@@ -442,4 +442,4 @@ async function processAttendance(isCheckin) {
     const card = document.getElementById("employeeCard");
     card.classList.toggle("flipped");
   };
-}
+
