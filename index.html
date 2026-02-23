@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Time System</title>
+  <title>ระบบบัตรพนักงาน</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="card.css">
 </head>
@@ -12,108 +11,57 @@
 
 <div class="app-wrapper">
 
-  <!-- LOGIN -->
-  <div id="loginSection" class="login-container">
-    <div class="login-card">
-      <div class="logo-text">EMPLOYEE SYSTEM</div>
+  <!-- FLIP CARD WRAPPER -->
+  <div class="employee-card" onclick="this.classList.toggle('flipped')">
 
-      <div class="input-group">
-        <input type="email" id="email" required>
-        <label>Email</label>
-      </div>
+    <div class="card-inner">
+      <!-- FRONT -->
+      <div class="card-face card-front">
+        <div class="card-header"></div>
 
-      <div class="input-group">
-        <input type="password" id="password" required>
-        <label>Password</label>
-      </div>
-
-      <button class="primary-btn" onclick="login()">Login</button>
-    </div>
-  </div>
-
-  <!-- APP -->
-  <div id="appSection" style="display:none;">
-
-    <!-- FLIP CARD WRAPPER -->
-    <div class="employee-card" onclick="this.classList.toggle('flipped')">
-
-      <div class="card-inner">
-
-        <!-- FRONT -->
-        <div class="card-face card-front">
-          <div class="card-header"></div>
-
-          <div class="card-body">
-
-            <div class="photo-section">
-              <div class="avatar">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="8" r="4"></circle>
-                  <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-                </svg>
-              </div>
+        <div class="card-body">
+          <div class="photo-section">
+            <div class="avatar">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+              </svg>
             </div>
+          </div>
 
-            <div class="info-section">
-              <div class="emp-name" id="empName">-</div>
-              <div class="emp-position" id="empPosition">TITLE</div>
+          <div class="info-section">
+            <div class="emp-name" id="empName">-</div>
+            <div class="emp-position" id="empPosition">ตำแหน่ง</div>
 
-              <div class="meta-line">
-               <div class="meta-id">
+            <div class="meta-line">
+              <div class="meta-id">
                 ID: <span id="empId">-</span>
               </div>
-            <div class="meta-issued">
+              <div class="meta-issued">
                 ISSUED: <span id="issuedDate">01/01/2026</span>
-             </div>
-          </div>
-
-          </div>
-        </div>
-
-        <!-- BACK -->
-        <div class="card-face card-back">
-
-          <div class="card-back-content">
-
-            <svg id="barcode" class="barcode"></svg>
-
-            <div class="back-id">
-              <span id="empIdBack">-</span>
+              </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
+      <!-- BACK -->
+      <div class="card-face card-back">
+        <div class="card-back-content">
+          <svg id="barcode" class="barcode"></svg>
+          <div class="back-id">
+            <span id="empIdBack">-</span>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="datetime">
-      <div id="liveDate" class="date-text"></div>
-      <div id="liveTime" class="time-text"></div>
-    </div>
-
-    <button id="actionBtn"
-            class="primary-btn action-btn"
-            onclick="actionHandler()">
-      เข้างาน
-    </button>
-
-    <div id="todayInfo"
-         style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
-    </div>
-
   </div>
 
-</div>
-
-<!-- CUSTOM POPUP -->
-<div id="customPopup" class="popup-overlay">
-  <div class="popup-box">
-    <div id="popupMessage" class="popup-message"></div>
-    <button class="popup-btn" onclick="closePopup()">ตกลง</button>
+  <div class="datetime">
+    <div id="liveDate" class="date-text"></div>
+    <div id="liveTime" class="time-text"></div>
   </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -123,15 +71,15 @@
   // sync ID ไปด้านหลัง (ไม่แตะ logic เดิม)
   const empIdEl = document.getElementById("empId");
 
-if (empIdEl) {
-  const observer = new MutationObserver(() => {
-    const id = empIdEl.innerText;
-    const back = document.getElementById("empIdBack");
-    if (back) back.innerText = id;
-  });
+  if (empIdEl) {
+    const observer = new MutationObserver(() => {
+      const id = empIdEl.innerText;
+      const back = document.getElementById("empIdBack");
+      if (back) back.innerText = id;
+    });
 
-  observer.observe(empIdEl, { childList: true });
-}
+    observer.observe(empIdEl, { childList: true });
+  }
 </script>
 
 </body>
