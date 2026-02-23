@@ -1,6 +1,11 @@
 .employee-card {
   width: 340px;
-  background: linear-gradient(180deg, #2f49b8, #3b6bdc);
+  background: linear-gradient(
+  180deg,
+  #1b4569 0%,
+  #205a88 50%,
+  #2a6ea5 100%
+);
   border-radius: 24px; /* โค้งมากขึ้น */
   padding: 28px 24px 24px;
   color: white;
