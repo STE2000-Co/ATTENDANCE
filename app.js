@@ -436,3 +436,10 @@ async function processAttendance(isCheckin) {
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
+/* ================= FLIP CARD ================= */
+
+  window.flipCard = function () {
+    const card = document.getElementById("employeeCard");
+    card.classList.toggle("flipped");
+  };
+}
