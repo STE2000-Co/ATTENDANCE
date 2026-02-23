@@ -1,127 +1,129 @@
-/* ================= EMPLOYEE CARD ================= */
+/* ===== EMPLOYEE CARD - CORPORATE VERSION ===== */
 
 .employee-card {
-  width: 100%;
+  width: 360px;
   aspect-ratio: 1.586;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  background: #0d3b66;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  background: white;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
 }
 
-/* ================= FRONT ================= */
-
-.card-front {
-  width: 100%;
-  height: 100%;
-  padding: 22px;
+/* ===== TOP SECTION (60% - BLUE) ===== */
+.card-top {
+  flex: 0 0 60%;
+  background: linear-gradient(135deg, #0d3b66 0%, #145da0 100%);
+  color: #ffffff;
+  padding: 20px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
-  background:
-    radial-gradient(circle at top left,
-      rgba(30,58,138,0.08),
-      transparent 60%),
-    white;
+  justify-content: center;
 }
 
-/* ================= COMPANY ================= */
-
-.card-company {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
+/* Company Name - Top Right */
 .company-name {
+  position: absolute;
+  top: 14px;
+  right: 18px;
   font-size: 11px;
-  font-weight: 700;
-  color: #1e3a8a;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   text-align: right;
 }
 
-.company-accent {
-  width: 60px;
+.company-name::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #ffd60a;
+  margin-top: 4px;
+  margin-left: auto;
+  border-radius: 2px;
+}
+
+/* Employee Info */
+.employee-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.employee-title {
+  font-size: 14px;
+  opacity: 0.95;
+  margin-bottom: 4px;
+}
+
+.employee-department {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* Yellow Divider */
+.card-divider {
   height: 4px;
-  margin-top: 6px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #facc15, #f59e0b);
+  background: #ffd60a;
+  width: 100%;
 }
 
-/* ================= CONTENT ================= */
-
-.card-content {
+/* ===== BOTTOM SECTION (WHITE 25%) ===== */
+.card-bottom {
+  flex: 1;
+  background: #ffffff;
+  padding: 18px 20px;
   display: flex;
-  gap: 18px;
   align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
-/* ================= PHOTO ================= */
-
-.photo-section {
-  flex-shrink: 0;
-}
-
-.avatar {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #e0ecff, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 8px 20px rgba(30,58,138,0.15);
-}
-
-.avatar svg {
-  width: 38px;
-  height: 38px;
-  fill: #1e3a8a;
-}
-
-/* ================= INFO ================= */
-
-.info-section {
+/* Profile Section */
+.profile-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  margin-top: -35px;
 }
 
-.emp-name {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1e3a8a;
-  letter-spacing: 0.3px;
+.profile-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e9ecef;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.emp-title {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  background: #fef3c7;
-  color: #b45309;
-  width: fit-content;
+.profile-img svg {
+  width: 40px;
+  height: 40px;
+  fill: #0d3b66;
 }
 
-.emp-dept {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.emp-meta {
+/* ID under image */
+.employee-id {
   margin-top: 8px;
   font-size: 12px;
-  color: #374151;
-  line-height: 1.6;
+  font-weight: 600;
+  color: #0d3b66;
+  letter-spacing: 0.5px;
 }
 
-/* ================= BARCODE ================= */
-
-.barcode {
-  width: 100%;
-  height: 60px;
+/* Issued Date */
+.employee-issued {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0d3b66;
+  text-align: right;
 }
