@@ -202,7 +202,7 @@ function loadEmployeeCard(data, uid) {
   const year = today.getFullYear() + 543;
 
   document.getElementById("empIssued").innerText =
-    `${day}/${month}/${year}`;
+    `ISSUED:${day}/${month}/${year}`;
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
