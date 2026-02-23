@@ -33,28 +33,37 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
-      <div class="card-header"></div>
+   <div class="employee-card vertical">
 
-      <div class="card-body">
-        <div class="photo-section">
-          <div class="avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-id">
-            Employee ID: <span id="empId">-</span>
-          </div>
-          <svg id="barcode" class="barcode"></svg>
-        </div>
-      </div>
+  <div class="card-top">
+    <div class="company-title">
+      บัตรประจำตัวพนักงาน
+      <div class="company-name">YOUR COMPANY</div>
     </div>
+  </div>
+
+  <div class="photo-wrapper">
+    <div class="avatar large">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card-info">
+    <div class="emp-name" id="empName">-</div>
+    <div class="emp-position" id="empPosition">-</div>
+    <div class="emp-dept" id="empDept">-</div>
+  </div>
+
+  <div class="card-issued">
+    ISSUED: <span id="empIssued">-</span>
+  </div>
+
+  <svg id="barcode" class="barcode"></svg>
+
+</div>
 
     <div class="datetime">
       <div id="liveDate" class="date-text"></div>
