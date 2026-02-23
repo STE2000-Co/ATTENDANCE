@@ -184,7 +184,22 @@ function loadEmployeeCard(data, uid) {
   const empId = data.employeeId || uid;
   document.getElementById("empName").innerText = data.name || "-";
   document.getElementById("empId").innerText = empId;
+  document.getElementById("empPosition").innerText =
+  data.position || "-";
 
+  document.getElementById("empDepartment").innerText =
+  data.department || "-";
+
+if (data.issueDate) {
+  const d = data.issueDate.toDate
+    ? data.issueDate.toDate()
+    : new Date(data.issueDate);
+
+  document.getElementById("empIssue").innerText =
+    d.toLocaleDateString("th-TH");
+} else {
+  document.getElementById("empIssue").innerText = "-";
+}
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
       format: "CODE128",
