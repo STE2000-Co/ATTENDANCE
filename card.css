@@ -102,5 +102,5 @@
 .barcode {
   width: 100%;
   height: 70px;
-  filter: invert(1); /* ทำเส้นเป็นสีขาว */
+  
 }
