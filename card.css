@@ -51,21 +51,21 @@
 .employeeName {
   font-size: 26px;
   font-weight: 800;
-  margin-top: -10px;
-  margin-left: 110px;
+  margin-top: -15px;
+  margin-right:20px;
   line-height: 1.2;
 }
 
 .employeePosition {
   font-size: 12px;
   opacity: 0.9;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .employeeDepartment {
   font-size: 11px;
   opacity: 0.85;
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 /* Yellow Divider */
