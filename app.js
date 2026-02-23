@@ -38,17 +38,17 @@ let confirmCallback = null;
 
 function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371e3;
-  const φ1 = lat1 * Math.PI/180;
-  const φ2 = lat2 * Math.PI/180;
-  const Δφ = (lat2-lat1) * Math.PI/180;
-  const Δλ = (lon2-lon1) * Math.PI/180;
+  const φ1 = lat1 * Math.PI / 180;
+  const φ2 = lat2 * Math.PI / 180;
+  const Δφ = (lat2 - lat1) * Math.PI / 180;
+  const Δλ = (lon2 - lon1) * Math.PI / 180;
 
   const a =
-    Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
     Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
 
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
@@ -182,8 +182,19 @@ onAuthStateChanged(auth, async (user) => {
 
 function loadEmployeeCard(data, uid) {
   const empId = data.employeeId || uid;
-  document.getElementById("empName").innerText = data.name || "-";
+  const name = data.name || "-";
+  const title = data.position || "-";
+
+  const today = new Date();
+  const issued =
+    today.getDate().toString().padStart(2,"0") + "/" +
+    (today.getMonth()+1).toString().padStart(2,"0") + "/" +
+    today.getFullYear();
+
+  document.getElementById("empName").innerText = name;
+  document.getElementById("empTitle").innerText = title;
   document.getElementById("empId").innerText = empId;
+  document.getElementById("empIssued").innerText = "ISSUED: " + issued;
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
