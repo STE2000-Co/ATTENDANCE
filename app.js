@@ -181,20 +181,30 @@ onAuthStateChanged(auth, async (user) => {
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
+
   const empId = data.employeeId || uid;
-  document.getElementById("empName").innerText = data.name || "-";
-  document.getElementById("empId").innerText = empId;
+
+  document.getElementById("empName").innerText =
+    data.name || "-";
+
+  document.getElementById("empPosition").innerText =
+    data.position || "-";
+
+  document.getElementById("empDept").innerText =
+    data.department || "-";
+
+  document.getElementById("empIssued").innerText =
+    data.issueDate || "-";
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
       format: "CODE128",
       width: 2,
-      height: 60,
+      height: 70,
       displayValue: false
     });
   }
 }
-
 /* ================= CLOCK ================= */
 
 function startClock() {
