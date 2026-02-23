@@ -33,26 +33,41 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-    <div class="employee-card">
-      <div class="card-header"></div>
+    <div class="employee-card" onclick="toggleCard()">
+      <div class="card-inner">
 
-      <div class="card-body">
-        <div class="photo-section">
-          <div class="avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
+        <!-- FRONT -->
+        <div class="card-front">
+          <div class="card-header"></div>
+
+          <div class="card-body-horizontal">
+
+            <div class="avatar">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+              </svg>
+            </div>
+
+            <div class="info-section">
+              <div class="emp-name" id="empName">-</div>
+              <div class="emp-title" id="empTitle">-</div>
+              <div class="emp-id-line">
+                ID: <span id="empId">-</span>
+              </div>
+              <div class="emp-issued" id="empIssued">-</div>
+            </div>
+
           </div>
         </div>
 
-        <div class="info-section">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-id">
-            Employee ID: <span id="empId">-</span>
+        <!-- BACK -->
+        <div class="card-back">
+          <div class="barcode-wrapper">
+            <svg id="barcode" class="barcode"></svg>
           </div>
-          <svg id="barcode" class="barcode"></svg>
         </div>
+
       </div>
     </div>
 
@@ -67,7 +82,6 @@
       เข้างาน
     </button>
 
-    <!-- ✅ เพิ่มตรงนี้ -->
     <div id="todayInfo"
          style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
     </div>
@@ -76,7 +90,6 @@
 
 </div>
 
-<!-- CUSTOM POPUP -->
 <div id="customPopup" class="popup-overlay">
   <div class="popup-box">
     <div id="popupMessage" class="popup-message"></div>
