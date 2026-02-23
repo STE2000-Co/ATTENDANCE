@@ -177,8 +177,4 @@ body {
   cursor: pointer;
   box-shadow: var(--shadow-soft);
 }
-#loginSection {
-  display: block !important;
-  background: red !important;
-  padding: 20px;
-}
+
