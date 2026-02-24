@@ -53,7 +53,7 @@ body {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #2b6cad;
+  background: #2b6cad;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
