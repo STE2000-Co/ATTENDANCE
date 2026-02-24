@@ -89,11 +89,11 @@
   opacity: 0.9;
 }
 
-/* ===== Barcode ===== */
+/* ===== Barcode ใหม่ ===== */
 
 .barcode {
-  margin-top: 18px;
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
+  display: block;
+  width: 90%;
+  margin: 20px auto 10px;
+  height: 70px;
 }
