@@ -204,7 +204,9 @@ function loadEmployeeCard(data, uid) {
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
-      margin: 0
+      margin: 0,          // 🔥 สำคัญ
+      marginLeft: 0,
+      marginRight: 0
     });
   }
 }
