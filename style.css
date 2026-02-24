@@ -36,9 +36,9 @@ body {
 /* ================= LOGIN ================= */
 
 .login-card {
-  display: flex;
-   width: 100%;
+    width: 100%;
   max-width: 460px;   /* 🔥 เพิ่มจากเดิม */
+  display: flex;
   flex-direction: column;
   gap: 24px;
   background: white;
