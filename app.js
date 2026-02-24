@@ -236,7 +236,7 @@ onAuthStateChanged(auth, async (user) => {
 appSection.classList.add("active");
 
   document.body.style.visibility = "visible"; // 🔥 สำคัญมาก
-
+  hideSplash();
   loadEmployeeCard(userData, user.uid);
   startClock();
   await restoreStateFromFirestore(user.uid);
