@@ -1,17 +1,11 @@
-html, body {
+body {
   margin: 0;
-  height: 100%;
-  overflow: hidden;   /* 🔥 ล็อก scroll */
   background: #f3f4f6;
 }
 
 .app-wrapper {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
-
 .app-container {
   width: 100%;
   max-width: 420px;
@@ -186,17 +180,12 @@ html, body {
   margin-top: 10px;
   margin-bottom: 6px;
 }
-/* ===== LOGIN LOCK (FINAL CLEAN VERSION) ===== */
-
 #loginSection {
   position: fixed;
-  inset: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
   padding: 24px;
   box-sizing: border-box;
 }
