@@ -451,14 +451,21 @@ async function processAttendance(isCheckin) {
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
-// ===== iOS Keyboard Fix =====
-function fixViewportHeight() {
-  document.documentElement.style.setProperty(
-    '--vh',
-    `${window.innerHeight * 0.01}px`
-  );
-}
+// ===== PWA Keyboard Fix (iOS) =====
 
-window.addEventListener('resize', fixViewportHeight);
-window.addEventListener('orientationchange', fixViewportHeight);
-fixViewportHeight();
+const loginSection = document.getElementById("loginSection");
+const inputs = document.querySelectorAll("#loginSection input");
+
+inputs.forEach(input => {
+  input.addEventListener("focus", () => {
+    loginSection.style.alignItems = "flex-start";
+    loginSection.style.paddingTop = "80px"; 
+  });
+
+  input.addEventListener("blur", () => {
+    setTimeout(() => {
+      loginSection.style.alignItems = "center";
+      loginSection.style.paddingTop = "0px";
+    }, 150); // รอ keyboard ปิดก่อนค่อยคืนตำแหน่ง
+  });
+});
