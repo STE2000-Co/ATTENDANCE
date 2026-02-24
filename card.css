@@ -96,23 +96,23 @@ html, body {
 }
 
 .emp-name {
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: 800;
 }
 
 .emp-position {
-  font-size: clamp(24px, 3.5vw, 32px);
+  font-size: clamp(18px, 3.5vw, 24px);
 }
 
 .emp-dept {
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: clamp(12px, 3vw, 18px);
 }
 
 /* ===== Issued ===== */
 
 .card-issued {
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   margin-top: 12px;
   margin-bottom: 10px;
   opacity: 0.9;
