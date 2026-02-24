@@ -197,7 +197,7 @@ function loadEmployeeCard(data, uid) {
     data.issueDate || "-";
 
   if (window.JsBarcode) {
-    JsBarcode("#barcode", empId, empName, empPosition, empDept, {
+    JsBarcode("#barcode", empId, {
       format: "CODE128",
       width: 3,
       height: 70,
