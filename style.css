@@ -173,3 +173,11 @@ body {
   cursor: pointer;
   box-shadow: var(--shadow-soft);
 }
+#loginSection .primary-btn {
+  background: linear-gradient(
+    to bottom,
+    #2f6fb0,
+    #1f5d99,
+    #163e66
+  );
+}
