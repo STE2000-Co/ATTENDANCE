@@ -237,7 +237,7 @@ function loadEmployeeCard(data, uid) {
 
   document.getElementById("empName").innerText =
     data.name || "-";
-
+  document.getElementById("empId").innerText = empId;
   document.getElementById("empPosition").innerText =
     data.position || "-";
 
@@ -251,7 +251,7 @@ function loadEmployeeCard(data, uid) {
     JsBarcode("#barcode", empId, {
       format: "CODE128",
       width: 3,
-      height: 70,
+      height: 50,
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
