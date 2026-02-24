@@ -110,13 +110,13 @@ html, body {
 }
 
 /* ===== Issued ===== */
-
 .card-issued {
   text-align: center;
-  font-size: 12px;
-  margin-top: 12px;
-  margin-bottom: 10px;
-  opacity: 0.9;
+  font-size: 13px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  opacity: 0.95;
+  letter-spacing: 0.5px;
 }
 
 /* ===== Barcode ใหม่ ===== */
