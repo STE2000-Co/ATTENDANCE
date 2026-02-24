@@ -133,6 +133,7 @@ body {
   color: white;
   box-shadow: var(--shadow-soft);
   transition: 0.2s ease;
+  margin-top: 12px;
 }
 
 .primary-btn:hover {
