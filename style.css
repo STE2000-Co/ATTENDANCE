@@ -38,6 +38,7 @@ body {
 .login-card {
     width: 100%;
   max-width: 480px;   /* 🔥 เพิ่มจากเดิม */
+  margin: 0 auto;   /* ⭐ เพิ่มบรรทัดนี้ */
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -177,12 +178,4 @@ body {
 
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
-}
-/* ===== DESKTOP CENTER FIX ONLY ===== */
-@media (min-width: 768px) {
-  #loginSection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
