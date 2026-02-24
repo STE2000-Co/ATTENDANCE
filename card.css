@@ -1,10 +1,15 @@
-body {
+html, body {
   margin: 0;
+  height: 100%;
+  overflow: hidden;   /* 🔥 ล็อก scroll ทั้งระบบ */
   background: #f3f4f6;
 }
 
 .app-wrapper {
-  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .app-container {
   width: 100%;
