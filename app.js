@@ -165,9 +165,13 @@ window.login = async function () {
 
 onAuthStateChanged(auth, async (user) => {
 
+  const loginSection = document.getElementById("loginSection");
+  const appSection = document.getElementById("appSection");
+
   if (!user) {
-    document.getElementById("loginSection").style.display = "block";
-    document.getElementById("appSection").style.display = "none";
+    loginSection.style.display = "block";
+    appSection.style.display = "none";
+    document.body.style.visibility = "visible"; // 🔥 แสดงหลังตรวจเสร็จ
     return;
   }
 
@@ -178,30 +182,33 @@ onAuthStateChanged(auth, async (user) => {
 
   if (!userSnap.exists()) {
     showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
+    await auth.signOut();
+    document.body.style.visibility = "visible";
     return;
   }
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
 
-  /* ================= DEVICE LOCK ================= */
+  // ===== DEVICE LOCK =====
 
   if (!userData.deviceId) {
-    // 🔥 Login ครั้งแรก → ผูก device
     await updateDoc(userRef, {
       deviceId: currentDeviceId
     });
   } else if (userData.deviceId !== currentDeviceId) {
-    // ❌ คนละเครื่อง
     showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
     await auth.signOut();
+    document.body.style.visibility = "visible";
     return;
   }
 
-  /* ================= SHOW APP ================= */
+  // ===== SHOW APP =====
 
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("appSection").style.display = "block";
+  loginSection.style.display = "none";
+  appSection.style.display = "block";
+
+  document.body.style.visibility = "visible"; // 🔥 สำคัญมาก
 
   loadEmployeeCard(userData, user.uid);
   startClock();
