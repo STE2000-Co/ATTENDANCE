@@ -168,17 +168,19 @@ onAuthStateChanged(auth, async (user) => {
   const loginSection = document.getElementById("loginSection");
   const appSection = document.getElementById("appSection");
 
-  /* ================= STEP 3: ยังไม่ login ================= */
+  // 🔥 สำคัญ: แสดง body ก่อนเลย (กัน flash)
+  document.body.style.visibility = "visible";
+
+  /* ================= ยังไม่ login ================= */
 
   if (!user) {
 
-    appSection.style.display = "none";
+    loginSection.classList.add("active-screen");
+    loginSection.classList.remove("hidden-screen");
 
-    loginSection.style.display = "block";
-    loginSection.classList.remove("fade-out");
-    loginSection.classList.add("fade-in");
+    appSection.classList.add("hidden-screen");
+    appSection.classList.remove("active-screen");
 
-    document.body.style.visibility = "visible";
     return;
   }
 
@@ -192,7 +194,6 @@ onAuthStateChanged(auth, async (user) => {
   if (!userSnap.exists()) {
     showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
     await auth.signOut();
-    document.body.style.visibility = "visible";
     return;
   }
 
@@ -205,28 +206,22 @@ onAuthStateChanged(auth, async (user) => {
   else if (userData.deviceId !== currentDeviceId) {
     showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
     await auth.signOut();
-    document.body.style.visibility = "visible";
     return;
   }
 
-  /* ================= STEP 2: LOGIN SUCCESS TRANSITION ================= */
+  /* ================= LOGIN SUCCESS ================= */
 
-  loginSection.classList.add("fade-out");
+  loginSection.classList.remove("active-screen");
+  loginSection.classList.add("hidden-screen");
 
-  setTimeout(() => {
+  appSection.classList.remove("hidden-screen");
+  appSection.classList.add("active-screen");
 
-    loginSection.style.display = "none";
+  loadEmployeeCard(userData, user.uid);
+  startClock();
+  await restoreStateFromFirestore(user.uid);
 
-    appSection.style.display = "block";
-    appSection.style.opacity = "0";
-    appSection.style.transform = "scale(.97)";
-
-    requestAnimationFrame(() => {
-      appSection.style.transition =
-        "opacity .28s cubic-bezier(.4,0,.2,1), transform .28s cubic-bezier(.4,0,.2,1)";
-      appSection.style.opacity = "1";
-      appSection.style.transform = "scale(1)";
-    });
+});
 
   }, 200);
 
