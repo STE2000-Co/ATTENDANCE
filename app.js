@@ -168,12 +168,21 @@ onAuthStateChanged(auth, async (user) => {
   const loginSection = document.getElementById("loginSection");
   const appSection = document.getElementById("appSection");
 
+  /* ================= STEP 3: ยังไม่ login ================= */
+
   if (!user) {
-    loginSection.style.display = "block";
+
     appSection.style.display = "none";
-    document.body.style.visibility = "visible"; // 🔥 แสดงหลังตรวจเสร็จ
+
+    loginSection.style.display = "block";
+    loginSection.classList.remove("fade-out");
+    loginSection.classList.add("fade-in");
+
+    document.body.style.visibility = "visible";
     return;
   }
+
+  /* ================= AUTH LOGIC ================= */
 
   currentUserId = user.uid;
 
@@ -190,29 +199,43 @@ onAuthStateChanged(auth, async (user) => {
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
 
-  // ===== DEVICE LOCK =====
-
   if (!userData.deviceId) {
-    await updateDoc(userRef, {
-      deviceId: currentDeviceId
-    });
-  } else if (userData.deviceId !== currentDeviceId) {
+    await updateDoc(userRef, { deviceId: currentDeviceId });
+  } 
+  else if (userData.deviceId !== currentDeviceId) {
     showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
     await auth.signOut();
     document.body.style.visibility = "visible";
     return;
   }
 
-  // ===== SHOW APP =====
+  /* ================= STEP 2: LOGIN SUCCESS TRANSITION ================= */
 
-  loginSection.style.display = "none";
-  appSection.style.display = "block";
+  loginSection.classList.add("fade-out");
 
-  document.body.style.visibility = "visible"; // 🔥 สำคัญมาก
+  setTimeout(() => {
+
+    loginSection.style.display = "none";
+
+    appSection.style.display = "block";
+    appSection.style.opacity = "0";
+    appSection.style.transform = "scale(.97)";
+
+    requestAnimationFrame(() => {
+      appSection.style.transition =
+        "opacity .28s cubic-bezier(.4,0,.2,1), transform .28s cubic-bezier(.4,0,.2,1)";
+      appSection.style.opacity = "1";
+      appSection.style.transform = "scale(1)";
+    });
+
+  }, 200);
+
+  document.body.style.visibility = "visible";
 
   loadEmployeeCard(userData, user.uid);
   startClock();
   await restoreStateFromFirestore(user.uid);
+
 });
 /* ================= CARD ================= */
 
