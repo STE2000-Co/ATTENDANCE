@@ -60,7 +60,7 @@ body {
   font-size: 13px;
   font-weight: 500;
   color: #6b7280;   /* ⭐ ใช้ color ไม่ใช่ background */
-  margin-top: 4px;
+  margin-top: -6px;
   opacity: 0.8;
 }
 .input-group {
@@ -70,7 +70,7 @@ body {
 .input-group input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   padding: 12px 0;
   font-size: 15px;
   background: transparent;
