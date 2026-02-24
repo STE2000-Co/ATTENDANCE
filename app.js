@@ -206,8 +206,8 @@ onAuthStateChanged(auth, async (user) => {
 
   // ===== SHOW APP =====
 
-  loginSection.style.display = "none";
-  appSection.style.display = "block";
+  loginSection.classList.remove("active");
+appSection.classList.add("active");
 
   document.body.style.visibility = "visible"; // 🔥 สำคัญมาก
 
