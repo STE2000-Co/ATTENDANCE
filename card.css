@@ -1,5 +1,4 @@
 /* ================= VERTICAL CARD ================= */
-
 .employee-card.vertical {
   aspect-ratio: 54 / 85.6;
   width: min(90vw, 54mm);
