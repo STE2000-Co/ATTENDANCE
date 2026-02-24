@@ -64,7 +64,7 @@ body {
   font-weight: 500;
   color: #6b7280;   /* ⭐ ใช้ color ไม่ใช่ background */
   margin-top: -20px;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 .input-group {
   position: relative;
