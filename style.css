@@ -44,9 +44,9 @@ body {
   margin: 0 auto;   /* ⭐ เพิ่มบรรทัดนี้ */
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
   background: white;
-  padding: 24px;
+  padding: 24px 24px 16px 24px;
   border-radius: 22px;
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--border);
@@ -60,7 +60,7 @@ body {
   text-align: center;
 }
 .sub-header {
-  margin-top: 18px;
+  margin-top: 8px;
   text-align: center;
   font-size: 13px;
   font-weight: 500;
