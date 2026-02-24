@@ -57,16 +57,14 @@ body {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: #2b6cad;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #2b6cad;
 }
 .sub-header {
   font-size: 13px;
   font-weight: 500;
   background: #6b7280;
   margin-top: -6px;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 .input-group {
   position: relative;
