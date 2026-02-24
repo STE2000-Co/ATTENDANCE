@@ -121,10 +121,17 @@ html, body {
 /* ===== Barcode ใหม่ ===== */
 
 .barcode {
-  width: 70%;
-  height: auto;
-  margin: 18px auto 0;
-  opacity: 1;
+  display: block;
+  margin: 18px auto 0;   /* 🔥 auto ทำให้กลาง */
+  width: fit-content;    /* ไม่ยืดเต็ม */
+}
+.datetime {
+  text-align: center;
+  width: 100%;
+}
+.time-text {
+  font-size: 32px;
+  font-weight: 800;
 }
 /* ===== Text Color Control ===== */
 
