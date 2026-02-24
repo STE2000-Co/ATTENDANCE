@@ -6,7 +6,14 @@
   margin: 0 auto 30px;
   border-radius: 24px;
   overflow: hidden;
-  background: #2563eb;
+  background: linear-gradient(
+    to bottom,
+    #f2f2f2 0%,
+    #f2f2f2 30%,
+    #f2c500 30%,
+    #f2c500 50%,
+    #1f4f7f 50%,
+    #1f4f7f 100%
   color: white;
   padding-bottom: 20px;
   border: 1px solid #e5e7eb;
