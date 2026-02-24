@@ -51,7 +51,16 @@ function resetLoginButton() {
   loginBtn.disabled = false;
   loginBtn.innerText = "Login";
 }
+function hideSplash() {
+  const splash = document.getElementById("splashScreen");
+  if (!splash) return;
 
+  splash.classList.add("hide");
+
+  setTimeout(() => {
+    splash.style.display = "none";
+  }, 500);
+}
 /* ================= DISTANCE ================= */
 
 function getDistance(lat1, lon1, lat2, lon2) {
@@ -180,6 +189,7 @@ onAuthStateChanged(auth, async (user) => {
   appSection.classList.remove("active");
 
   document.body.style.visibility = "visible";
+  hideSplash();
   return;
 }
 
@@ -195,6 +205,7 @@ onAuthStateChanged(auth, async (user) => {
 
   await auth.signOut();
   document.body.style.visibility = "visible";
+  hideSplash();
   return;
 }if (!userSnap.exists()) {
   showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
