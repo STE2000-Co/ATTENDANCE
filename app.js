@@ -169,11 +169,12 @@ onAuthStateChanged(auth, async (user) => {
   const appSection = document.getElementById("appSection");
 
   if (!user) {
-    loginSection.style.display = "block";
-    appSection.style.display = "none";
-    document.body.style.visibility = "visible"; // 🔥 แสดงหลังตรวจเสร็จ
-    return;
-  }
+  loginSection.classList.add("active");
+  appSection.classList.remove("active");
+
+  document.body.style.visibility = "visible";
+  return;
+}
 
   currentUserId = user.uid;
 
