@@ -222,16 +222,6 @@ onAuthStateChanged(auth, async (user) => {
   await restoreStateFromFirestore(user.uid);
 
 });
-
-  }, 200);
-
-  document.body.style.visibility = "visible";
-
-  loadEmployeeCard(userData, user.uid);
-  startClock();
-  await restoreStateFromFirestore(user.uid);
-
-});
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
