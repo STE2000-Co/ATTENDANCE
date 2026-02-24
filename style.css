@@ -189,3 +189,15 @@ body {
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
 }
+/* ================= AUTH FADE SYSTEM ================= */
+
+.auth-screen {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.auth-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
