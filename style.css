@@ -72,16 +72,17 @@ body {
 .input-group input {
   width: 100%;
   border: none;
-  border-bottom: 2px solid transparent; /* ⭐ จอง 2px ไว้ */
+  border-bottom: 2px solid var(--border); /* ⭐ ให้มีเส้นปกติ */
   padding: 12px 0;
   font-size: 15px;
   background: transparent;
   outline: none;
   color: var(--text-primary);
+  transition: border-color 0.2s ease;
 }
 
 .input-group input:focus {
-  border-bottom: 2px solid #f2c500;
+  border-bottom: 2px solid #f2c500; /* เปลี่ยนแค่สี ไม่เปลี่ยนความหนา */
 }
 
 .input-group label {
