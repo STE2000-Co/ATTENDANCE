@@ -189,3 +189,29 @@ body {
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
 }
+/* ================= PAGE TRANSITION ================= */
+
+#loginSection,
+#appSection {
+  transition: 
+    opacity 0.28s cubic-bezier(.4,0,.2,1),
+    transform 0.28s cubic-bezier(.4,0,.2,1);
+}
+
+/* default state */
+#loginSection {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* hidden state */
+.fade-out {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(.97);
+  pointer-events: none;
+}
+
+.fade-in {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1);
+}
