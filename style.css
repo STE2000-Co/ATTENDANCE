@@ -173,11 +173,8 @@ body {
   cursor: pointer;
   box-shadow: var(--shadow-soft);
 }
+/* ===== LOGIN BUTTON SAME AS CARD BLUE ===== */
+
 #loginSection .primary-btn {
-  background: linear-gradient(
-    to bottom,
-    #2f6fb0,
-    #1f5d99,
-    #163e66
-  );
+  background: #1f4f7f;   /* โทนเดียวกับบัตร */
 }
