@@ -44,9 +44,9 @@ body {
   margin: 0 auto;   /* ⭐ เพิ่มบรรทัดนี้ */
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   background: white;
-  padding: 32px;
+  padding: 36px 32px;
   border-radius: 22px;
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--border);
@@ -60,11 +60,12 @@ body {
   text-align: center;
 }
 .sub-header {
+  margin-top: 18px;
+  text-align: center;
   font-size: 13px;
   font-weight: 500;
-  color: #6b7280;   /* ⭐ ใช้ color ไม่ใช่ background */
-  margin-top: -20px;
-  opacity: 0.6;
+  color: #6b7280;
+  opacity: 0.7;
 }
 .input-group {
   position: relative;
