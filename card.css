@@ -1,12 +1,10 @@
 /* ================= VERTICAL CARD ================= */
 .employee-card.vertical {
-  aspect-ratio: 54 / 85.6;
-  width: min(90vw, 54mm);
-  width: 54mm;
-  height: 85.6mm;
-
+  width: 320px;                 /* ปรับได้ตามชอบ */
+  aspect-ratio: 1 / 1.585;      /* หัวใจสำคัญ */
+  
   margin: 20px auto;
-  border-radius: 4mm; /* มุมบัตรจริงจะไม่โค้งเยอะ */
+  border-radius: 20px;
   overflow: hidden;
 
   background: linear-gradient(
@@ -20,8 +18,7 @@
     #163e66 100%
   );
 
-  padding: 0;
-  border: 0.3mm solid #e5e7eb;
+  border: 1px solid #e5e7eb;
 }
 
 /* ===== Top ===== */
