@@ -202,3 +202,18 @@ html, body {
   margin-top: 10px;
   margin-bottom: 6px;
 }
+/* ===== Fix iOS Keyboard Push (Dynamic Viewport) ===== */
+
+#loginSection {
+  min-height: 100dvh;   /* ใช้ dynamic viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* กันอาการกระตุกตอน keyboard เปิด/ปิด */
+@supports (-webkit-touch-callout: none) {
+  #loginSection {
+    min-height: -webkit-fill-available;
+  }
+}
