@@ -33,53 +33,58 @@
   <!-- APP -->
   <div id="appSection" style="display:none;">
 
-   <div class="employee-card vertical">
+    <!-- ✅ เพิ่ม container สำหรับ layout มือถือ -->
+    <div class="app-container">
 
-  <div class="card-top">
-    <div class="company-title">
-      บัตรประจำตัวพนักงาน
-      <div class="company-name">YOUR COMPANY</div>
+      <div class="employee-card vertical">
+
+        <div class="card-top">
+          <div class="company-title">
+            บัตรประจำตัวพนักงาน
+            <div class="company-name">YOUR COMPANY</div>
+          </div>
+        </div>
+
+        <div class="photo-wrapper">
+          <div class="avatar large">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card-info">
+          <div class="emp-name" id="empName">-</div>
+          <div class="emp-position" id="empPosition">-</div>
+          <div class="emp-dept" id="empDept">-</div>
+        </div>
+
+        <div class="card-issued">
+          ISSUED: <span id="empIssued">-</span>
+        </div>
+
+        <svg id="barcode" class="barcode"></svg>
+
+      </div>
+
+      <div class="datetime">
+        <div id="liveDate" class="date-text"></div>
+        <div id="liveTime" class="time-text"></div>
+      </div>
+
+      <button id="actionBtn"
+              class="primary-btn action-btn"
+              onclick="actionHandler()">
+        เข้างาน
+      </button>
+
+      <div id="todayInfo"
+           style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
+      </div>
+
     </div>
-  </div>
-
-  <div class="photo-wrapper">
-    <div class="avatar large">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="8" r="4"></circle>
-        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-      </svg>
-    </div>
-  </div>
-
-  <div class="card-info">
-    <div class="emp-name" id="empName">-</div>
-    <div class="emp-position" id="empPosition">-</div>
-    <div class="emp-dept" id="empDept">-</div>
-  </div>
-
-  <div class="card-issued">
-    ISSUED: <span id="empIssued">-</span>
-  </div>
-
-  <svg id="barcode" class="barcode"></svg>
-
-</div>
-
-    <div class="datetime">
-      <div id="liveDate" class="date-text"></div>
-      <div id="liveTime" class="time-text"></div>
-    </div>
-
-    <button id="actionBtn"
-            class="primary-btn action-btn"
-            onclick="actionHandler()">
-      เข้างาน
-    </button>
-
-    <!-- ✅ เพิ่มตรงนี้ -->
-    <div id="todayInfo"
-         style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
-    </div>
+    <!-- ✅ จบ app-container -->
 
   </div>
 
