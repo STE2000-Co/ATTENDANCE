@@ -199,9 +199,12 @@ function loadEmployeeCard(data, uid) {
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
       format: "CODE128",
-      width: 2,
+      width: 2.2,
       height: 70,
-      displayValue: false
+      displayValue: false,
+      lineColor: "#ffffff",
+      background: "transparent",
+      margin: 0
     });
   }
 }
