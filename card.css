@@ -96,16 +96,16 @@ html, body {
 }
 
 .emp-name {
-  font-size: clamp(24px, 4vw, 32px);
+  font-size: clamp(32px, 4vw, 48px);
   font-weight: 800;
 }
 
 .emp-position {
-  font-size: clamp(18px, 3.5vw, 24px);
+  font-size: clamp(24px, 3.5vw, 32px);
 }
 
 .emp-dept {
-  font-size: clamp(12px, 3vw, 14px);
+  font-size: clamp(18px, 3vw, 24px);
 }
 
 /* ===== Issued ===== */
