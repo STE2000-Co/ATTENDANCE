@@ -199,8 +199,8 @@ function loadEmployeeCard(data, uid) {
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
       format: "CODE128",
-      width: 3,
-      height: 50,
+      width: 2.5,
+      height: 60,
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
