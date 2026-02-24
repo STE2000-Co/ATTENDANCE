@@ -239,7 +239,7 @@ function loadEmployeeCard(data, uid) {
   document.getElementById("empName").innerText =
     data.name || "-";
   document.getElementById("empId").innerText = 
-    data.employeeId || "-";
+    empId  || "-";
   document.getElementById("empPosition").innerText =
     data.position || "-";
 
