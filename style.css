@@ -26,7 +26,8 @@ body {
 }
 
 .app-wrapper {
-  min-height: 100dvh;   /* ⭐ ใช้ dvh แทน vh */
+  position: fixed;
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
