@@ -24,7 +24,18 @@ const firebaseConfig = {
   messagingSenderId: "749702522934",
   appId: "1:749702522934:web:5664ccfd9d04ae88985097"
 };
+/* ================= DEVICE ID ================= */
 
+function getDeviceId() {
+  let deviceId = localStorage.getItem("deviceId");
+
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem("deviceId", deviceId);
+  }
+
+  return deviceId;
+}
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -162,13 +173,32 @@ onAuthStateChanged(auth, async (user) => {
 
   currentUserId = user.uid;
 
-  const userSnap = await getDoc(doc(db, "users", user.uid));
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
   if (!userSnap.exists()) {
     showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
     return;
   }
 
   const userData = userSnap.data();
+  const currentDeviceId = getDeviceId();
+
+  /* ================= DEVICE LOCK ================= */
+
+  if (!userData.deviceId) {
+    // 🔥 Login ครั้งแรก → ผูก device
+    await updateDoc(userRef, {
+      deviceId: currentDeviceId
+    });
+  } else if (userData.deviceId !== currentDeviceId) {
+    // ❌ คนละเครื่อง
+    showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
+    await auth.signOut();
+    return;
+  }
+
+  /* ================= SHOW APP ================= */
 
   document.getElementById("loginSection").style.display = "none";
   document.getElementById("appSection").style.display = "block";
@@ -177,7 +207,6 @@ onAuthStateChanged(auth, async (user) => {
   startClock();
   await restoreStateFromFirestore(user.uid);
 });
-
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
