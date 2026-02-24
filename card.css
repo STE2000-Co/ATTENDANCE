@@ -157,12 +157,13 @@ html, body {
   align-items: center;
 }
 
-#loginSection .login-card {
-  width: 100%;
-  max-width: 520px;   /* 🔥 ขยายให้กว้างขึ้น */
-  margin: 0 auto;
+#loginSection {
+  height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
-
 
 /* ================= APP SPACING FIX ================= */
 
