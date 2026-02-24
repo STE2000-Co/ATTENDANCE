@@ -62,9 +62,9 @@ body {
 .sub-header {
   font-size: 13px;
   font-weight: 500;
-  background: #6b7280;
-  margin-top: -6px;
-  opacity: 0.9;
+  color: #6b7280;   /* ⭐ ใช้ color ไม่ใช่ background */
+  margin-top: 4px;
+  opacity: 0.8;
 }
 .input-group {
   position: relative;
