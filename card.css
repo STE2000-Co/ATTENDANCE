@@ -121,8 +121,9 @@ html, body {
 
 .barcode {
   width: 85%;
-  height: clamp(40px, 12vw, 70px);
-  margin: 16px auto 10px;
+  height: auto;      /* 🔥 ไม่บังคับสูง */
+  margin: 16px auto 0;
+  display: block;
 }
 /* ===== Text Color Control ===== */
 
