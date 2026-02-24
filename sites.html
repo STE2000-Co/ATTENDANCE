@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>จัดการไซต์งาน</title>
+  <link rel="stylesheet" href="sites.css">
+</head>
+<body>
+
+<div class="wrapper">
+  <h2>จัดการไซต์งาน</h2>
+
+  <div class="form">
+    <input type="text" id="name" placeholder="ชื่อไซต์">
+    <input type="number" id="lat" placeholder="Latitude">
+    <input type="number" id="lng" placeholder="Longitude">
+    <input type="number" id="radius" placeholder="Radius (เมตร)">
+    <label><input type="checkbox" id="isMain"> เป็นออฟฟิศหลัก</label>
+    <button onclick="addSite()">บันทึกไซต์</button>
+  </div>
+
+  <div id="siteList"></div>
+</div>
+
+<script type="module" src="sites.js"></script>
+</body>
+</html>
