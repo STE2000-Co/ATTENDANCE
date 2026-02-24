@@ -60,7 +60,7 @@ body {
 .sub-header {
   font-size: 13px;
   font-weight: 500;
-  color: #6b7280;
+  background: #6b7280;
   margin-top: -6px;
   opacity: 0.7;
 }
