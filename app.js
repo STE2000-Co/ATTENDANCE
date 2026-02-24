@@ -179,7 +179,7 @@ onAuthStateChanged(auth, async (user) => {
   loginSection.classList.add("active");
   appSection.classList.remove("active");
 
-  document.body.style.visibility = "visible";
+  document.body.classList.remove("loading");
   return;
 }
 
@@ -194,7 +194,7 @@ onAuthStateChanged(auth, async (user) => {
   resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
 
   await auth.signOut();
-  document.body.style.visibility = "visible";
+  document.body.classList.remove("loading");
   return;
 }
 
@@ -214,7 +214,7 @@ onAuthStateChanged(auth, async (user) => {
   resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
 
   await auth.signOut();
-  document.body.style.visibility = "visible";
+  document.body.classList.remove("loading");
   return;
 }
 
@@ -223,7 +223,7 @@ onAuthStateChanged(auth, async (user) => {
   loginSection.classList.remove("active");
 appSection.classList.add("active");
 
-  document.body.style.visibility = "visible"; // 🔥 สำคัญมาก
+  document.body.classList.remove("loading"); // 🔥 สำคัญมาก
 
   loadEmployeeCard(userData, user.uid);
   startClock();
