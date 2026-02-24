@@ -120,10 +120,10 @@ html, body {
 /* ===== Barcode ใหม่ ===== */
 
 .barcode {
-  width: 85%;
-  height: auto;      /* 🔥 ไม่บังคับสูง */
-  margin: 16px auto 0;
-  display: block;
+  width: 70%;
+  height: auto;
+  margin: 18px auto 0;
+  opacity: 0.75;
 }
 /* ===== Text Color Control ===== */
 
