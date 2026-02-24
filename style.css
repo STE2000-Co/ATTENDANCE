@@ -178,3 +178,11 @@ body {
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
 }
+/* ===== DESKTOP CENTER FIX ONLY ===== */
+@media (min-width: 768px) {
+  #loginSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
