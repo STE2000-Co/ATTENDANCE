@@ -20,7 +20,7 @@
   
   padding-bottom: 20px;
   border: 1px solid #e5e7eb;
-  min-height: 520px;
+  min-height: 500px;
 }
 
 /* ===== Top ===== */
@@ -107,4 +107,18 @@
   width: 90%;
   margin: 20px auto 10px;
   height: 70px;
+}
+/* ===== Text Color Control ===== */
+
+/* ข้อมูลทั้งหมดด้านล่างเป็นสีขาว */
+.card-info,
+.card-info *,
+.card-issued {
+  color: #ffffff;
+}
+
+/* ยกเว้นชื่อบริษัทด้านบนให้เป็นสีเข้ม */
+.company-title,
+.company-name {
+  color: #1f2937;
 }
