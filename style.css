@@ -27,12 +27,11 @@ body {
 }
 
 .app-wrapper {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;        /* 🔥 เปลี่ยนจาก fixed */
   width: 100%;
   max-width: 500px;
+  min-height: 100dvh;        /* ใช้ dvh สำหรับมือถือ */
+  margin: 0 auto;            /* จัดกลางแนวนอน */
   padding: 24px;
 }
 
@@ -189,32 +188,23 @@ body {
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
 }
-/* ================= SCREEN TRANSITION SYSTEM ================= */
+/* ================= SCREEN TRANSITION FIX ================= */
 
-/* ให้ทั้งสอง section ซ้อนทับกัน */
 #loginSection,
 #appSection {
   position: absolute;
   inset: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  transition:
-    opacity .25s cubic-bezier(.4,0,.2,1),
-    transform .25s cubic-bezier(.4,0,.2,1);
-}
-
-/* ซ่อนแบบไม่ใช้ display */
-.hidden-screen {
   opacity: 0;
   pointer-events: none;
-  transform: scale(.98);
+  transition: opacity .25s ease;
 }
 
-/* แสดง */
 .active-screen {
   opacity: 1;
   pointer-events: auto;
-  transform: scale(1);
 }
