@@ -44,6 +44,13 @@ let currentState = "checkin";
 let currentUserId = null;
 let countdownInterval = null;
 let confirmCallback = null;
+function resetLoginButton() {
+  const loginBtn = document.querySelector(".login-card .primary-btn");
+  if (!loginBtn) return;
+
+  loginBtn.disabled = false;
+  loginBtn.innerText = "Login";
+}
 
 /* ================= DISTANCE ================= */
 
@@ -182,11 +189,22 @@ onAuthStateChanged(auth, async (user) => {
   const userSnap = await getDoc(userRef);
 
   if (!userSnap.exists()) {
-    showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
-    await auth.signOut();
-    document.body.style.visibility = "visible";
-    return;
-  }
+  showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
+
+  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
+
+  await auth.signOut();
+  document.body.style.visibility = "visible";
+  return;
+}if (!userSnap.exists()) {
+  showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
+
+  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
+
+  await auth.signOut();
+  document.body.style.visibility = "visible";
+  return;
+}
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
@@ -198,11 +216,15 @@ onAuthStateChanged(auth, async (user) => {
       deviceId: currentDeviceId
     });
   } else if (userData.deviceId !== currentDeviceId) {
-    showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
-    await auth.signOut();
-    document.body.style.visibility = "visible";
-    return;
-  }
+
+  showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
+
+  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
+
+  await auth.signOut();
+  document.body.style.visibility = "visible";
+  return;
+}
 
   // ===== SHOW APP =====
 
