@@ -28,10 +28,12 @@ body {
 
 .app-wrapper {
   position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
 }
 
 /* ================= LOGIN ================= */
