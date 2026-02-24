@@ -451,3 +451,14 @@ async function processAttendance(isCheckin) {
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
+// ===== iOS Keyboard Fix =====
+function fixViewportHeight() {
+  document.documentElement.style.setProperty(
+    '--vh',
+    `${window.innerHeight * 0.01}px`
+  );
+}
+
+window.addEventListener('resize', fixViewportHeight);
+window.addEventListener('orientationchange', fixViewportHeight);
+fixViewportHeight();
