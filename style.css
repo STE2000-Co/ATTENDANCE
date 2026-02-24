@@ -189,29 +189,32 @@ body {
 #loginSection .primary-btn {
   background: #2b6cad;   /* โทนเดียวกับบัตร */
 }
-/* ================= PAGE TRANSITION ================= */
+/* ================= SCREEN TRANSITION SYSTEM ================= */
 
+/* ให้ทั้งสอง section ซ้อนทับกัน */
 #loginSection,
 #appSection {
-  transition: 
-    opacity 0.28s cubic-bezier(.4,0,.2,1),
-    transform 0.28s cubic-bezier(.4,0,.2,1);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition:
+    opacity .25s cubic-bezier(.4,0,.2,1),
+    transform .25s cubic-bezier(.4,0,.2,1);
 }
 
-/* default state */
-#loginSection {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* hidden state */
-.fade-out {
-  opacity: 0 !important;
-  transform: translate(-50%, -50%) scale(.97);
+/* ซ่อนแบบไม่ใช้ display */
+.hidden-screen {
+  opacity: 0;
   pointer-events: none;
+  transform: scale(.98);
 }
 
-.fade-in {
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) scale(1);
+/* แสดง */
+.active-screen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
 }
