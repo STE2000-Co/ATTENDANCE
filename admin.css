@@ -1,0 +1,218 @@
+/* ================= BASE ================= */
+
+body {
+  margin: 0;
+  background: #f3f5fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1f2937;
+}
+
+/* ================= DESKTOP WRAPPER ================= */
+
+.admin-wrapper {
+  width: 100%;
+  max-width: 1600px;
+  margin: 50px auto 100px;
+  padding: 0 60px;
+}
+
+/* ================= TOP HEADER ================= */
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.top-title {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(90deg, #4f46e5, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.top-controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+/* Month Picker */
+
+input[type="month"] {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+input[type="month"]:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+  outline: none;
+}
+
+/* ================= BUTTON (NO GLOW) ================= */
+
+.small-btn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: white;
+  cursor: pointer;
+  width: auto !important;
+
+  /* เปลี่ยนจาก glow เป็น shadow กลาง */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+}
+
+.small-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+.section-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 50px;
+}
+
+/* ================= MONTH TITLE ================= */
+
+.month-big-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  padding: 18px 28px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  display: inline-block;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* ================= USER CARD ================= */
+
+.user-card {
+  background: white;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 45px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.05);
+  transition: 0.25s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+}
+
+.user-header {
+  padding: 22px 30px;
+  background: linear-gradient(90deg, #eef2ff, #ffffff);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #3730a3;
+}
+
+/* ================= TABLE ================= */
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.attendance-table thead {
+  background: #f9fafb;
+}
+
+.attendance-table th {
+  text-align: left;
+  padding: 18px 30px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.attendance-table td {
+  padding: 20px 30px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 15px;
+}
+
+.date-cell {
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.time-in {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.time-out {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.site-name {
+  color: #374151;
+}
+
+.attendance-table tbody tr:hover {
+  background: #f3f4ff;
+  transition: 0.2s;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+  .admin-wrapper {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .admin-wrapper {
+    padding: 0 18px 50px;
+  }
+
+  .top-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .top-title {
+    font-size: 28px;
+  }
+
+  .month-big-title {
+    font-size: 18px;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 14px 16px;
+  }
+}
