@@ -147,27 +147,6 @@ html, body {
 .company-name {
   color: #1f4f7f;
 }
-/* ================= LOGIN FIX (ไม่แตะของเดิม) ================= */
-
-#loginSection {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ===== Stable Center Login (All Devices / PWA Safe) ===== */
-
-#loginSection {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  box-sizing: border-box;
-  
-}
 
 /* ================= APP SPACING FIX ================= */
 
@@ -207,18 +186,17 @@ html, body {
   margin-top: 10px;
   margin-bottom: 6px;
 }
-/* ===== Fix iOS Keyboard Push (Dynamic Viewport) ===== */
+/* ===== LOGIN LOCK (FINAL CLEAN VERSION) ===== */
 
 #loginSection {
-  min-height: 100dvh;   /* ใช้ dynamic viewport */
+  position: fixed;
+  inset: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-/* กันอาการกระตุกตอน keyboard เปิด/ปิด */
-@supports (-webkit-touch-callout: none) {
-  #loginSection {
-    min-height: -webkit-fill-available;
-  }
+  height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
 }
