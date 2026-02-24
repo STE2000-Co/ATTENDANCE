@@ -196,14 +196,6 @@ onAuthStateChanged(auth, async (user) => {
   await auth.signOut();
   document.body.style.visibility = "visible";
   return;
-}if (!userSnap.exists()) {
-  showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
-
-  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
-
-  await auth.signOut();
-  document.body.style.visibility = "visible";
-  return;
 }
 
   const userData = userSnap.data();
