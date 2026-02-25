@@ -8,13 +8,8 @@ function getDeviceId() {
     deviceId = crypto.randomUUID();
     localStorage.setItem("deviceId", deviceId);
   }
-
   return deviceId;
 }
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
 let currentState = "checkin";
 let currentUserId = null;
 let countdownInterval = null;
