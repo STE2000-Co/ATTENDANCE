@@ -110,13 +110,13 @@ html, body {
 }
 
 /* ===== Issued ===== */
-.card-issued {
+.card-issued #empId {
   text-align: center;
   font-size: 13px;
   margin-top: 14px;
   margin-bottom: 14px;
   opacity: 0.95;
-  letter-spacing: 0.5px;
+  letter-spacing: 4px;
 }
 
 /* ===== Barcode ใหม่ ===== */
