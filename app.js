@@ -528,5 +528,5 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     splash.classList.add("hide");
     document.body.classList.remove("loading");
-  }, 1300);
+  }, 2500);
 });
