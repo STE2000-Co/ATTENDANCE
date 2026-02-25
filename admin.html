@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <!-- NAVBAR -->
+  <div class="admin-navbar">
+    <div>
+      <div class="admin-title">ADMIN CONTROL PANEL</div>
+      <div class="admin-sub">STE Service Maintenance</div>
+    </div>
+
+    <div class="admin-user">
+      <div id="adminName" class="admin-sub">Welcome, -</div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="admin-content">
+
+    <div class="admin-grid">
+
+      <div class="admin-card" onclick="goSites()">
+        <h3>Site Manage</h3>
+        <p>เพิ่ม แก้ไข และกำหนดไซต์งานหลัก</p>
+      </div>
+
+      <div class="admin-card" onclick="goReports()">
+        <h3>Monthly Report</h3>
+        <p>ดูข้อมูลการเข้างานรายเดือนและ Export Excel</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>
