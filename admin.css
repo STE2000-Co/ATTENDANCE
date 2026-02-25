@@ -1,162 +1,121 @@
-/* ================= ADMIN DASHBOARD ================= */
+:root {
+  --primary: #2b6cad;
+  --bg: #f4f7fb;
+}
 
-.admin-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
   background: var(--bg);
 }
 
-/* ================= NAVBAR ================= */
-
+/* NAVBAR */
 .admin-navbar {
-  height: 110px; /* 🔥 สูงขึ้น */
+  height: 115px;
   background: white;
-  border-bottom: 1px solid var(--border);
+  padding: 0 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 60px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
 }
-/* LEFT SIDE */
 
-.admin-title {
-  font-size: 26px;
+.admin-left h1 {
+  margin: 0;
+  font-size: 28px;
   font-weight: 900;
   color: #1f4f7f;
-  margin-bottom: 6px;
 }
 
-.admin-sub {
+.admin-left span {
   font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-  opacity: 0.8;
+  color: #6b7280;
 }
-
-/* RIGHT SIDE */
 
 .admin-user {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
 }
 
-.admin-user-name {
-  font-size: 14px;
-  font-weight: 700;
+.welcome-text small {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.welcome-text strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
   color: #1f2937;
-  background: #eef4fb;
-  padding: 8px 18px;
-  border-radius: 999px;
 }
 
-/* LOGOUT */
-
-.logout-btn {
-  padding: 10px 22px;
-  border-radius: 16px;
-  background: #2b6cad;
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 14px;
   font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
-.logout-btn:hover {
+
+.btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
+  background: #1f4f7f;
 }
 
-/* ================= CONTENT ================= */
-
-.admin-content {
-  flex: 1;
-  padding: 70px 80px;
-}
-
-/* ================= GRID ================= */
-
-.admin-grid {
+/* MAIN */
+.admin-main {
+  padding: 70px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
+  gap: 40px;
 }
 
-/* ================= CARD ================= */
-
+/* CARD */
 .admin-card {
   background: white;
-  border-radius: 26px;
-  padding: 60px 50px;
-  border: none;
-  box-shadow: var(--shadow-soft);
+  padding: 60px;
+  border-radius: 28px;
+  position: relative;
   cursor: pointer;
   transition: 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Accent Bar หนาและชัด */
-.admin-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px; /* 🔥 หนาขึ้น */
-  height: 100%;
-  border-top-left-radius: 26px;
-  border-bottom-left-radius: 26px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
 }
 
 .admin-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-medium);
+  transform: translateY(-6px);
 }
 
-.admin-card h3 {
-  font-size: 24px;
-  font-weight: 900;
-  margin-bottom: 14px;
-  color: #1f2937;
+/* Accent */
+.admin-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  border-radius: 28px 0 0 28px;
 }
 
-.admin-card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 1024px) {
-  .admin-content {
-    padding: 50px 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .admin-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-content {
-    padding: 30px 24px;
-  }
-
-  .admin-navbar {
-    padding: 0 20px;
-  }
-}
+/* Colors */
 .card-sites::before {
-  background: linear-gradient(
-    to bottom,
-    #16a34a,
-    #15803d
-  );
+  background: linear-gradient(#16a34a, #15803d);
 }
 
 .card-reports::before {
-  background: linear-gradient(
-    to bottom,
-    #2563eb,
-    #1d4ed8
-  );
+  background: linear-gradient(#2563eb, #1d4ed8);
+}
+
+.admin-card h2 {
+  margin: 0 0 12px 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.admin-card p {
+  margin: 0;
+  color: #6b7280;
 }
