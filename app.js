@@ -522,3 +522,11 @@ inputs.forEach(input => {
     }, 150); // รอ keyboard ปิดก่อนค่อยคืนตำแหน่ง
   });
 });
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splashScreen");
+
+  setTimeout(() => {
+    splash.classList.add("hide");
+    document.body.classList.remove("loading");
+  }, 1300);
+});
