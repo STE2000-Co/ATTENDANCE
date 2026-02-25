@@ -1,4 +1,19 @@
 import { auth, db } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+  getDocs,
+  collection,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 /* ================= DEVICE ID ================= */
 
 function getDeviceId() {
