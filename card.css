@@ -196,3 +196,8 @@ html, body {
   padding: 24px;
   box-sizing: border-box;
 }
+#empId {
+  letter-spacing: 3px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
