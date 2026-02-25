@@ -153,3 +153,18 @@
     padding: 0 20px;
   }
 }
+.card-sites::before {
+  background: linear-gradient(
+    to bottom,
+    #16a34a,
+    #15803d
+  );
+}
+
+.card-reports::before {
+  background: linear-gradient(
+    to bottom,
+    #2563eb,
+    #1d4ed8
+  );
+}
