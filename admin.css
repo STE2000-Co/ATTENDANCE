@@ -7,37 +7,58 @@
   background: var(--bg);
 }
 
-/* ===== NAVBAR ===== */
+/* ================= NAVBAR ================= */
 
 .admin-navbar {
-  height: 72px;
+  height: 80px;
   background: white;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
+  padding: 0 48px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.03);
 }
 
+/* LEFT SIDE */
+
 .admin-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1f2937;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  color: #1f4f7f; /* โทนเดียวกับ company-title */
 }
 
 .admin-sub {
   font-size: 13px;
   color: var(--text-secondary);
   margin-top: 4px;
+  opacity: 0.8;
 }
+
+/* RIGHT SIDE */
 
 .admin-user {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
+.admin-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  background: #eef4fb;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+/* LOGOUT */
+
 .logout-btn {
-  padding: 10px 18px;
-  border-radius: 12px;
+  padding: 8px 18px;
+  border-radius: 14px;
   border: none;
   background: #2b6cad;
   color: white;
@@ -52,55 +73,73 @@
   box-shadow: var(--shadow-medium);
 }
 
-/* ===== CONTENT ===== */
+/* ================= CONTENT ================= */
 
 .admin-content {
   flex: 1;
-  padding: 60px;
+  padding: 70px 80px;
 }
 
-/* ===== GRID ===== */
+/* ================= GRID ================= */
 
 .admin-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  gap: 50px;
 }
 
-/* ===== CARD ===== */
+/* ================= CARD ================= */
 
 .admin-card {
   background: white;
-  border-radius: 24px;
-  padding: 50px 40px;
+  border-radius: 26px;
+  padding: 60px 50px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-soft);
   cursor: pointer;
   transition: 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle accent strip */
+.admin-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #3579c0,
+    #1f5d99
+  );
 }
 
 .admin-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
   box-shadow: var(--shadow-medium);
 }
 
 .admin-card h3 {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 14px;
   color: #1f2937;
 }
 
 .admin-card p {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 1024px) {
   .admin-content {
-    padding: 40px;
+    padding: 50px 40px;
   }
 }
 
@@ -110,7 +149,7 @@
   }
 
   .admin-content {
-    padding: 24px;
+    padding: 30px 24px;
   }
 
   .admin-navbar {
