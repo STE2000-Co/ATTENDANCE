@@ -25,9 +25,7 @@ body {
   background: var(--bg);
   margin: 0;
 }
-body.loading {
-  visibility: hidden;
-}
+
 .app-wrapper {
   position: fixed;
   top: 50%;
