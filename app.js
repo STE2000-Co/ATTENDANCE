@@ -201,7 +201,11 @@ onAuthStateChanged(auth, async (user) => {
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
-
+// ===== ROLE REDIRECT =====
+  if (userData.role === "admin") {
+  window.location.href = "admin.html";
+  return;
+}
   // ===== DEVICE LOCK =====
 
   if (!userData.deviceId) {
