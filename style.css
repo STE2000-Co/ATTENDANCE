@@ -208,12 +208,20 @@ body.loading {
 .splash {
   position: fixed;
   inset: 0;
-  background: #ffffff;
+  background: linear-gradient(
+    160deg,
+    #f2c500 0%,
+    #f2c500 35%,
+    #3579c0 55%,
+    #1f5d99 75%,
+    #163e66 100%
+  );
+
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.8s ease;
 }
 
 .splash-logo {
