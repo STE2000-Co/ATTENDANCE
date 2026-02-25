@@ -225,7 +225,7 @@ body.loading {
 }
 
 .splash-logo {
-  width: 120px;
+  width: 512px;
   animation: splashPop 0.6s ease;
 }
 
