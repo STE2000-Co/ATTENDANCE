@@ -209,11 +209,9 @@ body.loading {
   position: fixed;
   inset: 0;
   background: linear-gradient(
-    160deg,
-    #f2c500 0%,
-    #f2c500 35%,
-    #3579c0 55%,
-    #1f5d99 75%,
+    to bottom,
+    #3579c0 0%,
+    #1f5d99 50%,
     #163e66 100%
   );
 
