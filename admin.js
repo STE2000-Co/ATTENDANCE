@@ -39,7 +39,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   document.getElementById("adminName").innerText =
-    "Welcome, " + (snap.data().name || user.email);
+  snap.data().name || user.email;
 });
 
 window.logout = async function () {
