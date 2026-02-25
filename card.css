@@ -110,7 +110,7 @@ html, body {
 }
 
 /* ===== Issued ===== */
-.card-issued #empId {
+.card-issued {
   text-align: center;
   font-size: 13px;
   margin-top: 14px;
