@@ -94,7 +94,7 @@
   background: white;
   border-radius: 26px;
   padding: 60px 50px;
-  border: 1px solid var(--border);
+  border: none;
   box-shadow: var(--shadow-soft);
   cursor: pointer;
   transition: 0.25s ease;
@@ -102,19 +102,16 @@
   overflow: hidden;
 }
 
-/* subtle accent strip */
+/* Accent Bar หนาและชัด */
 .admin-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 6px;
+  width: 14px; /* 🔥 หนาขึ้น */
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    #3579c0,
-    #1f5d99
-  );
+  border-top-left-radius: 26px;
+  border-bottom-left-radius: 26px;
 }
 
 .admin-card:hover {
