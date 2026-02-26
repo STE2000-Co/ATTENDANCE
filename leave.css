@@ -28,6 +28,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.05);
   overflow: hidden;
+   min-width: 0;
 }
 
 label {
@@ -90,10 +91,14 @@ textarea {
 .status.pending { color: orange; }
 .status.approved { color: green; }
 .status.rejected { color: red; }
-/* แก้ปัญหา date input ล้นการ์ด */
+/* แก้ date ล้นจริง ๆ */
 input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+
   width: 100%;
+  min-width: 0;
   max-width: 100%;
-  height: 48px;
-  box-sizing: border-box;
+
+  background-color: #fff;
 }
