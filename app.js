@@ -274,8 +274,6 @@ function startClock() {
     const now = new Date();
     document.getElementById("liveDate").innerText =
       now.toLocaleDateString("th-TH", { dateStyle: "full" });
-    document.getElementById("liveTime").innerText =
-      now.toLocaleTimeString("th-TH");
   }, 1000);
 }
 
