@@ -152,9 +152,9 @@ html, body {
 /* เปลี่ยนเฉพาะหน้า app ไม่กระทบ login */
 #appSection .app-container {
   justify-content: flex-start;  /* ไม่ใช้ space-evenly */
-  gap: 26px;                    /* เพิ่มช่องไฟ */
-  padding-top: calc(24px + env(safe-area-inset-top));
-  padding-bottom: 24px;
+  gap: 18px;                    /* เพิ่มช่องไฟ */
+  padding-top: calc(18px + env(safe-area-inset-top));
+  padding-bottom: 18px;
 }
 
 /* เพิ่มช่องไฟในการ์ด */
@@ -182,8 +182,8 @@ html, body {
 
 /* เพิ่มระยะ datetime */
 .datetime {
-  margin-top: 10px;
-  margin-bottom: 6px;
+  margin-top: 6px;
+  margin-bottom: 2px;
 }
 #loginSection {
   position: fixed;
