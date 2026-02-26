@@ -89,6 +89,17 @@ document.getElementById("startDate").addEventListener("change", calculateDays);
 document.getElementById("endDate").addEventListener("change", calculateDays);
 
 window.submitLeave = async function() {
+
+  if (!auth.currentUser) {
+    alert("ยังไม่ได้เข้าสู่ระบบ");
+    return;
+  }
+
+  if (!currentUserData) {
+    alert("กำลังโหลดข้อมูลผู้ใช้");
+    return;
+  }
+
   const leaveType = document.getElementById("leaveType").value;
   const startDate = document.getElementById("startDate").value;
   const endDate = document.getElementById("endDate").value;
@@ -99,6 +110,31 @@ window.submitLeave = async function() {
     alert("กรอกข้อมูลให้ครบ");
     return;
   }
+
+  try {
+    await addDoc(collection(db, "leaveRequests"), {
+      userId: auth.currentUser.uid,
+      name: currentUserData.name,
+      empId: currentUserData.employeeId || currentUserData.empId,
+      department: currentUserData.department,
+      departmentTH: currentUserData.departmentTH || "",
+      position: currentUserData.position,
+      positionTH: currentUserData.positionTH || "",
+      leaveType,
+      startDate,
+      endDate,
+      days,
+      reason: reason || "",
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
+
+    alert("ส่งใบลาเรียบร้อย");
+  } catch (error) {
+    console.error(error);
+    alert("เกิดข้อผิดพลาด: " + error.message);
+  }
+};
 
   await addDoc(collection(db, "leaveRequests"), {
     userId: auth.currentUser.uid,
