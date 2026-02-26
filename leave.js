@@ -41,7 +41,8 @@ onAuthStateChanged(auth, async (user) => {
   currentUserData = userSnap;
 
   document.getElementById("name").value = userSnap.name || "";
-  document.getElementById("empId").value = userSnap.empId || "";
+  document.getElementById("empId").value =
+  userSnap.employeeId || userSnap.empId || "";
   document.getElementById("dept").value =
     userSnap.departmentTH || userSnap.department || "";
   document.getElementById("position").value =
