@@ -136,26 +136,6 @@ window.submitLeave = async function() {
   }
 };
 
-  await addDoc(collection(db, "leaveRequests"), {
-    userId: auth.currentUser.uid,
-    name: currentUserData.name,
-    empId: currentUserData.empId,
-    department: currentUserData.department,
-    departmentTH: currentUserData.departmentTH || "",
-    position: currentUserData.position,
-    positionTH: currentUserData.positionTH || "",
-    leaveType,
-    startDate,
-    endDate,
-    days,
-    reason: reason || "",
-    status: "pending",
-    createdAt: serverTimestamp()
-  });
-
-  alert("ส่งใบลาเรียบร้อย");
-};
-
 function loadLeaveHistory(uid) {
   const q = query(
     collection(db, "leaveRequests"),
