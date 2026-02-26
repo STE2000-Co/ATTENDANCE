@@ -242,21 +242,22 @@ body {
   pointer-events: none;
 }
 /* ===== Leave Button ===== */
-
-.leave-btn {
-  width: 100%;               /* กว้างเท่าปุ่มหลัก */
-  padding: 10px 0;           /* เตี้ยกว่า */
+.secondary-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
   font-size: 15px;
-  border-radius: 14px;
-  background: linear-gradient(
-    to right,
-    #f2c500,
-    #e0b400
-  );
-  color: #1f4f7f;            /* ตัวหนังสือน้ำเงินเข้ม */
+  font-weight: 600;
+
+  background: transparent;
+  border: 2px solid #f2c500;
+  color: #f2c500;
+
+  transition: 0.2s ease;
   margin-top: 6px;
 }
 
-.leave-btn:hover {
-  filter: brightness(1.05);
+.secondary-btn:hover {
+  background: #f2c500;
+  color: #1f2937;
 }
