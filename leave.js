@@ -6,7 +6,6 @@ import {
   serverTimestamp,
   query,
   where,
-  orderBy,
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
@@ -15,7 +14,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBIgAvKSmqBGzKWvnb0FgxOPVrDHp8TDaA",
+apiKey: "AIzaSyBIgAvKSmqBGzKWvnb0FgxOPVrDHp8TDaA",
   authDomain: "system-base-8b777.firebaseapp.com",
   projectId: "system-base-8b777",
   storageBucket: "system-base-8b777.firebasestorage.app",
@@ -29,7 +28,7 @@ const auth = getAuth(app);
 
 let currentUserData = null;
 
-window.goBack = function() {
+window.goBack = function () {
   window.location.href = "index.html";
 };
 
@@ -38,11 +37,13 @@ onAuthStateChanged(auth, async (user) => {
 
   const uid = user.uid;
   const userSnap = await fetchUser(uid);
+  if (!userSnap) return;
+
   currentUserData = userSnap;
 
   document.getElementById("name").value = userSnap.name || "";
   document.getElementById("empId").value =
-  userSnap.employeeId || userSnap.empId || "";
+    userSnap.employeeId || userSnap.empId || "";
   document.getElementById("dept").value =
     userSnap.departmentTH || userSnap.department || "";
   document.getElementById("position").value =
@@ -52,14 +53,15 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 async function fetchUser(uid) {
-  const { getDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const { getDoc, doc } = await import(
+    "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+  );
   const snap = await getDoc(doc(db, "users", uid));
-  return snap.data();
+  return snap.exists() ? snap.data() : null;
 }
 
-const leaveTypeSelect = document.getElementById("leaveType");
-leaveTypeSelect.addEventListener("change", () => {
-  const value = leaveTypeSelect.value;
+document.getElementById("leaveType").addEventListener("change", (e) => {
+  const value = e.target.value;
   const reasonContainer = document.getElementById("reasonContainer");
 
   if (value === "ลาฉุกเฉิน" || value === "อื่นๆ") {
@@ -70,27 +72,35 @@ leaveTypeSelect.addEventListener("change", () => {
 });
 
 function calculateDays() {
-  const start = new Date(document.getElementById("startDate").value);
-  const end = new Date(document.getElementById("endDate").value);
+  const startValue = document.getElementById("startDate").value;
+  const endValue = document.getElementById("endDate").value;
 
-  if (!isNaN(start) && !isNaN(end)) {
-    const diff = (end - start) / (1000 * 60 * 60 * 24) + 1;
-    if (diff > 0) {
-      document.getElementById("daysDisplay").innerText =
-        "จำนวนวันลา: " + diff + " วัน";
-      return diff;
-    }
+  if (!startValue || !endValue) return 0;
+
+  const start = new Date(startValue);
+  const end = new Date(endValue);
+
+  const diff = (end - start) / (1000 * 60 * 60 * 24) + 1;
+
+  if (diff > 0) {
+    document.getElementById("daysDisplay").innerText =
+      "จำนวนวันลา: " + diff + " วัน";
+    return diff;
   }
+
   document.getElementById("daysDisplay").innerText = "";
   return 0;
 }
 
-document.getElementById("startDate").addEventListener("change", calculateDays);
-document.getElementById("endDate").addEventListener("change", calculateDays);
+document
+  .getElementById("startDate")
+  .addEventListener("change", calculateDays);
+document
+  .getElementById("endDate")
+  .addEventListener("change", calculateDays);
 
-window.submitLeave = async function() {
-
-  if (!auth.currentUser) {
+window.submitLeave = async function () {
+  if (!auth.currentUser?.uid) {
     alert("ยังไม่ได้เข้าสู่ระบบ");
     return;
   }
@@ -114,11 +124,14 @@ window.submitLeave = async function() {
   try {
     await addDoc(collection(db, "leaveRequests"), {
       userId: auth.currentUser.uid,
-      name: currentUserData.name,
-      empId: currentUserData.employeeId || currentUserData.empId,
-      department: currentUserData.department,
+      name: currentUserData.name || "",
+      empId:
+        currentUserData.employeeId ||
+        currentUserData.empId ||
+        "",
+      department: currentUserData.department || "",
       departmentTH: currentUserData.departmentTH || "",
-      position: currentUserData.position,
+      position: currentUserData.position || "",
       positionTH: currentUserData.positionTH || "",
       leaveType,
       startDate,
@@ -130,8 +143,13 @@ window.submitLeave = async function() {
     });
 
     alert("ส่งใบลาเรียบร้อย");
+    document.getElementById("leaveType").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
+    document.getElementById("reason").value = "";
+    document.getElementById("daysDisplay").innerText = "";
+
   } catch (error) {
-    console.error(error);
     alert("เกิดข้อผิดพลาด: " + error.message);
   }
 };
@@ -139,32 +157,37 @@ window.submitLeave = async function() {
 function loadLeaveHistory(uid) {
   const q = query(
     collection(db, "leaveRequests"),
-    where("userId", "==", uid),
-    orderBy("createdAt", "desc")
+    where("userId", "==", uid)
   );
 
-  onSnapshot(q, (snapshot) => {
-    const container = document.getElementById("leaveHistory");
-    container.innerHTML = "";
+  onSnapshot(
+    q,
+    (snapshot) => {
+      const container = document.getElementById("leaveHistory");
+      container.innerHTML = "";
 
-    snapshot.forEach(doc => {
-      const data = doc.data();
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
 
-      const card = document.createElement("div");
-      card.className = "history-card";
+        const card = document.createElement("div");
+        card.className = "history-card";
 
-      card.innerHTML = `
-        <div><strong>${data.leaveType}</strong></div>
-        <div>${data.startDate} - ${data.endDate}</div>
-        <div>${data.days} วัน</div>
-        <div class="status ${data.status}">
-          สถานะ: ${translateStatus(data.status)}
-        </div>
-      `;
+        card.innerHTML = `
+          <div><strong>${data.leaveType}</strong></div>
+          <div>${data.startDate} - ${data.endDate}</div>
+          <div>${data.days || "-"} วัน</div>
+          <div class="status ${data.status}">
+            สถานะ: ${translateStatus(data.status)}
+          </div>
+        `;
 
-      container.appendChild(card);
-    });
-  });
+        container.appendChild(card);
+      });
+    },
+    (error) => {
+      console.log("History error:", error);
+    }
+  );
 }
 
 function translateStatus(status) {
