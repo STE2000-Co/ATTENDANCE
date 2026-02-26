@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>กรอกใบลา</title>
+  <link rel="stylesheet" href="leave.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <button class="back-btn" onclick="goBack()">← กลับหน้าตอกบัตร</button>
+
+    <h1 class="page-title">กรอกใบลา</h1>
+
+    <div class="card">
+
+      <label>ชื่อพนักงาน</label>
+      <input type="text" id="name" readonly />
+
+      <label>รหัสพนักงาน</label>
+      <input type="text" id="empId" readonly />
+
+      <label>แผนก</label>
+      <input type="text" id="dept" readonly />
+
+      <label>ตำแหน่ง</label>
+      <input type="text" id="position" readonly />
+
+      <label>ประเภทการลา</label>
+      <select id="leaveType">
+        <option value="">-- เลือกประเภทการลา --</option>
+        <option>ลาพักร้อนประจำปี</option>
+        <option>ลาป่วย</option>
+        <option>ลาเพื่อฝึกอบรม/พัฒนาความรู้</option>
+        <option>ลารับราชการทหาร</option>
+        <option>ลาอุปสมบท</option>
+        <option>ลาคลอด</option>
+        <option>ลาเพื่อทำหมัน</option>
+        <option>ลากิจโดยไม่รับค่าจ้าง</option>
+        <option>ลาฉุกเฉิน</option>
+        <option>อื่นๆ</option>
+      </select>
+
+      <label>จากวันที่</label>
+      <input type="date" id="startDate" />
+
+      <label>ถึงวันที่</label>
+      <input type="date" id="endDate" />
+
+      <div class="days-display" id="daysDisplay"></div>
+
+      <div id="reasonContainer" style="display:none;">
+        <label>เหตุผล</label>
+        <textarea id="reason" rows="3"></textarea>
+      </div>
+
+      <button class="submit-btn" onclick="submitLeave()">ส่งใบลา</button>
+
+    </div>
+
+    <h2 class="history-title">ประวัติใบลาของฉัน</h2>
+
+    <div id="leaveHistory"></div>
+
+  </div>
+
+  <script type="module" src="leave.js"></script>
+</body>
+</html>
