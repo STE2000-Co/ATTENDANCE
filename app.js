@@ -532,3 +532,8 @@ window.addEventListener("load", () => {
     document.body.classList.remove("loading");
   }, 2500);
 });
+window.leaveHandler = function () {
+  showConfirm("คุณต้องการลางานใช่หรือไม่?", async () => {
+    showPopup("บันทึกการลางานเรียบร้อยแล้ว");
+  });
+};
