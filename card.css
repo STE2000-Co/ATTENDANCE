@@ -24,13 +24,11 @@ html, body {
 }
 /* ================= VERTICAL CARD ================= */
 .employee-card.vertical {
-  width: min(92vw, 360px);   /* ไม่เกิน 360 แต่ย่อได้ตามจอ */
-  aspect-ratio: 1 / 1.585;   /* ทรงบัตรจริง */
-  
-  margin: 3vh auto 2vh;
+  width: min(88vw, 340px);   /* 🔥 ลดลงเล็กน้อย */
+  aspect-ratio: 1 / 1.585;
+  margin: 6vh auto 2vh;     /* 🔥 เพิ่มระยะห่างจากด้านบน */
   border-radius: 20px;
   overflow: hidden;
-
  background: linear-gradient(
   to bottom,
   #f2f2f2 0%,
@@ -155,7 +153,7 @@ html, body {
 #appSection .app-container {
   justify-content: flex-start;  /* ไม่ใช้ space-evenly */
   gap: 26px;                    /* เพิ่มช่องไฟ */
-  padding-top: 24px;
+  padding-top: calc(24px + env(safe-area-inset-top));
   padding-bottom: 24px;
 }
 
