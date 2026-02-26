@@ -244,20 +244,19 @@ body {
 /* ===== Leave Button ===== */
 .secondary-btn {
   width: 100%;
-  padding: 14px;
+  padding: 10px 16px;   /* เตี้ยกว่าปุ่มหลัก (หลักคือ 16px) */
   border-radius: 16px;
-  font-size: 15px;
-  font-weight: 600;
-
-  background: transparent;
-  border: 2px solid #f2c500;
-  color: #f2c500;
-
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--accent);  /* ใช้สีเดียวกับปุ่มหลัก */
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
   transition: 0.2s ease;
-  margin-top: 6px;
 }
 
 .secondary-btn:hover {
-  background: #f2c500;
-  color: #1f2937;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
