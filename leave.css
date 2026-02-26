@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f3f5fb;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 16px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #1e3a8a;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.page-title {
+  margin: 8px 0 16px;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+label {
+  font-size: 14px;
+  margin-top: 12px;
+  display: block;
+}
+
+input, select, textarea {
+  width: 100%;
+  height: 48px;
+  margin-top: 4px;
+  padding: 0 12px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: auto;
+  padding: 12px;
+}
+
+.days-display {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 52px;
+  margin-top: 20px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.history-title {
+  margin-top: 24px;
+}
+
+.history-card {
+  background: #fff;
+  padding: 14px;
+  border-radius: 16px;
+  margin-top: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.status {
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.status.pending { color: orange; }
+.status.approved { color: green; }
+.status.rejected { color: red; }
