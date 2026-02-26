@@ -196,3 +196,5 @@ function translateStatus(status) {
   if (status === "rejected") return "ไม่อนุมัติ";
   return status;
 }
+document.getElementById("submitBtn")
+  .addEventListener("click", submitLeave);
