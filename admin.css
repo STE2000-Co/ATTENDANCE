@@ -102,7 +102,7 @@ body {
 
 /* Colors */
 .card-sites::before {
-  background: linear-gradient(#16a34a, #15803d);
+  background: linear-gradient(#f2c500, #B59000);
 }
 
 .card-reports::before {
