@@ -106,7 +106,7 @@ body {
 }
 
 .card-reports::before {
-  background: linear-gradient(#f2c500, #B59000);
+  background: linear-gradient(#2b6cad,#1f5d99);
 }
 
 .admin-card h2 {
