@@ -204,7 +204,9 @@ function translateStatus(status) {
 }
 document.getElementById("submitBtn")
   .addEventListener("click", submitLeave);
-
+window.goBack = function () {
+  window.location.href = "index.html";
+};
 function formatDate(dateString) {
   const d = new Date(dateString);
   const day = String(d.getDate()).padStart(2, '0');
