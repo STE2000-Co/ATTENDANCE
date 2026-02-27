@@ -11,32 +11,19 @@ body {
 }
 
 .back-btn {
-  position: fixed;      /* 🔥 ลอย */
-  top: 16px;            /* ชิดบน */
-  left: 16px;           /* ชิดซ้าย */
-
-  padding: 6px 12px;
-  font-size: 13px;
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 14px;
   font-weight: 600;
-
-  border: none;
-  border-radius: 8px;
 
   background: #2b6cad;
   color: white;
 
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  transition: 0.2s ease;
 
-  z-index: 1000;        /* กันโดน element อื่นทับ */
-}
-
-.back-btn:hover {
-  transform: translateY(-1px);
-}
-.back-btn:hover {
-  transform: translateY(-1px);
+  margin-bottom: 16px;
 }
 
 .page-title {
