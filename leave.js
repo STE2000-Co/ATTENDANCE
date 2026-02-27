@@ -220,3 +220,6 @@ function showPopup(message) {
 window.closePopup = function () {
   document.getElementById("customPopup").style.display = "none";
 };
+window.addEventListener("load", () => {
+  document.body.style.opacity = "1";
+});
