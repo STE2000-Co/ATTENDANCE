@@ -204,17 +204,7 @@ function translateStatus(status) {
 }
 document.getElementById("submitBtn")
   .addEventListener("click", submitLeave);
-window.confirmBack = function () {
-  document.getElementById("popupMessage").innerHTML =
-    "คุณต้องการกลับหน้าตอกบัตรหรือไม่?";
-  
-  document.getElementById("customPopup").style.display = "flex";
 
-  const btn = document.querySelector(".popup-btn");
-  btn.onclick = function () {
-    window.location.href = "index.html";
-  };
-};
 function formatDate(dateString) {
   const d = new Date(dateString);
   const day = String(d.getDate()).padStart(2, '0');
