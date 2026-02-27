@@ -1,118 +1,85 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
- <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Employee Time System</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="card.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>กรอกใบลา</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="leave.css" />
 </head>
-<body class="loading">
+<body>
 
- <!-- SPLASH SCREEN -->
-<div id="splashScreen" class="splash">
-  <img src="STElogo.png" class="splash-logo" />
-</div>
-  
-<div class="app-wrapper">
+  <div class="container">
 
-  <!-- LOGIN -->
-  <div id="loginSection" class="login-container auth-screen">
-    <div class="login-card">
-      <div class="logo-text">EMPLOYEE SYSTEM</div>
-      
+    <!-- 🔥 ปุ่มกลับใหม่ -->
+    <button class="back-btn" onclick="confirmBack()">
+      ← กลับหน้าตอกบัตร
+    </button>
 
-      <div class="input-group">
-        <input type="email" id="email" required>
-        <label>Email</label>
+    <h1 class="page-title">กรอกใบลา</h1>
+
+    <div class="card">
+
+      <label>ชื่อพนักงาน</label>
+      <input type="text" id="name" readonly />
+
+      <label>รหัสพนักงาน</label>
+      <input type="text" id="empId" readonly />
+
+      <label>แผนก</label>
+      <input type="text" id="dept" readonly />
+
+      <label>ตำแหน่ง</label>
+      <input type="text" id="position" readonly />
+
+      <label>ประเภทการลา</label>
+      <select id="leaveType">
+        <option value="">-- เลือกประเภทการลา --</option>
+        <option>ลาพักร้อนประจำปี</option>
+        <option>ลาป่วย</option>
+        <option>ลาเพื่อฝึกอบรม/พัฒนาความรู้</option>
+        <option>ลารับราชการทหาร</option>
+        <option>ลาอุปสมบท</option>
+        <option>ลาคลอด</option>
+        <option>ลาเพื่อทำหมัน</option>
+        <option>ลากิจโดยไม่รับค่าจ้าง</option>
+        <option>ลาฉุกเฉิน</option>
+        <option>อื่นๆ</option>
+      </select>
+
+      <label>จากวันที่</label>
+      <input type="date" id="startDate" />
+
+      <label>ถึงวันที่</label>
+      <input type="date" id="endDate" />
+
+      <div class="days-display" id="daysDisplay"></div>
+
+      <div id="reasonContainer" style="display:none;">
+        <label>เหตุผล</label>
+        <textarea id="reason" rows="3"></textarea>
       </div>
 
-      <div class="input-group">
-        <input type="password" id="password" required>
-        <label>Password</label>
-      </div>
+      <button class="primary-btn" id="submitBtn">
+        ส่งใบลา
+      </button>
 
-      <button class="primary-btn" onclick="login()">Login</button>
-      <div class="sub-header">by STE2000</div>
+    </div>
+
+    <h2 class="history-title">ประวัติใบลาของฉัน</h2>
+    <div id="leaveHistory"></div>
+
+  </div>
+
+  <!-- ✅ CUSTOM POPUP -->
+  <div id="customPopup" class="popup-overlay">
+    <div class="popup-box">
+      <div id="popupMessage" class="popup-message"></div>
+      <button class="popup-btn" onclick="closePopup()">ตกลง</button>
     </div>
   </div>
 
-  <!-- APP -->
- <div id="appSection" class="auth-screen">
-   
-    <!-- ✅ เพิ่ม container สำหรับ layout มือถือ -->
-    <div class="app-container">
-
-      <div class="employee-card vertical">
-
-        <div class="card-top">
-          <div class="company-title">
-            EMPOLYEE ID CARD
-            <div class="company-name">S.TUNTIVIVAT ENGINEERING 2000 CO.,LTD.</div>
-            
-          </div>
-        </div>
-
-        <div class="photo-wrapper">
-          <div class="avatar large">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
-          </div>
-        </div>
-
-        <div class="card-info">
-          <div class="emp-name" id="empName">-</div>
-          <div class="emp-position" id="empPosition">-</div>
-          <div class="emp-dept" id="empDept">-</div>
-        </div>
-
-        <div class="card-issued">
-          ID: <span id="empId">-</span>
-         &nbsp; | &nbsp;
-         ISSUED: <span id="empIssued">-</span>
-        </div>
-
-        <svg id="barcode" class="barcode"></svg>
-
-      </div>
-
-      <div class="datetime">
-        <div id="liveDate" class="date-text"></div>
-      </div>
-
-      <button id="actionBtn"
-              class="primary-btn action-btn"
-              onclick="actionHandler()">
-        เข้างาน
-        <button id="leaveBtn"
-        <button class="secondary-btn"
-        onclick="location.href='leave.html'">
-  ลางาน
-</button>
-
-      <div id="todayInfo"
-           style="margin-top:16px;font-size:14px;opacity:.85;text-align:center;">
-      </div>
-
-    </div>
-    <!-- ✅ จบ app-container -->
-
-  </div>
-
-</div>
-
-<!-- CUSTOM POPUP -->
-<div id="customPopup" class="popup-overlay">
-  <div class="popup-box">
-    <div id="popupMessage" class="popup-message"></div>
-    <button class="popup-btn" onclick="closePopup()">ตกลง</button>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-<script type="module" src="app.js"></script>
+  <script type="module" src="leave.js"></script>
 </body>
 </html>
