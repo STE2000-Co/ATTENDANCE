@@ -527,6 +527,19 @@ inputs.forEach(input => {
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
 
+  // เช็คว่าเคยเข้าแอพใน session นี้แล้วไหม
+  const hasLoaded = sessionStorage.getItem("appLoaded");
+
+  if (hasLoaded) {
+    // ไม่ต้องแสดง splash
+    splash.classList.add("hide");
+    document.body.classList.remove("loading");
+    return;
+  }
+
+  // ครั้งแรกเท่านั้น
+  sessionStorage.setItem("appLoaded", "true");
+
   setTimeout(() => {
     splash.classList.add("hide");
     document.body.classList.remove("loading");
