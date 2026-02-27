@@ -11,28 +11,30 @@ body {
 }
 
 .back-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed;      /* 🔥 ลอย */
+  top: 16px;            /* ชิดบน */
+  left: 16px;           /* ชิดซ้าย */
 
-  width: fit-content;      /* 🔥 ไม่เต็มจอ */
-  padding: 6px 12px;       /* เล็กลงชัดเจน */
+  padding: 6px 12px;
   font-size: 13px;
   font-weight: 600;
 
-  border-radius: 8px;
   border: none;
+  border-radius: 8px;
 
   background: #2b6cad;
   color: white;
 
-  margin-bottom: 16px;
   cursor: pointer;
-
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   transition: 0.2s ease;
+
+  z-index: 1000;        /* กันโดน element อื่นทับ */
 }
 
+.back-btn:hover {
+  transform: translateY(-1px);
+}
 .back-btn:hover {
   transform: translateY(-1px);
 }
