@@ -11,21 +11,30 @@ body {
 }
 
 .back-btn {
-  width: auto;              /* ไม่เต็มจอ */
-  padding: 8px 14px;        /* เล็กลง */
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;      /* 🔥 ไม่เต็มจอ */
+  padding: 6px 12px;       /* เล็กลงชัดเจน */
   font-size: 13px;
-  cursor: pointer;
+  font-weight: 600;
+
+  border-radius: 8px;
+  border: none;
 
   background: #2b6cad;
   color: white;
 
-  margin-bottom: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+  cursor: pointer;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   transition: 0.2s ease;
-  display: inline-block;
+}
+
+.back-btn:hover {
+  transform: translateY(-1px);
 }
 
 .page-title {
