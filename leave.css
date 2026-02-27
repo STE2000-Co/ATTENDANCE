@@ -11,11 +11,21 @@ body {
 }
 
 .back-btn {
-  background: none;
+  width: auto;              /* ไม่เต็มจอ */
+  padding: 8px 14px;        /* เล็กลง */
+  border-radius: 10px;
   border: none;
-  color: #1e3a8a;
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+
+  background: #2b6cad;
+  color: white;
+
+  margin-bottom: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+  display: inline-block;
 }
 
 .page-title {
