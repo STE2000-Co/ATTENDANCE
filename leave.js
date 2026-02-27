@@ -174,7 +174,13 @@ function loadLeaveHistory(uid) {
 
         card.innerHTML = `
           <div><strong>${data.leaveType}</strong></div>
-          <div>${data.startDate} - ${data.endDate}</div>
+        <div>
+          ${
+               data.startDate === data.endDate
+                ? formatDate(data.startDate)
+                : `${formatDate(data.startDate)} - ${formatDate(data.endDate)}`
+            }
+        </div>
           <div>${data.days || "-"} วัน</div>
           <div class="status ${data.status}">
             สถานะ: ${translateStatus(data.status)}
@@ -209,3 +215,10 @@ window.confirmBack = function () {
     window.location.href = "index.html";
   };
 };
+function formatDate(dateString) {
+  const d = new Date(dateString);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
