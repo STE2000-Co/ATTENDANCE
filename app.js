@@ -532,3 +532,11 @@ window.addEventListener("load", () => {
     document.body.classList.remove("loading");
   }, 2500);
 });
+window.goLeave = function () {
+  document.body.style.opacity = "0";
+  document.body.style.transition = "opacity 0.25s ease";
+
+  setTimeout(() => {
+    window.location.href = "leave.html";
+  }, 200);
+};
