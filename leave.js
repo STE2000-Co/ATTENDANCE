@@ -214,3 +214,11 @@ function formatDate(dateString) {
   const year = d.getFullYear();
   return `${day}/${month}/${year}`;
 }
+function showPopup(message) {
+  document.getElementById("popupMessage").innerText = message;
+  document.getElementById("customPopup").style.display = "flex";
+}
+
+window.closePopup = function () {
+  document.getElementById("customPopup").style.display = "none";
+};
