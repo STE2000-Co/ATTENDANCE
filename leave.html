@@ -2,15 +2,20 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>กรอกใบลา</title>
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="leave.css" />
 </head>
 <body>
 
   <div class="container">
 
-    <button class="back-btn" onclick="goBack()">
+    <!-- 🔥 ปุ่มกลับใหม่ -->
+    <button class="back-btn" onclick="confirmBack()">
+      ← กลับหน้าตอกบัตร
+    </button>
 
     <h1 class="page-title">กรอกใบลา</h1>
 
@@ -56,14 +61,23 @@
         <textarea id="reason" rows="3"></textarea>
       </div>
 
-      <button class="submit-btn" id="submitBtn">ส่งใบลา</button>
+      <button class="primary-btn" id="submitBtn">
+        ส่งใบลา
+      </button>
 
     </div>
 
     <h2 class="history-title">ประวัติใบลาของฉัน</h2>
-
     <div id="leaveHistory"></div>
 
+  </div>
+
+  <!-- ✅ CUSTOM POPUP -->
+  <div id="customPopup" class="popup-overlay">
+    <div class="popup-box">
+      <div id="popupMessage" class="popup-message"></div>
+      <button class="popup-btn" onclick="closePopup()">ตกลง</button>
+    </div>
   </div>
 
   <script type="module" src="leave.js"></script>
