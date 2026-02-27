@@ -527,23 +527,13 @@ inputs.forEach(input => {
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
 
-  // เช็คว่าเคยเข้าแอพใน session นี้แล้วไหม
-  const hasLoaded = sessionStorage.getItem("appLoaded");
+  if (!sessionStorage.getItem("appLoaded")) {
+    sessionStorage.setItem("appLoaded", "true");
 
-  if (hasLoaded) {
-    // ไม่ต้องแสดง splash
-    splash.classList.add("hide");
-    document.body.classList.remove("loading");
-    return;
+    setTimeout(() => {
+      splash.classList.add("hide");
+    }, 2000);
   }
-
-  // ครั้งแรกเท่านั้น
-  sessionStorage.setItem("appLoaded", "true");
-
-  setTimeout(() => {
-    splash.classList.add("hide");
-    document.body.classList.remove("loading");
-  }, 2500);
 });
 window.goLeave = function () {
   document.body.style.opacity = "0";
