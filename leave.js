@@ -101,12 +101,12 @@ document
 
 window.submitLeave = async function () {
   if (!auth.currentUser?.uid) {
-    alert("ยังไม่ได้เข้าสู่ระบบ");
+    showPopup("ยังไม่ได้เข้าสู่ระบบ");
     return;
   }
 
   if (!currentUserData) {
-    alert("กำลังโหลดข้อมูลผู้ใช้");
+    showPopup("กำลังโหลดข้อมูลผู้ใช้");
     return;
   }
 
@@ -117,7 +117,7 @@ window.submitLeave = async function () {
   const days = calculateDays();
 
   if (!leaveType || !startDate || !endDate) {
-    alert("กรอกข้อมูลให้ครบ");
+    showPopup("กรอกข้อมูลให้ครบ");
     return;
   }
 
@@ -142,7 +142,7 @@ window.submitLeave = async function () {
       createdAt: serverTimestamp()
     });
 
-    alert("ส่งใบลาเรียบร้อย");
+    showPopup("ส่งใบลาเรียบร้อย");
     document.getElementById("leaveType").value = "";
     document.getElementById("startDate").value = "";
     document.getElementById("endDate").value = "";
@@ -150,7 +150,7 @@ window.submitLeave = async function () {
     document.getElementById("daysDisplay").innerText = "";
 
   } catch (error) {
-    alert("เกิดข้อผิดพลาด: " + error.message);
+    showPopup("เกิดข้อผิดพลาด: " + error.message);
   }
 };
 
@@ -198,3 +198,14 @@ function translateStatus(status) {
 }
 document.getElementById("submitBtn")
   .addEventListener("click", submitLeave);
+window.confirmBack = function () {
+  document.getElementById("popupMessage").innerHTML =
+    "คุณต้องการกลับหน้าตอกบัตรหรือไม่?";
+  
+  document.getElementById("customPopup").style.display = "flex";
+
+  const btn = document.querySelector(".popup-btn");
+  btn.onclick = function () {
+    window.location.href = "index.html";
+  };
+};
