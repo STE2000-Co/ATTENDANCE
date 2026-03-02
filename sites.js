@@ -51,34 +51,38 @@ onAuthStateChanged(auth, async (user) => {
 /* ================= LOAD SITES ================= */
 
 async function loadSites() {
+
   const container = document.getElementById("siteList");
   container.innerHTML = "";
 
   const snapshot = await getDocs(collection(db, "sites"));
 
-const sites = [];
+  const sites = [];
 
-snapshot.forEach(docSnap => {
-  sites.push({
-    id: docSnap.id,
-    ...docSnap.data()
+  snapshot.forEach(docSnap => {
+    sites.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
   });
-});
 
-sites.sort((a, b) => b.isMain - a.isMain);
+  sites.sort((a, b) => b.isMain - a.isMain);
 
-sites.forEach(data => {
-  container.innerHTML += `
-    <div class="site-card">
-      <b>${data.id}</b>
-      ${data.isMain ? '<span class="gold">MAIN</span>' : ''}
-      <div>Lat: ${data.lat}</div>
-      <div>Lng: ${data.lng}</div>
-      <div>Radius: ${data.radius}</div>
-      <div>Status: ${data.active ? 'Active' : 'Inactive'}</div>
-    </div>
-  `;
-});
+  sites.forEach(data => {
+    container.innerHTML += `
+      <div class="site-card">
+        <b>${data.id}</b>
+        ${data.isMain ? '<span class="gold">MAIN</span>' : ''}
+        <div>Lat: ${data.lat}</div>
+        <div>Lng: ${data.lng}</div>
+        <div>Radius: ${data.radius}</div>
+        <div>Status: ${data.active ? 'Active' : 'Inactive'}</div>
+      </div>
+    `;
+  });
+
+} // 🔥 ตัวนี้คือที่คุณลืม
+
 /* ================= ADD SITE ================= */
 
 window.addSite = async function () {
@@ -90,13 +94,13 @@ window.addSite = async function () {
   const isMain = document.getElementById("isMain").checked;
 
   if (
-  !name ||
-  isNaN(lat) ||
-  isNaN(lng) ||
-  isNaN(radius)
+    !name ||
+    isNaN(lat) ||
+    isNaN(lng) ||
+    isNaN(radius)
   ) {
-  alert("กรอกข้อมูลให้ครบและถูกต้อง");
-  return;
+    alert("กรอกข้อมูลให้ครบและถูกต้อง");
+    return;
   }
 
   if (isMain) {
@@ -117,11 +121,12 @@ window.addSite = async function () {
     active: true,
     isMain
   });
-document.getElementById("name").value = "";
-document.getElementById("lat").value = "";
-document.getElementById("lng").value = "";
-document.getElementById("radius").value = "";
-document.getElementById("isMain").checked = false;
+
+  document.getElementById("name").value = "";
+  document.getElementById("lat").value = "";
+  document.getElementById("lng").value = "";
+  document.getElementById("radius").value = "";
+  document.getElementById("isMain").checked = false;
+
   loadSites();
 };
-}
