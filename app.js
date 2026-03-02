@@ -541,5 +541,5 @@ window.goLeave = function () {
 
   setTimeout(() => {
     window.location.href = "leave.html";
-  }, 200);
+  }, 1000);
 };
