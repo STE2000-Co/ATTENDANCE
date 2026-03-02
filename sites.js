@@ -124,3 +124,4 @@ document.getElementById("radius").value = "";
 document.getElementById("isMain").checked = false;
   loadSites();
 };
+}
