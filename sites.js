@@ -56,22 +56,29 @@ async function loadSites() {
 
   const snapshot = await getDocs(collection(db, "sites"));
 
-  snapshot.forEach(docSnap => {
-    const data = docSnap.data();
+const sites = [];
 
-    container.innerHTML += `
-      <div class="site-card">
-        <b>${docSnap.id}</b>
-        ${data.isMain ? '<span class="gold">MAIN</span>' : ''}
-        <div>Lat: ${data.lat}</div>
-        <div>Lng: ${data.lng}</div>
-        <div>Radius: ${data.radius}</div>
-        <div>Status: ${data.active ? 'Active' : 'Inactive'}</div>
-      </div>
-    `;
+snapshot.forEach(docSnap => {
+  sites.push({
+    id: docSnap.id,
+    ...docSnap.data()
   });
-}
+});
 
+sites.sort((a, b) => b.isMain - a.isMain);
+
+sites.forEach(data => {
+  container.innerHTML += `
+    <div class="site-card">
+      <b>${data.id}</b>
+      ${data.isMain ? '<span class="gold">MAIN</span>' : ''}
+      <div>Lat: ${data.lat}</div>
+      <div>Lng: ${data.lng}</div>
+      <div>Radius: ${data.radius}</div>
+      <div>Status: ${data.active ? 'Active' : 'Inactive'}</div>
+    </div>
+  `;
+});
 /* ================= ADD SITE ================= */
 
 window.addSite = async function () {
@@ -82,9 +89,14 @@ window.addSite = async function () {
   const radius = parseFloat(document.getElementById("radius").value);
   const isMain = document.getElementById("isMain").checked;
 
-  if (!name || !lat || !lng || !radius) {
-    alert("กรอกข้อมูลให้ครบ");
-    return;
+  if (
+  !name ||
+  isNaN(lat) ||
+  isNaN(lng) ||
+  isNaN(radius)
+  ) {
+  alert("กรอกข้อมูลให้ครบและถูกต้อง");
+  return;
   }
 
   if (isMain) {
@@ -105,6 +117,10 @@ window.addSite = async function () {
     active: true,
     isMain
   });
-
+document.getElementById("name").value = "";
+document.getElementById("lat").value = "";
+document.getElementById("lng").value = "";
+document.getElementById("radius").value = "";
+document.getElementById("isMain").checked = false;
   loadSites();
 };
