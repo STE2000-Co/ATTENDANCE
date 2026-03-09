@@ -163,6 +163,6 @@ ${rows}
 
 document.getElementById("totalStaff").innerText = totalStaff;
 document.getElementById("checkedIn").innerText = totalCheckin;
-document.getElementById("leaveCount").innerText = totalLeave;
+document.getElementById("absent").innerText = totalLeave;
 
 };
