@@ -15,6 +15,7 @@ const firebaseConfig = {
   storageBucket: "system-base-8b777.firebasestorage.app",
   messagingSenderId: "749702522934",
   appId: "1:749702522934:web:5664ccfd9d04ae88985097"
+}
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
