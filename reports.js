@@ -180,8 +180,8 @@ const res = await fetch("templateรายงานการเข้างา�
 const buffer = await res.arrayBuffer();
 const workbook = XLSX.read(buffer,{type:"array"});
 
-const template = workbook.Sheets["template"];
-
+const templateName = workbook.SheetNames[0];
+const template = workbook.Sheets[templateName];
 /* โหลดข้อมูล */
 
 const attendanceSnap = await getDocs(collection(db,"attendance"));
@@ -357,8 +357,8 @@ row++;
 
 /* ลบ template */
 
-delete workbook.Sheets["template"];
-workbook.SheetNames = workbook.SheetNames.filter(s=>s!=="template");
+delete workbook.Sheets[templateName];
+workbook.SheetNames = workbook.SheetNames.filter(s=>s!==templateName);
 
 /* export */
 
