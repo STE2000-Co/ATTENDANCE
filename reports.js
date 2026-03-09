@@ -4,8 +4,6 @@ import {
 getFirestore,
 collection,
 getDocs,
-query,
-where,
 doc,
 getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -63,42 +61,49 @@ alert("เลือกช่วงวันที่");
 return;
 }
 
-const q = query(
-collection(db,"attendance"),
-where("date",">=",start),
-where("date","<=",end)
-);
-
-const snapshot = await getDocs(q);
+const snapshot = await getDocs(collection(db,"attendance"));
 
 const table = document.getElementById("reportTable");
 table.innerHTML="";
 
-let total=0;
-let checked=0;
+let total = 0;
+let checked = 0;
 
-snapshot.forEach(docSnap=>{
+for(const docSnap of snapshot.docs){
 
+const userId = docSnap.id;
 const data = docSnap.data();
+const days = data.days || {};
+
+const userDoc = await getDoc(doc(db,"users",userId));
+const userName = userDoc.exists() ? userDoc.data().name : userId;
+
+for(const date in days){
+
+if(date < start || date > end) continue;
+
+const day = days[date];
 
 total++;
 
-if(data.checkIn){
+if(day.clockIn){
 checked++;
 }
 
 table.innerHTML += `
 <tr>
-<td>${data.name}</td>
-<td>${data.date}</td>
-<td>${data.checkIn || "-"}</td>
-<td>${data.checkOut || "-"}</td>
-<td>${data.site || "-"}</td>
-<td>${data.status || "-"}</td>
+<td>${userName}</td>
+<td>${date}</td>
+<td>${day.clockIn ? new Date(day.clockIn.seconds*1000).toLocaleTimeString() : "-"}</td>
+<td>${day.clockOut ? new Date(day.clockOut.seconds*1000).toLocaleTimeString() : "-"}</td>
+<td>${day.siteName || "-"}</td>
+<td>${day.checkoutOutside ? "ออกนอกพื้นที่" : "ปกติ"}</td>
 </tr>
 `;
 
-});
+}
+
+}
 
 document.getElementById("totalStaff").innerText = total;
 document.getElementById("checkedIn").innerText = checked;
