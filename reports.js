@@ -53,60 +53,92 @@ return;
 
 window.loadReport = async function(){
 
-const start = document.getElementById("startDate").value;
-const end = document.getElementById("endDate").value;
+const monthInput = document.getElementById("reportMonth").value;
 
-if(!start || !end){
-alert("เลือกช่วงวันที่");
+if(!monthInput){
+alert("เลือกเดือน");
 return;
 }
 
-const snapshot = await getDocs(collection(db,"attendance"));
+const [year,month] = monthInput.split("-");
+
+const attendanceSnap = await getDocs(collection(db,"attendance"));
+const leaveSnap = await getDocs(collection(db,"leaveRequests"));
+
+const leaveMap = {};
+
+leaveSnap.forEach(doc=>{
+const d = doc.data();
+
+if(d.status === "approved"){
+leaveMap[d.userId+"_"+d.date] = true;
+}
+});
 
 const table = document.getElementById("reportTable");
 table.innerHTML="";
 
-let total = 0;
-let checked = 0;
+let totalCheckin = 0;
+let totalLeave = 0;
+let totalStaff = 0;
 
-for(const docSnap of snapshot.docs){
+for(const docSnap of attendanceSnap.docs){
 
 const userId = docSnap.id;
 const data = docSnap.data();
 const days = data.days || {};
 
 const userDoc = await getDoc(doc(db,"users",userId));
-const userName = userDoc.exists() ? userDoc.data().name : userId;
+const name = userDoc.exists() ? userDoc.data().name : userId;
+
+let userRows="";
 
 for(const date in days){
 
-if(date < start || date > end) continue;
+if(!date.startsWith(`${year}-${month}`)) continue;
 
 const day = days[date];
 
-total++;
+let status = "ปกติ";
 
-if(day.clockIn){
-checked++;
+if(leaveMap[userId+"_"+date]){
+status = "ลา";
+totalLeave++;
 }
 
-table.innerHTML += `
+if(day.clockIn){
+totalCheckin++;
+}
+
+userRows += `
 <tr>
-<td>${userName}</td>
 <td>${date}</td>
 <td>${day.clockIn ? new Date(day.clockIn.seconds*1000).toLocaleTimeString() : "-"}</td>
 <td>${day.clockOut ? new Date(day.clockOut.seconds*1000).toLocaleTimeString() : "-"}</td>
 <td>${day.siteName || "-"}</td>
-<td>${day.checkoutOutside ? "ออกนอกพื้นที่" : "ปกติ"}</td>
+<td>${status}</td>
 </tr>
+`;
+
+}
+
+if(userRows){
+
+totalStaff++;
+
+table.innerHTML += `
+<tr class="userHeader">
+<td colspan="5"><b>${name}</b></td>
+</tr>
+${userRows}
 `;
 
 }
 
 }
 
-document.getElementById("totalStaff").innerText = total;
-document.getElementById("checkedIn").innerText = checked;
-document.getElementById("absent").innerText = total - checked;
+document.getElementById("totalStaff").innerText = totalStaff;
+document.getElementById("checkedIn").innerText = totalCheckin;
+document.getElementById("leaveCount").innerText = totalLeave;
 
 };
