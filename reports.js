@@ -129,7 +129,8 @@ status = "ออกนอกพื้นที่";
 if(day.clockIn){
 totalCheckin++;
 }
-
+const [y, m, d] = date.split("-");
+const formattedDate = `${d}/${m}/${y}`;
 rows += `
 <tr>
 <td>${date}</td>
