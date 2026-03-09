@@ -166,4 +166,23 @@ document.getElementById("totalStaff").innerText = totalStaff;
 document.getElementById("checkedIn").innerText = totalCheckin;
 document.getElementById("absent").innerText = totalLeave;
 
+window.exportExcel = async function(){
+
+  try{
+
+    // โหลด template
+    const response = await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
+    const arrayBuffer = await response.arrayBuffer();
+
+    // อ่านไฟล์ excel
+    const workbook = XLSX.read(arrayBuffer, { type: "array" });
+
+    // ดาวน์โหลดไฟล์
+    XLSX.writeFile(workbook, "attendance_report.xlsx");
+
+  }catch(err){
+    console.error(err);
+    alert("Export ไม่สำเร็จ");
+  }
+
 };
