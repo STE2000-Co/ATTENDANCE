@@ -99,6 +99,11 @@ th{
 background:#f9fafb;
 }
 .userHeader{
-background:#e8f0ff;
-font-size:16px;
+background:#e9eef7;
+font-weight:600;
+font-size:15px;
+}
+
+.userHeader td{
+padding:10px;
 }
