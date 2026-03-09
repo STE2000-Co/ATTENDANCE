@@ -67,6 +67,8 @@ const leaveSnap = await getDocs(collection(db,"leaveRequests"));
 
 const leaveMap = {};
 
+/* เก็บข้อมูลการลาที่อนุมัติแล้ว */
+
 leaveSnap.forEach(doc=>{
 const d = doc.data();
 
@@ -77,6 +79,12 @@ leaveMap[d.userId+"_"+d.date] = true;
 
 const table = document.getElementById("reportTable");
 table.innerHTML="";
+
+/* ตัวแปรสรุป */
+
+let totalStaff = 0;
+let totalCheckin = 0;
+let totalLeave = 0;
 
 for(const docSnap of attendanceSnap.docs){
 
@@ -103,7 +111,24 @@ const checkOut = day.clockOut
 ? new Date(day.clockOut.seconds*1000).toLocaleTimeString()
 : "-";
 
-const status = day.checkoutOutside ? "ออกนอกพื้นที่" : "ปกติ";
+/* เช็คสถานะ */
+
+let status = "ปกติ";
+
+if(leaveMap[userId+"_"+date]){
+status = "ลา";
+totalLeave++;
+}
+
+if(day.checkoutOutside){
+status = "ออกนอกพื้นที่";
+}
+
+/* นับการเข้างาน */
+
+if(day.clockIn){
+totalCheckin++;
+}
 
 rows += `
 <tr>
@@ -117,7 +142,11 @@ rows += `
 
 }
 
+/* ถ้ามีพนักงานในเดือนนี้ */
+
 if(rows){
+
+totalStaff++;
 
 table.innerHTML += `
 <tr class="userHeader">
@@ -129,6 +158,8 @@ ${rows}
 }
 
 }
+
+/* แสดงสรุปด้านบน */
 
 document.getElementById("totalStaff").innerText = totalStaff;
 document.getElementById("checkedIn").innerText = totalCheckin;
