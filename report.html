@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>รายงาน Attendance</title>
+<link rel="stylesheet" href="reports.css">
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<h2>รายงานการเข้างาน</h2>
+
+<div class="filter-card">
+
+<input type="date" id="startDate">
+<input type="date" id="endDate">
+
+<button onclick="loadReport()">โหลดรายงาน</button>
+
+</div>
+
+<div class="summary">
+
+<div class="card">
+<div class="label">พนักงานทั้งหมด</div>
+<div id="totalStaff" class="value">0</div>
+</div>
+
+<div class="card">
+<div class="label">เข้างาน</div>
+<div id="checkedIn" class="value green">0</div>
+</div>
+
+<div class="card">
+<div class="label">ยังไม่เข้างาน</div>
+<div id="absent" class="value red">0</div>
+</div>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>พนักงาน</th>
+<th>วันที่</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>Site</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="reportTable"></tbody>
+
+</table>
+
+</div>
+
+<script type="module" src="reports.js"></script>
+
+</body>
+</html>
