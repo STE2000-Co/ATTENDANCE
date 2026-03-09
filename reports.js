@@ -220,12 +220,23 @@ const userDoc = await getDoc(doc(db,"users",userId));
 const name = userDoc.exists() ? userDoc.data().name : userId;
 const employeeId = userDoc.exists() ? userDoc.data().employeeId : "-";
 
-/* clone template */
+/* clone template (แก้ตรงนี้) */
 
-const sheet = JSON.parse(JSON.stringify(template));
+const sheet = {...template};
+sheet["!ref"] = template["!ref"];
 
-workbook.SheetNames.push(name);
-workbook.Sheets[name] = sheet;
+/* กันชื่อ sheet ซ้ำ */
+
+let sheetName = name;
+let count = 1;
+
+while(workbook.SheetNames.includes(sheetName)){
+sheetName = `${name}_${count}`;
+count++;
+}
+
+workbook.SheetNames.push(sheetName);
+workbook.Sheets[sheetName] = sheet;
 
 /* header */
 
@@ -344,10 +355,12 @@ row++;
 
 }
 
-/* ลบ template sheet */
+/* ลบ template */
 
 delete workbook.Sheets["template"];
 workbook.SheetNames = workbook.SheetNames.filter(s=>s!=="template");
+
+/* export */
 
 XLSX.writeFile(workbook,`attendance_${month}_${year}.xlsx`);
 
