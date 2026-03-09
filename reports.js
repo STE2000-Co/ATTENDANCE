@@ -5,20 +5,53 @@ getFirestore,
 collection,
 getDocs,
 query,
-where
+where,
+doc,
+getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBIgAvKSmqBGzKWvnb0FgxOPVrDHp8TDaA",
-  authDomain: "system-base-8b777.firebaseapp.com",
-  projectId: "system-base-8b777",
-  storageBucket: "system-base-8b777.firebasestorage.app",
-  messagingSenderId: "749702522934",
-  appId: "1:749702522934:web:5664ccfd9d04ae88985097"
-}
+apiKey: "AIzaSyBIgAvKSmqBGzKWvnb0FgxOPVrDHp8TDaA",
+authDomain: "system-base-8b777.firebaseapp.com",
+projectId: "system-base-8b777",
+storageBucket: "system-base-8b777.firebasestorage.app",
+messagingSenderId: "749702522934",
+appId: "1:749702522934:web:5664ccfd9d04ae88985097"
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+
+/* ================= AUTH CHECK ================= */
+
+onAuthStateChanged(auth, async (user)=>{
+
+if(!user){
+alert("กรุณาเข้าสู่ระบบก่อน");
+window.location.href="index.html";
+return;
+}
+
+const userSnap = await getDoc(doc(db,"users",user.uid));
+
+if(!userSnap.exists() || userSnap.data().role !== "admin"){
+alert("คุณไม่มีสิทธิ์เข้าหน้านี้");
+window.location.href="index.html";
+return;
+}
+
+});
+
+
+/* ================= LOAD REPORT ================= */
 
 window.loadReport = async function(){
 
@@ -46,7 +79,7 @@ let checked=0;
 
 snapshot.forEach(docSnap=>{
 
-const data=docSnap.data();
+const data = docSnap.data();
 
 total++;
 
@@ -54,7 +87,7 @@ if(data.checkIn){
 checked++;
 }
 
-table.innerHTML+=`
+table.innerHTML += `
 <tr>
 <td>${data.name}</td>
 <td>${data.date}</td>
@@ -67,8 +100,8 @@ table.innerHTML+=`
 
 });
 
-document.getElementById("totalStaff").innerText=total;
-document.getElementById("checkedIn").innerText=checked;
-document.getElementById("absent").innerText=total-checked;
+document.getElementById("totalStaff").innerText = total;
+document.getElementById("checkedIn").innerText = checked;
+document.getElementById("absent").innerText = total - checked;
 
-}
+};
