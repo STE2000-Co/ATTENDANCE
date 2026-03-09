@@ -67,11 +67,8 @@ const leaveSnap = await getDocs(collection(db,"leaveRequests"));
 
 const leaveMap = {};
 
-/* เก็บข้อมูลการลาที่อนุมัติแล้ว */
-
 leaveSnap.forEach(doc=>{
 const d = doc.data();
-
 if(d.status === "approved"){
 leaveMap[d.userId+"_"+d.date] = true;
 }
@@ -79,8 +76,6 @@ leaveMap[d.userId+"_"+d.date] = true;
 
 const table = document.getElementById("reportTable");
 table.innerHTML="";
-
-/* ตัวแปรสรุป */
 
 let totalStaff = 0;
 let totalCheckin = 0;
@@ -111,8 +106,6 @@ const checkOut = day.clockOut
 ? new Date(day.clockOut.seconds*1000).toLocaleTimeString()
 : "-";
 
-/* เช็คสถานะ */
-
 let status = "ปกติ";
 
 if(leaveMap[userId+"_"+date]){
@@ -124,16 +117,16 @@ if(day.checkoutOutside){
 status = "ออกนอกพื้นที่";
 }
 
-/* นับการเข้างาน */
-
 if(day.clockIn){
 totalCheckin++;
 }
-const [y, m, d] = date.split("-");
+
+const [y,m,d] = date.split("-");
 const formattedDate = `${d}/${m}/${y}`;
+
 rows += `
 <tr>
-<td>${date}</td>
+<td>${formattedDate}</td>
 <td>${checkIn}</td>
 <td>${checkOut}</td>
 <td>${day.siteName || "-"}</td>
@@ -142,8 +135,6 @@ rows += `
 `;
 
 }
-
-/* ถ้ามีพนักงานในเดือนนี้ */
 
 if(rows){
 
@@ -160,30 +151,211 @@ ${rows}
 
 }
 
-/* แสดงสรุปด้านบน */
-
 document.getElementById("totalStaff").innerText = totalStaff;
 document.getElementById("checkedIn").innerText = totalCheckin;
 document.getElementById("absent").innerText = totalLeave;
 
+};
+
+
+
+/* ================= EXPORT EXCEL ================= */
+
 window.exportExcel = async function(){
 
-  try{
+try{
 
-    // โหลด template
-    const response = await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
-    const arrayBuffer = await response.arrayBuffer();
+const monthInput = document.getElementById("reportMonth").value;
 
-    // อ่านไฟล์ excel
-    const workbook = XLSX.read(arrayBuffer, { type: "array" });
+if(!monthInput){
+alert("เลือกเดือนก่อน");
+return;
+}
 
-    // ดาวน์โหลดไฟล์
-    XLSX.writeFile(workbook, "attendance_report.xlsx");
+const [year,month] = monthInput.split("-");
 
-  }catch(err){
-    console.error(err);
-    alert("Export ไม่สำเร็จ");
-  }
+/* โหลด template */
 
-};
+const res = await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
+const buffer = await res.arrayBuffer();
+const workbook = XLSX.read(buffer,{type:"array"});
+
+const template = workbook.Sheets["template"];
+
+/* โหลดข้อมูล */
+
+const attendanceSnap = await getDocs(collection(db,"attendance"));
+const leaveSnap = await getDocs(collection(db,"leaveRequests"));
+
+const leaveMap = {};
+
+leaveSnap.forEach(doc=>{
+const d = doc.data();
+if(d.status === "approved"){
+leaveMap[d.userId+"_"+d.date] = true;
+}
+});
+
+/* สร้างช่วงวันที่ 25 → 24 */
+
+const start = new Date(year,month-2,25);
+const end = new Date(year,month-1,24);
+
+const dates = [];
+
+let cur = new Date(start);
+
+while(cur<=end){
+dates.push(new Date(cur));
+cur.setDate(cur.getDate()+1);
+}
+
+for(const docSnap of attendanceSnap.docs){
+
+const userId = docSnap.id;
+const data = docSnap.data();
+const days = data.days || {};
+
+const userDoc = await getDoc(doc(db,"users",userId));
+const name = userDoc.exists() ? userDoc.data().name : userId;
+const employeeId = userDoc.exists() ? userDoc.data().employeeId : "-";
+
+/* clone template */
+
+const sheet = JSON.parse(JSON.stringify(template));
+
+workbook.SheetNames.push(name);
+workbook.Sheets[name] = sheet;
+
+/* header */
+
+sheet["B2"] = {t:"s",v:employeeId};
+sheet["B3"] = {t:"s",v:name};
+sheet["B5"] = {t:"s",v:`${month}/${year}`};
+
+let row = 8;
+
+for(const dateObj of dates){
+
+const y = dateObj.getFullYear();
+const m = String(dateObj.getMonth()+1).padStart(2,"0");
+const d = String(dateObj.getDate()).padStart(2,"0");
+
+const firestoreDate = `${y}-${m}-${d}`;
+const excelDate = `${d}/${m}/${y}`;
+
+const day = days[firestoreDate];
+
+let clockIn="-";
+let clockOut="-";
+let siteIn="-";
+let siteOut="-";
+let ot="-";
+let status="-";
+
+const dayOfWeek = dateObj.getDay();
+
+/* ลา */
+
+if(leaveMap[userId+"_"+firestoreDate]){
+status="ลา";
+}
+
+/* อาทิตย์ */
+
+else if(dayOfWeek===0){
+status="วันหยุด";
+}
+
+/* มี attendance */
+
+else if(day){
+
+if(day.clockIn){
+clockIn=new Date(day.clockIn.seconds*1000)
+.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+}
+
+if(day.clockOut){
+clockOut=new Date(day.clockOut.seconds*1000)
+.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+}
+
+siteIn=day.siteName || "-";
+
+siteOut=day.checkoutOutside ? "นอกพื้นที่" : day.siteName || "-";
+
+/* สาย */
+
+let late=false;
+
+if(clockIn!=="-" && clockIn>"08:00"){
+late=true;
+}
+
+/* OT */
+
+if(clockOut!=="-"){
+
+const [h,m]=clockOut.split(":").map(Number);
+const minutes=h*60+m;
+
+let base=1080;
+
+if(dayOfWeek===0){
+base=480;
+}
+
+const diff=minutes-base;
+
+if(diff>0){
+
+const oh=Math.floor(diff/60);
+const om=diff%60;
+
+ot=`${oh}:${String(om).padStart(2,"0")}`;
+
+}
+
+}
+
+/* status */
+
+if(late && ot!=="-") status="สาย,OT";
+else if(late) status="สาย";
+else if(ot!=="-") status="OT";
+else status="ปกติ";
+
+}
+
+/* ใส่ข้อมูล */
+
+sheet[`A${row}`]={t:"s",v:excelDate};
+sheet[`B${row}`]={t:"s",v:clockIn};
+sheet[`C${row}`]={t:"s",v:clockOut};
+sheet[`D${row}`]={t:"s",v:siteIn};
+sheet[`E${row}`]={t:"s",v:siteOut};
+sheet[`F${row}`]={t:"s",v:ot};
+sheet[`G${row}`]={t:"s",v:status};
+
+row++;
+
+}
+
+}
+
+/* ลบ template sheet */
+
+delete workbook.Sheets["template"];
+workbook.SheetNames = workbook.SheetNames.filter(s=>s!=="template");
+
+XLSX.writeFile(workbook,`attendance_${month}_${year}.xlsx`);
+
+}catch(err){
+
+console.error(err);
+alert("Export ไม่สำเร็จ");
+
+}
+
 };
