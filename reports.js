@@ -78,10 +78,6 @@ leaveMap[d.userId+"_"+d.date] = true;
 const table = document.getElementById("reportTable");
 table.innerHTML="";
 
-let totalCheckin = 0;
-let totalLeave = 0;
-let totalStaff = 0;
-
 for(const docSnap of attendanceSnap.docs){
 
 const userId = docSnap.id;
@@ -91,7 +87,7 @@ const days = data.days || {};
 const userDoc = await getDoc(doc(db,"users",userId));
 const name = userDoc.exists() ? userDoc.data().name : userId;
 
-let userRows="";
+let rows = "";
 
 for(const date in days){
 
@@ -99,22 +95,21 @@ if(!date.startsWith(`${year}-${month}`)) continue;
 
 const day = days[date];
 
-let status = "ปกติ";
+const checkIn = day.clockIn
+? new Date(day.clockIn.seconds*1000).toLocaleTimeString()
+: "-";
 
-if(leaveMap[userId+"_"+date]){
-status = "ลา";
-totalLeave++;
-}
+const checkOut = day.clockOut
+? new Date(day.clockOut.seconds*1000).toLocaleTimeString()
+: "-";
 
-if(day.clockIn){
-totalCheckin++;
-}
+const status = day.checkoutOutside ? "ออกนอกพื้นที่" : "ปกติ";
 
-userRows += `
+rows += `
 <tr>
 <td>${date}</td>
-<td>${day.clockIn ? new Date(day.clockIn.seconds*1000).toLocaleTimeString() : "-"}</td>
-<td>${day.clockOut ? new Date(day.clockOut.seconds*1000).toLocaleTimeString() : "-"}</td>
+<td>${checkIn}</td>
+<td>${checkOut}</td>
 <td>${day.siteName || "-"}</td>
 <td>${status}</td>
 </tr>
@@ -122,15 +117,13 @@ userRows += `
 
 }
 
-if(userRows){
-
-totalStaff++;
+if(rows){
 
 table.innerHTML += `
 <tr class="userHeader">
-<td colspan="5"><b>${name}</b></td>
+<td colspan="5">${name}</td>
 </tr>
-${userRows}
+${rows}
 `;
 
 }
