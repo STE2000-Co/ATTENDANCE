@@ -182,6 +182,8 @@ const workbook = XLSX.read(buffer,{type:"array"});
 
 const templateName = workbook.SheetNames[0];
 const template = workbook.Sheets[templateName];
+
+
 /* โหลดข้อมูล */
 
 const attendanceSnap = await getDocs(collection(db,"attendance"));
@@ -196,19 +198,22 @@ leaveMap[d.userId+"_"+d.date] = true;
 }
 });
 
+
 /* สร้างช่วงวันที่ 25 → 24 */
 
 const start = new Date(year,month-2,25);
 const end = new Date(year,month-1,24);
 
 const dates = [];
-
 let cur = new Date(start);
 
 while(cur<=end){
 dates.push(new Date(cur));
 cur.setDate(cur.getDate()+1);
 }
+
+
+/* สร้าง sheet */
 
 for(const docSnap of attendanceSnap.docs){
 
@@ -220,8 +225,19 @@ const userDoc = await getDoc(doc(db,"users",userId));
 const name = userDoc.exists() ? userDoc.data().name : userId;
 const employeeId = userDoc.exists() ? userDoc.data().employeeId : "-";
 
-/* clone template (แก้ตรงนี้) */
+
+/* clone template */
+
 const sheet = structuredClone(template);
+
+/* copy layout */
+
+sheet["!cols"] = template["!cols"];
+sheet["!rows"] = template["!rows"];
+sheet["!merges"] = template["!merges"];
+
+
+/* ตั้งชื่อ sheet */
 
 let sheetName = name;
 let count = 1;
@@ -234,13 +250,17 @@ count++;
 workbook.SheetNames.push(sheetName);
 workbook.Sheets[sheetName] = sheet;
 
+
 /* header */
 
 sheet["B2"] = {t:"s",v:employeeId};
 sheet["B3"] = {t:"s",v:name};
 sheet["B5"] = {t:"s",v:`${month}/${year}`};
 
-let row = 8;
+
+/* เริ่ม row 7 */
+
+let row = 7;
 
 for(const dateObj of dates){
 
@@ -262,17 +282,20 @@ let status="-";
 
 const dayOfWeek = dateObj.getDay();
 
+
 /* ลา */
 
 if(leaveMap[userId+"_"+firestoreDate]){
 status="ลา";
 }
 
-/* อาทิตย์ */
+
+/* วันอาทิตย์ */
 
 else if(dayOfWeek===0){
 status="วันหยุด";
 }
+
 
 /* มี attendance */
 
@@ -292,6 +315,7 @@ siteIn=day.siteName || "-";
 
 siteOut=day.checkoutOutside ? "นอกพื้นที่" : day.siteName || "-";
 
+
 /* สาย */
 
 let late=false;
@@ -299,6 +323,7 @@ let late=false;
 if(clockIn!=="-" && clockIn>"08:00"){
 late=true;
 }
+
 
 /* OT */
 
@@ -308,10 +333,6 @@ const [h,m]=clockOut.split(":").map(Number);
 const minutes=h*60+m;
 
 let base=1080;
-
-if(dayOfWeek===0){
-base=480;
-}
 
 const diff=minutes-base;
 
@@ -326,6 +347,7 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 
 }
 
+
 /* status */
 
 if(late && ot!=="-") status="สาย,OT";
@@ -334,6 +356,7 @@ else if(ot!=="-") status="OT";
 else status="ปกติ";
 
 }
+
 
 /* ใส่ข้อมูล */
 
@@ -351,10 +374,12 @@ row++;
 
 }
 
+
 /* ลบ template */
 
 delete workbook.Sheets[templateName];
 workbook.SheetNames = workbook.SheetNames.filter(s=>s!==templateName);
+
 
 /* export */
 
