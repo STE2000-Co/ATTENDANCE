@@ -541,6 +541,6 @@ window.goLeave = function () {
   document.body.style.transition = "opacity 0.25s ease";
 
   setTimeout(() => {
-    window.location.href = "leave.html";
+   window.location.replace("leave.html");
   }, 1000);
 };
