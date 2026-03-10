@@ -512,7 +512,7 @@ async function processAttendance(isCheckin) {
   return true;
 }
 
-/* ===== PWA Keyboard Fix (iOS) ===== */
+// ===== PWA Keyboard Fix (iOS) =====
 
 const loginSection = document.getElementById("loginSection");
 const inputs = document.querySelectorAll("#loginSection input");
@@ -520,17 +520,16 @@ const inputs = document.querySelectorAll("#loginSection input");
 inputs.forEach(input => {
   input.addEventListener("focus", () => {
     loginSection.style.alignItems = "flex-start";
-    loginSection.style.paddingTop = "80px";
+    loginSection.style.paddingTop = "80px"; 
   });
 
   input.addEventListener("blur", () => {
     setTimeout(() => {
       loginSection.style.alignItems = "center";
       loginSection.style.paddingTop = "0px";
-    }, 150);
+    }, 150); // รอ keyboard ปิดก่อนค่อยคืนตำแหน่ง
   });
 });
-
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
 
@@ -542,7 +541,6 @@ window.addEventListener("load", () => {
     }, 2000);
   }
 });
-
 window.goLeave = function () {
   document.body.style.opacity = "0";
   document.body.style.transition = "opacity 0.25s ease";
