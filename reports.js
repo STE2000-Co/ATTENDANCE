@@ -123,6 +123,20 @@ const days=data.days||{};
 const name=users[userId]?.name||userId;
 
 
+/* ===== USER HEADER ===== */
+
+const header=document.createElement("tr");
+header.className="userHeader";
+
+header.innerHTML=`
+<td colspan="7">👤 ${name}</td>
+`;
+
+tbody.appendChild(header);
+
+
+/* ===== LOOP DATES ===== */
+
 dates.forEach(dateObj=>{
 
 const y=dateObj.getFullYear();
@@ -204,6 +218,8 @@ else status="ปกติ";
 }
 
 
+/* ===== STORE DATA ===== */
+
 const row={
 name,
 date,
@@ -217,11 +233,13 @@ status
 reportData.push(row);
 
 
+/* ===== TABLE ROW ===== */
+
 const tr=document.createElement("tr");
 
 tr.innerHTML=`
 
-<td>${name}</td>
+<td></td>
 <td>${date}</td>
 <td>${clockIn}</td>
 <td>${clockOut}</td>
