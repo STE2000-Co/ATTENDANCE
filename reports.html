@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Attendance Reports</title>
+<title>Reports</title>
 
 <link rel="stylesheet" href="reports.css">
 
@@ -13,9 +13,13 @@
 
 <body>
 
-<h1>รายงานการเข้างาน</h1>
+<div class="report-container">
 
-<div class="controls">
+<div class="report-header">
+<h1>รายงานการเข้างาน</h1>
+</div>
+
+<div class="report-controls">
 
 <input type="month" id="reportMonth">
 
@@ -30,7 +34,9 @@ Export Excel
 </div>
 
 
-<table id="reportTable">
+<div class="report-table">
+
+<table>
 
 <thead>
 
@@ -50,6 +56,9 @@ Export Excel
 
 </table>
 
+</div>
+
+</div>
 
 <script type="module" src="reports.js"></script>
 
