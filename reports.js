@@ -95,50 +95,29 @@ return R*c;
 }
 
 
-/* FIND SITE */
+/* CHECK OUTSIDE */
 
-function findSite(lat,lng,sites){
+function checkOutside(lat,lng,siteName,sites){
 
-if(!lat || !lng) return "-";
+if(!lat || !lng || !siteName) return siteName;
 
-let insideSite=null;
-let nearest=null;
-let nearestDist=999999;
+const site = sites.find(s=>s.name===siteName);
 
-sites.forEach(site=>{
+if(!site) return siteName;
 
-const siteLat=Number(site.lat ?? site.latitude);
-const siteLng=Number(site.lng ?? site.longitude);
-
-if(!siteLat || !siteLng) return;
+const siteLat=Number(site.lat);
+const siteLng=Number(site.lng);
+const radius=Number(site.radius)||0;
 
 const dist=distance(lat,lng,siteLat,siteLng);
 
-const radius=Number(site.radius)||0;
-
-const siteName=site.name ?? site.siteName ?? "-";
-
 if(dist<=radius){
-insideSite=siteName;
+return siteName;
 }
 
-if(dist<nearestDist){
-nearestDist=dist;
-nearest=siteName;
-}
+const outside=((dist-radius)/1000).toFixed(2);
 
-});
-
-if(insideSite){
-return insideSite;
-}
-
-if(nearest){
-const km=(nearestDist/1000).toFixed(2);
-return `นอกพื้นที่ ${km} กม. (${nearest})`;
-}
-
-return "-";
+return `นอกพื้นที่ ${outside} กม.`;
 
 }
 
@@ -361,24 +340,28 @@ clockOut=getTime(day.clockOut);
 
 /* SITE IN */
 
-if(day.locationIn){
+siteIn = day.siteIn ?? "-";
+
+if(day.locationIn && day.siteIn){
 
 const lat=day.locationIn.lat ?? day.locationIn.latitude;
 const lng=day.locationIn.lng ?? day.locationIn.longitude;
 
-siteIn=findSite(lat,lng,sites);
+siteIn = checkOutside(lat,lng,day.siteIn,sites);
 
 }
 
 
 /* SITE OUT */
 
-if(day.locationOut){
+siteOut = day.siteOut ?? "-";
+
+if(day.locationOut && day.siteOut){
 
 const lat=day.locationOut.lat ?? day.locationOut.latitude;
 const lng=day.locationOut.lng ?? day.locationOut.longitude;
 
-siteOut=findSite(lat,lng,sites);
+siteOut = checkOutside(lat,lng,day.siteOut,sites);
 
 }
 
