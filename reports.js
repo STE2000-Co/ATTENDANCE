@@ -234,19 +234,6 @@ count++;
 workbook.SheetNames.push(sheetName);
 workbook.Sheets[sheetName] = sheet;
 
-/* กันชื่อ sheet ซ้ำ */
-
-let sheetName = name;
-let count = 1;
-
-while(workbook.SheetNames.includes(sheetName)){
-sheetName = `${name}_${count}`;
-count++;
-}
-
-workbook.SheetNames.push(sheetName);
-workbook.Sheets[sheetName] = sheet;
-
 /* header */
 
 sheet["B2"] = {t:"s",v:employeeId};
