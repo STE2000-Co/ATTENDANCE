@@ -133,27 +133,18 @@ const name=userDoc.exists()?userDoc.data().name:userId;
 const employeeId=userDoc.exists()?userDoc.data().employeeId:"-";
 
 
-/* clone template */
-
 const sheet=XLSX.utils.sheet_to_json(template,{header:1});
 const newSheet=XLSX.utils.aoa_to_sheet(sheet);
 
-
-/* copy merges */
 
 if(template["!merges"]){
 newSheet["!merges"]=JSON.parse(JSON.stringify(template["!merges"]));
 }
 
-
-/* copy column width */
-
 if(template["!cols"]){
 newSheet["!cols"]=JSON.parse(JSON.stringify(template["!cols"]));
 }
 
-
-/* ตั้งชื่อ sheet */
 
 let sheetName=name;
 let count=1;
@@ -174,7 +165,7 @@ setCell(newSheet,"B3",name);
 setCell(newSheet,"B5",`${month}/${year}`);
 
 
-/* เริ่มข้อมูล row 7 */
+/* เริ่มข้อมูล */
 
 let row=7;
 
@@ -220,7 +211,6 @@ clockOut=new Date(day.clockOut.seconds*1000)
 }
 
 siteIn=day.siteName||"-";
-
 siteOut=day.checkoutOutside?"นอกพื้นที่":day.siteName||"-";
 
 
@@ -229,6 +219,7 @@ let late=false;
 if(clockIn!=="-" && clockIn>"08:00"){
 late=true;
 }
+
 
 if(clockOut!=="-"){
 
@@ -247,6 +238,7 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 }
 
 }
+
 
 if(late && ot!=="-") status="สาย,OT";
 else if(late) status="สาย";
@@ -289,6 +281,8 @@ alert("Export ไม่สำเร็จ");
 }
 
 
-/* expose ให้ปุ่มเรียกได้ */
+/* ================= BUTTON EVENTS ================= */
 
-window.exportExcel = exportExcel;
+document.getElementById("exportBtn").addEventListener("click", exportExcel);
+
+document.getElementById("loadBtn").addEventListener("click", () => {});
