@@ -73,7 +73,7 @@ return `${d}/${m}/${y}`;
 }
 
 
-/* DISTANCE CALC (Haversine) */
+/* DISTANCE CALC */
 
 function distance(lat1,lon1,lat2,lon2){
 
@@ -323,15 +323,17 @@ nearest=site;
 
 if(nearest){
 
+const siteName=nearest.name ?? nearest.siteName ?? "-";
+
 if(nearestDist<=nearest.radius){
 
-siteOut=nearest.name;
+siteOut=siteName;
 
 }else{
 
 const km=(nearestDist/1000).toFixed(2);
 
-siteOut=`นอกพื้นที่ ${km} กม.`;
+siteOut=`นอกพื้นที่ ${km} กม. (${siteName})`;
 
 }
 
@@ -435,13 +437,47 @@ summary.innerHTML=`
 
 <td colspan="7">
 
-สรุปเดือนนี้ :
-มาทำงาน ${workDays} วัน |
-มาสาย ${lateDays} วัน |
-ลา ${leaveDays} วัน |
-วันหยุด ${holidayDays} วัน |
-วัน OT ${otDays} วัน |
-OT รวม ${otHour}:${String(otMin).padStart(2,"0")}
+<div class="summaryBox">
+
+<div class="summaryTitle">
+📊 สรุปการทำงานเดือนนี้
+</div>
+
+<div class="summaryGrid">
+
+<div class="sumItem">
+<div class="sumNumber">${workDays}</div>
+<div class="sumLabel">วันทำงาน</div>
+</div>
+
+<div class="sumItem">
+<div class="sumNumber late">${lateDays}</div>
+<div class="sumLabel">มาสาย</div>
+</div>
+
+<div class="sumItem">
+<div class="sumNumber leave">${leaveDays}</div>
+<div class="sumLabel">ลางาน</div>
+</div>
+
+<div class="sumItem">
+<div class="sumNumber holiday">${holidayDays}</div>
+<div class="sumLabel">วันหยุด</div>
+</div>
+
+<div class="sumItem">
+<div class="sumNumber ot">${otDays}</div>
+<div class="sumLabel">วัน OT</div>
+</div>
+
+<div class="sumItem">
+<div class="sumNumber ot">${otHour}:${String(otMin).padStart(2,"0")}</div>
+<div class="sumLabel">OT รวม</div>
+</div>
+
+</div>
+
+</div>
 
 </td>
 
@@ -505,7 +541,6 @@ workbook.SheetNames.push(name);
 workbook.Sheets[name]=newSheet;
 
 }
-
 
 delete workbook.Sheets[templateName];
 
