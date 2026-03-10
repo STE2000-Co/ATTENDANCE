@@ -206,12 +206,17 @@ status="วันหยุด";
 
 else if(day){
 
+/* CLOCK IN */
+
 if(day.clockIn){
 
 clockIn=new Date(day.clockIn.seconds*1000)
 .toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
 
 }
+
+
+/* CLOCK OUT */
 
 if(day.clockOut){
 
@@ -220,9 +225,26 @@ clockOut=new Date(day.clockOut.seconds*1000)
 
 }
 
-siteIn=day.checkinSite || day.siteName || "-";
-siteOut=day.checkoutSite || "-";
 
+/* SITE IN */
+
+siteIn = day.siteName || "-";
+
+
+/* SITE OUT */
+
+if(day.checkoutOutside === true){
+
+siteOut = "นอกพื้นที่";
+
+}else{
+
+siteOut = day.siteName || "-";
+
+}
+
+
+/* LATE */
 
 let late=false;
 
@@ -230,10 +252,14 @@ if(clockIn!=="-" && clockIn>"08:00"){
 late=true;
 }
 
+
+/* OT */
+
 if(clockOut!=="-"){
 
 const [h,m]=clockOut.split(":").map(Number);
 const minutes=h*60+m;
+
 const diff=minutes-1080;
 
 if(diff>0){
@@ -247,6 +273,9 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 
 }
 
+
+/* STATUS */
+
 if(late && ot!=="-") status="สาย + OT";
 else if(late) status="สาย";
 else if(ot!=="-") status="OT";
@@ -258,6 +287,7 @@ else status="ปกติ";
 /* STORE DATA */
 
 const row={
+
 name,
 date:displayDate,
 clockIn,
@@ -266,6 +296,7 @@ siteIn,
 siteOut,
 ot,
 status
+
 };
 
 reportData.push(row);
