@@ -25,6 +25,7 @@ const firebaseConfig = {
   messagingSenderId: "749702522934",
   appId: "1:749702522934:web:5664ccfd9d04ae88985097"
 };
+
 /* ================= DEVICE ID ================= */
 
 function getDeviceId() {
@@ -37,6 +38,7 @@ function getDeviceId() {
 
   return deviceId;
 }
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -45,6 +47,7 @@ let currentState = "checkin";
 let currentUserId = null;
 let countdownInterval = null;
 let confirmCallback = null;
+
 function resetLoginButton() {
   const loginBtn = document.querySelector(".login-card .primary-btn");
   if (!loginBtn) return;
@@ -192,7 +195,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!userSnap.exists()) {
   showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
 
-  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
+  resetLoginButton();
 
   await auth.signOut();
   document.body.classList.remove("loading");
@@ -201,12 +204,11 @@ onAuthStateChanged(auth, async (user) => {
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
-// ===== ROLE REDIRECT =====
+
   if (userData.role === "admin") {
   window.location.href = "admin.html";
   return;
 }
-  // ===== DEVICE LOCK =====
 
   if (!userData.deviceId) {
     await updateDoc(userRef, {
@@ -216,24 +218,23 @@ onAuthStateChanged(auth, async (user) => {
 
   showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
 
-  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
+  resetLoginButton();
 
   await auth.signOut();
   document.body.classList.remove("loading");
   return;
 }
 
-  // ===== SHOW APP =====
-
   loginSection.classList.remove("active");
-appSection.classList.add("active");
+  appSection.classList.add("active");
 
-  document.body.classList.remove("loading"); // 🔥 สำคัญมาก
+  document.body.classList.remove("loading");
 
   loadEmployeeCard(userData, user.uid);
   startClock();
   await restoreStateFromFirestore(user.uid);
 });
+
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
@@ -261,12 +262,13 @@ function loadEmployeeCard(data, uid) {
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
-      margin: 0,          // 🔥 สำคัญ
+      margin: 0,
       marginLeft: 0,
       marginRight: 0
     });
   }
 }
+
 /* ================= CLOCK ================= */
 
 function startClock() {
@@ -283,7 +285,7 @@ function formatTime(ts) {
   return ts?.toDate().toLocaleTimeString("th-TH") || "-";
 }
 
-/* ================= STATE MACHINE (ไม่แตะ) ================= */
+/* ================= STATE MACHINE ================= */
 
 function applyTheme(color) {
   document.documentElement.style.setProperty("--accent", color);
@@ -431,7 +433,7 @@ window.actionHandler = async function () {
   }
 };
 
-/* ================= MULTI-SITE ATTENDANCE ================= */
+/* ================= MULTI-SITE ATTENDANCE (FIXED) ================= */
 
 async function processAttendance(isCheckin) {
 
@@ -452,6 +454,7 @@ async function processAttendance(isCheckin) {
 
   const lat = coords.latitude;
   const lng = coords.longitude;
+
   const user = auth.currentUser;
   const today = new Date().toISOString().split("T")[0];
   const attendanceRef = doc(db, "attendance", user.uid);
@@ -489,25 +492,61 @@ async function processAttendance(isCheckin) {
 
   } else {
 
-    const todayData = snap.data().days?.[today];
-    const siteSnap = await getDoc(doc(db, "sites", todayData.siteIn));
-    const site = siteSnap.data();
+    if (!snap.exists()) {
+      showPopup("ยังไม่มีข้อมูลเข้างานวันนี้", true);
+      setState(currentState);
+      return false;
+    }
 
-    const distance = getDistance(lat, lng, site.lat, site.lng);
-    const outside = distance > site.radius;
+    const data = snap.data();
+    const todayData = data.days?.[today];
+
+    if (!todayData || !todayData.clockIn) {
+      showPopup("คุณยังไม่ได้เข้างานวันนี้", true);
+      setState(currentState);
+      return false;
+    }
+
+    let outside = false;
+    let siteOut = todayData.siteIn;
+
+    try {
+
+      const siteSnap = await getDoc(doc(db, "sites", todayData.siteIn));
+
+      if (siteSnap.exists()) {
+
+        const site = siteSnap.data();
+        const distance = getDistance(lat, lng, site.lat, site.lng);
+
+        outside = distance > site.radius;
+
+      }
+
+    } catch (err) {
+      console.warn("Site check error:", err);
+    }
+
     const detected = await detectSite(lat, lng);
+
+    if (detected) {
+      siteOut = detected.id;
+    }
+
     await updateDoc(attendanceRef, {
       [`days.${today}.clockOut`]: serverTimestamp(),
       [`days.${today}.locationOut`]: { lat, lng },
-      [`days.${today}.siteOut`]: detected ? detected.id : todayData.siteIn,
+      [`days.${today}.siteOut`]: siteOut,
       [`days.${today}.checkoutOutside`]: outside
     });
+
   }
 
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
-// ===== PWA Keyboard Fix (iOS) =====
+
+/* ===== PWA Keyboard Fix (iOS) ===== */
 
 const loginSection = document.getElementById("loginSection");
 const inputs = document.querySelectorAll("#loginSection input");
@@ -522,9 +561,10 @@ inputs.forEach(input => {
     setTimeout(() => {
       loginSection.style.alignItems = "center";
       loginSection.style.paddingTop = "0px";
-    }, 150); // รอ keyboard ปิดก่อนค่อยคืนตำแหน่ง
+    }, 150);
   });
 });
+
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
 
@@ -536,6 +576,7 @@ window.addEventListener("load", () => {
     }, 2000);
   }
 });
+
 window.goLeave = function () {
   document.body.style.opacity = "0";
   document.body.style.transition = "opacity 0.25s ease";
