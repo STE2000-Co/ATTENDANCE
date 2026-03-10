@@ -69,7 +69,7 @@ return dates;
 }
 
 
-/* FORMAT DATE DD/MM/YYYY */
+/* FORMAT DATE */
 
 function formatThaiDate(dateObj){
 
@@ -136,19 +136,19 @@ const days=data.days||{};
 const name=users[userId]?.name||userId;
 
 
-/* ===== USER HEADER ===== */
+/* USER HEADER */
 
 const header=document.createElement("tr");
 header.className="userHeader";
 
 header.innerHTML=`
-<td colspan="6">👤 ${name}</td>
+<td colspan="7">👤 ${name}</td>
 `;
 
 tbody.appendChild(header);
 
 
-/* ===== SUB HEADER ===== */
+/* SUB HEADER */
 
 const subHeader=document.createElement("tr");
 
@@ -159,7 +159,8 @@ subHeader.innerHTML=`
 <td>วันที่</td>
 <td>เข้า</td>
 <td>ออก</td>
-<td>สถานที่</td>
+<td>สถานที่เข้า</td>
+<td>สถานที่ออก</td>
 <td>OT</td>
 <td>สถานะ</td>
 
@@ -168,7 +169,7 @@ subHeader.innerHTML=`
 tbody.appendChild(subHeader);
 
 
-/* ===== LOOP DATES ===== */
+/* LOOP DATES */
 
 dates.forEach(dateObj=>{
 
@@ -183,7 +184,8 @@ const day=days[date];
 
 let clockIn="-";
 let clockOut="-";
-let site="-";
+let siteIn="-";
+let siteOut="-";
 let ot="-";
 let status="-";
 
@@ -218,7 +220,8 @@ clockOut=new Date(day.clockOut.seconds*1000)
 
 }
 
-site=day.siteName||"-";
+siteIn=day.checkinSite || day.siteName || "-";
+siteOut=day.checkoutSite || "-";
 
 
 let late=false;
@@ -252,14 +255,15 @@ else status="ปกติ";
 }
 
 
-/* ===== STORE DATA ===== */
+/* STORE DATA */
 
 const row={
 name,
 date:displayDate,
 clockIn,
 clockOut,
-site,
+siteIn,
+siteOut,
 ot,
 status
 };
@@ -267,7 +271,7 @@ status
 reportData.push(row);
 
 
-/* ===== TABLE ROW ===== */
+/* TABLE ROW */
 
 const tr=document.createElement("tr");
 
@@ -276,7 +280,8 @@ tr.innerHTML=`
 <td>${displayDate}</td>
 <td>${clockIn}</td>
 <td>${clockOut}</td>
-<td>${site}</td>
+<td>${siteIn}</td>
+<td>${siteOut}</td>
 <td>${ot}</td>
 <td>${status}</td>
 
@@ -332,9 +337,10 @@ users[name].forEach(d=>{
 newSheet[`A${row}`]={t:"s",v:d.date};
 newSheet[`B${row}`]={t:"s",v:d.clockIn};
 newSheet[`C${row}`]={t:"s",v:d.clockOut};
-newSheet[`D${row}`]={t:"s",v:d.site};
-newSheet[`E${row}`]={t:"s",v:d.ot};
-newSheet[`F${row}`]={t:"s",v:d.status};
+newSheet[`D${row}`]={t:"s",v:d.siteIn};
+newSheet[`E${row}`]={t:"s",v:d.siteOut};
+newSheet[`F${row}`]={t:"s",v:d.ot};
+newSheet[`G${row}`]={t:"s",v:d.status};
 
 row++;
 
