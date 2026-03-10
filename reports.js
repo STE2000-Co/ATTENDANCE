@@ -302,6 +302,7 @@ siteIn=day.siteName ?? "-";
 
 if(day.locationOut){
 
+let insideSite=null;
 let nearest=null;
 let nearestDist=999999;
 
@@ -314,28 +315,39 @@ site.lat,
 site.lng
 );
 
+const radius=Number(site.radius)||0;
+const siteName=site.name ?? site.siteName ?? "-";
+
+/* ถ้าอยู่ในรัศมีไซต์ */
+
+if(dist<=radius){
+insideSite=siteName;
+}
+
+/* หาไซต์ที่ใกล้ที่สุด */
+
 if(dist<nearestDist){
 nearestDist=dist;
-nearest=site;
+nearest=siteName;
 }
 
 });
 
-if(nearest){
 
-const siteName=nearest.name ?? nearest.siteName ?? "-";
+/* ถ้าอยู่ในไซต์ */
 
-if(nearestDist<=nearest.radius){
+if(insideSite){
 
-siteOut=siteName;
-
-}else{
-
-const km=(nearestDist/1000).toFixed(2);
-
-siteOut=`นอกพื้นที่ ${km} กม. (${siteName})`;
+siteOut=insideSite;
 
 }
+
+/* ถ้านอกไซต์ */
+
+else{
+
+const km=(nearestDist/1000).toFixed(2);
+siteOut=`นอกพื้นที่ ${km} กม. (${nearest})`;
 
 }
 
