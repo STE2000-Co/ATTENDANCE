@@ -64,7 +64,7 @@ sheet[cell].v=value;
 
 /* ================= EXPORT EXCEL ================= */
 
-window.exportExcel = async function(){
+async function exportExcel(){
 
 try{
 
@@ -133,7 +133,7 @@ const name=userDoc.exists()?userDoc.data().name:userId;
 const employeeId=userDoc.exists()?userDoc.data().employeeId:"-";
 
 
-/* clone template แบบไม่ทำ style พัง */
+/* clone template */
 
 const sheet=XLSX.utils.sheet_to_json(template,{header:1});
 const newSheet=XLSX.utils.aoa_to_sheet(sheet);
@@ -199,21 +199,13 @@ let status="-";
 const dayOfWeek=dateObj.getDay();
 
 
-/* ลา */
-
 if(leaveMap[userId+"_"+firestoreDate]){
 status="ลา";
 }
 
-
-/* วันอาทิตย์ */
-
 else if(dayOfWeek===0){
 status="วันหยุด";
 }
-
-
-/* มี attendance */
 
 else if(day){
 
@@ -232,16 +224,11 @@ siteIn=day.siteName||"-";
 siteOut=day.checkoutOutside?"นอกพื้นที่":day.siteName||"-";
 
 
-/* สาย */
-
 let late=false;
 
 if(clockIn!=="-" && clockIn>"08:00"){
 late=true;
 }
-
-
-/* OT */
 
 if(clockOut!=="-"){
 
@@ -261,9 +248,6 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 
 }
 
-
-/* status */
-
 if(late && ot!=="-") status="สาย,OT";
 else if(late) status="สาย";
 else if(ot!=="-") status="OT";
@@ -271,8 +255,6 @@ else status="ปกติ";
 
 }
 
-
-/* ใส่ข้อมูลลง template */
 
 setCell(newSheet,`A${row}`,excelDate);
 setCell(newSheet,`B${row}`,clockIn);
@@ -289,15 +271,11 @@ row++;
 }
 
 
-/* ลบ template */
-
 delete workbook.Sheets[templateName];
 
 workbook.SheetNames=
 workbook.SheetNames.filter(s=>s!==templateName);
 
-
-/* export */
 
 XLSX.writeFile(workbook,`attendance_${month}_${year}.xlsx`);
 
@@ -308,4 +286,9 @@ alert("Export ไม่สำเร็จ");
 
 }
 
-};
+}
+
+
+/* expose ให้ปุ่มเรียกได้ */
+
+window.exportExcel = exportExcel;
