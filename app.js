@@ -404,7 +404,7 @@ window.actionHandler = async function () {
 
     showPopup(
       `บันทึกเวลาเข้างานสำเร็จ\n\n` +
-      `สถานที่: ${todayData?.siteName || "-"}\n` +
+      `สถานที่: ${todayData?.siteIn || "-"}\n` +
       `เข้างานเวลา: ${formatTime(todayData?.clockIn)}`
     );
     return;
@@ -423,7 +423,7 @@ window.actionHandler = async function () {
 
       showPopup(
         `บันทึกเวลาเลิกงานสำเร็จ\n\n` +
-        `ไซต์งาน: ${todayData?.siteName || "-"}\n` +
+        `ไซต์งาน: ${todayData?.siteIn || "-"}\n` +
         `เลิกงานเวลา: ${formatTime(todayData?.clockOut)}\n` +
         `${todayData?.checkoutOutside ? "(นอกพื้นที่ทำงาน)" : "(ภายในพื้นที่ทำงาน)"}`
       );
@@ -469,8 +469,8 @@ async function processAttendance(isCheckin) {
     const payload = {
       clockIn: serverTimestamp(),
       locationIn: { lat, lng },
-      siteId: site.id,
-      siteName: site.id,
+      siteIn: site.id,
+      siteOut: null,
       clockOut: null,
       locationOut: null,
       checkoutOutside: false
@@ -490,15 +490,16 @@ async function processAttendance(isCheckin) {
   } else {
 
     const todayData = snap.data().days?.[today];
-    const siteSnap = await getDoc(doc(db, "sites", todayData.siteId));
+    const siteSnap = await getDoc(doc(db, "sites", todayData.siteIn));
     const site = siteSnap.data();
 
     const distance = getDistance(lat, lng, site.lat, site.lng);
     const outside = distance > site.radius;
-
+    const detected = await detectSite(lat, lng);
     await updateDoc(attendanceRef, {
       [`days.${today}.clockOut`]: serverTimestamp(),
       [`days.${today}.locationOut`]: { lat, lng },
+      [`days.${today}.siteOut`]: detected ? detected.id : todayData.siteIn,
       [`days.${today}.checkoutOutside`]: outside
     });
   }
