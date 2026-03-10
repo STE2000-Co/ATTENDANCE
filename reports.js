@@ -221,9 +221,18 @@ const name = userDoc.exists() ? userDoc.data().name : userId;
 const employeeId = userDoc.exists() ? userDoc.data().employeeId : "-";
 
 /* clone template (แก้ตรงนี้) */
+const sheet = structuredClone(template);
 
-const sheet = {...template};
-sheet["!ref"] = template["!ref"];
+let sheetName = name;
+let count = 1;
+
+while(workbook.SheetNames.includes(sheetName)){
+sheetName = `${name}_${count}`;
+count++;
+}
+
+workbook.SheetNames.push(sheetName);
+workbook.Sheets[sheetName] = sheet;
 
 /* กันชื่อ sheet ซ้ำ */
 
