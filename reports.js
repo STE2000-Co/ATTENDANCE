@@ -48,7 +48,6 @@ const start=new Date(year,month-2,25);
 const end=new Date(year,month-1,24);
 
 const dates=[];
-
 let cur=new Date(start);
 
 while(cur<=end){
@@ -74,7 +73,7 @@ return `${d}/${m}/${y}`;
 }
 
 
-/* DISTANCE CALC */
+/* DISTANCE */
 
 function distance(lat1,lon1,lat2,lon2){
 
@@ -84,11 +83,10 @@ const dLat=(lat2-lat1)*Math.PI/180;
 const dLon=(lon2-lon1)*Math.PI/180;
 
 const a=
-Math.sin(dLat/2)*Math.sin(dLat/2)+
+Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*
 Math.cos(lat2*Math.PI/180)*
-Math.sin(dLon/2)*
-Math.sin(dLon/2);
+Math.sin(dLon/2)**2;
 
 const c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 
@@ -101,20 +99,23 @@ return R*c;
 
 function findSite(lat,lng,sites){
 
+if(!lat || !lng) return "-";
+
 let insideSite=null;
 let nearest=null;
 let nearestDist=999999;
 
 sites.forEach(site=>{
 
-const siteLat=Number(site.lat);
-const siteLng=Number(site.lng);
+const siteLat=Number(site.lat ?? site.latitude);
+const siteLng=Number(site.lng ?? site.longitude);
 
 if(!siteLat || !siteLng) return;
 
 const dist=distance(lat,lng,siteLat,siteLng);
 
 const radius=Number(site.radius)||0;
+
 const siteName=site.name ?? site.siteName ?? "-";
 
 if(dist<=radius){
@@ -142,7 +143,33 @@ return "-";
 }
 
 
-/* LOAD DATA */
+/* TIME FORMAT */
+
+function getTime(ts){
+
+if(!ts) return "-";
+
+try{
+
+const date = ts.seconds
+? new Date(ts.seconds*1000)
+: new Date(ts);
+
+return date.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}catch{
+
+return "-";
+
+}
+
+}
+
+
+/* LOAD REPORT */
 
 async function loadReport(){
 
@@ -233,7 +260,7 @@ let otDays=0;
 let otMinutesTotal=0;
 
 
-/* USER HEADER */
+/* HEADER */
 
 const header=document.createElement("tr");
 
@@ -322,38 +349,37 @@ holidayDays++;
 }
 
 
-/* WORK DAY */
+/* WORK */
 
 else if(day){
 
 workDays++;
 
-if(day.clockIn){
-
-clockIn=new Date(day.clockIn.seconds*1000)
-.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-
-}
-
-if(day.clockOut){
-
-clockOut=new Date(day.clockOut.seconds*1000)
-.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-
-}
+clockIn=getTime(day.clockIn);
+clockOut=getTime(day.clockOut);
 
 
 /* SITE IN */
 
 if(day.locationIn){
-siteIn=findSite(day.locationIn.lat,day.locationIn.lng,sites);
+
+const lat=day.locationIn.lat ?? day.locationIn.latitude;
+const lng=day.locationIn.lng ?? day.locationIn.longitude;
+
+siteIn=findSite(lat,lng,sites);
+
 }
 
 
 /* SITE OUT */
 
 if(day.locationOut){
-siteOut=findSite(day.locationOut.lat,day.locationOut.lng,sites);
+
+const lat=day.locationOut.lat ?? day.locationOut.latitude;
+const lng=day.locationOut.lng ?? day.locationOut.longitude;
+
+siteOut=findSite(lat,lng,sites);
+
 }
 
 
@@ -372,6 +398,7 @@ lateDays++;
 if(clockOut!=="-"){
 
 const [h,m]=clockOut.split(":").map(Number);
+
 const minutes=h*60+m;
 
 const diff=minutes-1080;
@@ -402,7 +429,7 @@ else status="ปกติ";
 }
 
 
-/* SAVE REPORT */
+/* SAVE */
 
 reportData.push({
 name,
@@ -416,7 +443,7 @@ status
 });
 
 
-/* TABLE ROW */
+/* TABLE */
 
 const tr=document.createElement("tr");
 
@@ -501,6 +528,27 @@ summary.innerHTML=`
 tbody.appendChild(summary);
 
 });
+
+}
+
+
+/* EXPORT */
+
+function exportExcel(){
+
+let csv="ชื่อ,วันที่,เข้า,ออก,สถานที่เข้า,สถานที่ออก,OT,สถานะ\n";
+
+reportData.forEach(r=>{
+csv+=`${r.name},${r.date},${r.clockIn},${r.clockOut},${r.siteIn},${r.siteOut},${r.ot},${r.status}\n`;
+});
+
+const blob=new Blob([csv],{type:"text/csv"});
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download="report.csv";
+a.click();
 
 }
 
