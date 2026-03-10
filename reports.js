@@ -40,7 +40,7 @@ window.location.href="index.html";
 });
 
 
-/* DATE RANGE 25 → 24 */
+/* DATE RANGE */
 
 function getPeriod(year,month){
 
@@ -57,6 +57,7 @@ cur.setDate(cur.getDate()+1);
 }
 
 return dates;
+
 }
 
 
@@ -96,6 +97,51 @@ return R*c;
 }
 
 
+/* FIND SITE */
+
+function findSite(lat,lng,sites){
+
+let insideSite=null;
+let nearest=null;
+let nearestDist=999999;
+
+sites.forEach(site=>{
+
+const siteLat=Number(site.lat);
+const siteLng=Number(site.lng);
+
+if(!siteLat || !siteLng) return;
+
+const dist=distance(lat,lng,siteLat,siteLng);
+
+const radius=Number(site.radius)||0;
+const siteName=site.name ?? site.siteName ?? "-";
+
+if(dist<=radius){
+insideSite=siteName;
+}
+
+if(dist<nearestDist){
+nearestDist=dist;
+nearest=siteName;
+}
+
+});
+
+if(insideSite){
+return insideSite;
+}
+
+if(nearest){
+const km=(nearestDist/1000).toFixed(2);
+return `นอกพื้นที่ ${km} กม. (${nearest})`;
+}
+
+return "-";
+
+}
+
+
 /* LOAD DATA */
 
 async function loadReport(){
@@ -116,6 +162,7 @@ const usersSnap=await getDocs(collection(db,"users"));
 const leaveSnap=await getDocs(collection(db,"leaveRequests"));
 const siteSnap=await getDocs(collection(db,"sites"));
 const holidaySnap=await getDocs(collection(db,"holidays"));
+
 
 /* USERS */
 
@@ -189,6 +236,7 @@ let otMinutesTotal=0;
 /* USER HEADER */
 
 const header=document.createElement("tr");
+
 header.className="userHeader";
 header.dataset.group=group;
 
@@ -263,6 +311,7 @@ leaveDays++;
 
 }
 
+
 /* HOLIDAY */
 
 else if(holidays[date] || dayOfWeek===0){
@@ -271,6 +320,7 @@ status="วันหยุด";
 holidayDays++;
 
 }
+
 
 /* WORK DAY */
 
@@ -295,62 +345,15 @@ clockOut=new Date(day.clockOut.seconds*1000)
 
 /* SITE IN */
 
-siteIn=day.siteName ?? "-";
+if(day.locationIn){
+siteIn=findSite(day.locationIn.lat,day.locationIn.lng,sites);
+}
 
 
 /* SITE OUT */
 
 if(day.locationOut){
-
-let insideSite=null;
-let nearest=null;
-let nearestDist=999999;
-
-sites.forEach(site=>{
-
-const dist=distance(
-day.locationOut.lat,
-day.locationOut.lng,
-site.lat,
-site.lng
-);
-
-const radius=Number(site.radius)||0;
-const siteName=site.name ?? site.siteName ?? "-";
-
-/* ถ้าอยู่ในรัศมีไซต์ */
-
-if(dist<=radius){
-insideSite=siteName;
-}
-
-/* หาไซต์ที่ใกล้ที่สุด */
-
-if(dist<nearestDist){
-nearestDist=dist;
-nearest=siteName;
-}
-
-});
-
-
-/* ถ้าอยู่ในไซต์ */
-
-if(insideSite){
-
-siteOut=insideSite;
-
-}
-
-/* ถ้านอกไซต์ */
-
-else{
-
-const km=(nearestDist/1000).toFixed(2);
-siteOut=`นอกพื้นที่ ${km} กม. (${nearest})`;
-
-}
-
+siteOut=findSite(day.locationOut.lat,day.locationOut.lng,sites);
 }
 
 
@@ -436,7 +439,7 @@ tbody.appendChild(tr);
 });
 
 
-/* SUMMARY ROW */
+/* SUMMARY */
 
 const otHour=Math.floor(otMinutesTotal/60);
 const otMin=otMinutesTotal%60;
@@ -498,68 +501,6 @@ summary.innerHTML=`
 tbody.appendChild(summary);
 
 });
-
-}
-
-
-/* EXPORT */
-
-async function exportExcel(){
-
-if(reportData.length===0){
-alert("โหลดข้อมูลก่อน");
-return;
-}
-
-const res=await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
-
-const buffer=await res.arrayBuffer();
-
-const workbook=XLSX.read(buffer,{type:"array"});
-
-const templateName=workbook.SheetNames[0];
-const template=workbook.Sheets[templateName];
-
-const users={};
-
-reportData.forEach(r=>{
-if(!users[r.name]) users[r.name]=[];
-users[r.name].push(r);
-});
-
-
-for(const name in users){
-
-const sheet=XLSX.utils.sheet_to_json(template,{header:1});
-const newSheet=XLSX.utils.aoa_to_sheet(sheet);
-
-let row=7;
-
-users[name].forEach(d=>{
-
-newSheet[`A${row}`]={t:"s",v:d.date};
-newSheet[`B${row}`]={t:"s",v:d.clockIn};
-newSheet[`C${row}`]={t:"s",v:d.clockOut};
-newSheet[`D${row}`]={t:"s",v:d.siteIn};
-newSheet[`E${row}`]={t:"s",v:d.siteOut};
-newSheet[`F${row}`]={t:"s",v:d.ot};
-newSheet[`G${row}`]={t:"s",v:d.status};
-
-row++;
-
-});
-
-workbook.SheetNames.push(name);
-workbook.Sheets[name]=newSheet;
-
-}
-
-delete workbook.Sheets[templateName];
-
-workbook.SheetNames=
-workbook.SheetNames.filter(s=>s!==templateName);
-
-XLSX.writeFile(workbook,"attendance_report.xlsx");
 
 }
 
