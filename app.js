@@ -544,3 +544,21 @@ window.goLeave = function () {
    window.location.replace("leave.html");
   }, 1000);
 };
+// Fix iOS PWA Safari overlay
+document.addEventListener("click", function (e) {
+
+  const link = e.target.closest("a");
+
+  if (!link) return;
+
+  const href = link.getAttribute("href");
+
+  if (!href) return;
+
+  // ถ้าเป็นลิงก์ภายในเว็บ
+  if (href.startsWith("/") || href.endsWith(".html")) {
+    e.preventDefault();
+    window.location.replace(href);
+  }
+
+});
