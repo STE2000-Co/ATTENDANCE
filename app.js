@@ -531,7 +531,7 @@ inputs.forEach(input => {
   });
 });
 
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splashScreen");
 
   if (!sessionStorage.getItem("appLoaded")) {
