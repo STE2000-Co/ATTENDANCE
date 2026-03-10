@@ -49,114 +49,17 @@ return;
 });
 
 
-/* ================= LOAD REPORT ================= */
+/* ================= HELPER ================= */
 
-window.loadReport = async function(){
+function setCell(sheet,cell,value){
 
-const monthInput = document.getElementById("reportMonth").value;
-
-if(!monthInput){
-alert("เลือกเดือน");
-return;
-}
-
-const [year,month] = monthInput.split("-");
-
-const attendanceSnap = await getDocs(collection(db,"attendance"));
-const leaveSnap = await getDocs(collection(db,"leaveRequests"));
-
-const leaveMap = {};
-
-leaveSnap.forEach(doc=>{
-const d = doc.data();
-if(d.status === "approved"){
-leaveMap[d.userId+"_"+d.date] = true;
-}
-});
-
-const table = document.getElementById("reportTable");
-table.innerHTML="";
-
-let totalStaff = 0;
-let totalCheckin = 0;
-let totalLeave = 0;
-
-for(const docSnap of attendanceSnap.docs){
-
-const userId = docSnap.id;
-const data = docSnap.data();
-const days = data.days || {};
-
-const userDoc = await getDoc(doc(db,"users",userId));
-const name = userDoc.exists() ? userDoc.data().name : userId;
-
-let rows = "";
-
-for(const date in days){
-
-if(!date.startsWith(`${year}-${month}`)) continue;
-
-const day = days[date];
-
-const checkIn = day.clockIn
-? new Date(day.clockIn.seconds*1000).toLocaleTimeString()
-: "-";
-
-const checkOut = day.clockOut
-? new Date(day.clockOut.seconds*1000).toLocaleTimeString()
-: "-";
-
-let status = "ปกติ";
-
-if(leaveMap[userId+"_"+date]){
-status = "ลา";
-totalLeave++;
-}
-
-if(day.checkoutOutside){
-status = "ออกนอกพื้นที่";
-}
-
-if(day.clockIn){
-totalCheckin++;
-}
-
-const [y,m,d] = date.split("-");
-const formattedDate = `${d}/${m}/${y}`;
-
-rows += `
-<tr>
-<td>${formattedDate}</td>
-<td>${checkIn}</td>
-<td>${checkOut}</td>
-<td>${day.siteName || "-"}</td>
-<td>${status}</td>
-</tr>
-`;
-
-}
-
-if(rows){
-
-totalStaff++;
-
-table.innerHTML += `
-<tr class="userHeader">
-<td colspan="5">${name}</td>
-</tr>
-${rows}
-`;
-
+if(!sheet[cell]){
+sheet[cell]={t:"s",v:value};
+}else{
+sheet[cell].v=value;
 }
 
 }
-
-document.getElementById("totalStaff").innerText = totalStaff;
-document.getElementById("checkedIn").innerText = totalCheckin;
-document.getElementById("absent").innerText = totalLeave;
-
-};
-
 
 
 /* ================= EXPORT EXCEL ================= */
@@ -165,47 +68,50 @@ window.exportExcel = async function(){
 
 try{
 
-const monthInput = document.getElementById("reportMonth").value;
+const monthInput=document.getElementById("reportMonth").value;
 
 if(!monthInput){
 alert("เลือกเดือนก่อน");
 return;
 }
 
-const [year,month] = monthInput.split("-");
+const [year,month]=monthInput.split("-");
+
 
 /* โหลด template */
 
-const res = await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
-const buffer = await res.arrayBuffer();
-const workbook = XLSX.read(buffer,{type:"array"});
+const res=await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
+const buffer=await res.arrayBuffer();
 
-const templateName = workbook.SheetNames[0];
-const template = workbook.Sheets[templateName];
+const workbook=XLSX.read(buffer,{type:"array"});
+
+const templateName=workbook.SheetNames[0];
+const template=workbook.Sheets[templateName];
 
 
 /* โหลดข้อมูล */
 
-const attendanceSnap = await getDocs(collection(db,"attendance"));
-const leaveSnap = await getDocs(collection(db,"leaveRequests"));
+const attendanceSnap=await getDocs(collection(db,"attendance"));
+const leaveSnap=await getDocs(collection(db,"leaveRequests"));
 
-const leaveMap = {};
+const leaveMap={};
 
 leaveSnap.forEach(doc=>{
-const d = doc.data();
-if(d.status === "approved"){
-leaveMap[d.userId+"_"+d.date] = true;
+const d=doc.data();
+
+if(d.status==="approved"){
+leaveMap[d.userId+"_"+d.date]=true;
 }
 });
 
 
 /* สร้างช่วงวันที่ 25 → 24 */
 
-const start = new Date(year,month-2,25);
-const end = new Date(year,month-1,24);
+const start=new Date(year,month-2,25);
+const end=new Date(year,month-1,24);
 
-const dates = [];
-let cur = new Date(start);
+const dates=[];
+let cur=new Date(start);
 
 while(cur<=end){
 dates.push(new Date(cur));
@@ -217,61 +123,56 @@ cur.setDate(cur.getDate()+1);
 
 for(const docSnap of attendanceSnap.docs){
 
-const userId = docSnap.id;
-const data = docSnap.data();
-const days = data.days || {};
+const userId=docSnap.id;
+const data=docSnap.data();
+const days=data.days||{};
 
-const userDoc = await getDoc(doc(db,"users",userId));
-const name = userDoc.exists() ? userDoc.data().name : userId;
-const employeeId = userDoc.exists() ? userDoc.data().employeeId : "-";
+const userDoc=await getDoc(doc(db,"users",userId));
+
+const name=userDoc.exists()?userDoc.data().name:userId;
+const employeeId=userDoc.exists()?userDoc.data().employeeId:"-";
 
 
 /* clone template */
 
-const sheet = structuredClone(template);
-
-/* copy layout */
-
-sheet["!cols"] = template["!cols"];
-sheet["!rows"] = template["!rows"];
-sheet["!merges"] = template["!merges"];
+const sheet=JSON.parse(JSON.stringify(template));
 
 
 /* ตั้งชื่อ sheet */
 
-let sheetName = name;
-let count = 1;
+let sheetName=name;
+let count=1;
 
 while(workbook.SheetNames.includes(sheetName)){
-sheetName = `${name}_${count}`;
+sheetName=name+"_"+count;
 count++;
 }
 
 workbook.SheetNames.push(sheetName);
-workbook.Sheets[sheetName] = sheet;
+workbook.Sheets[sheetName]=sheet;
 
 
 /* header */
 
-sheet["B2"] = {t:"s",v:employeeId};
-sheet["B3"] = {t:"s",v:name};
-sheet["B5"] = {t:"s",v:`${month}/${year}`};
+setCell(sheet,"B2",employeeId);
+setCell(sheet,"B3",name);
+setCell(sheet,"B5",`${month}/${year}`);
 
 
-/* เริ่ม row 7 */
+/* เริ่มข้อมูล row 7 */
 
-let row = 7;
+let row=7;
 
 for(const dateObj of dates){
 
-const y = dateObj.getFullYear();
-const m = String(dateObj.getMonth()+1).padStart(2,"0");
-const d = String(dateObj.getDate()).padStart(2,"0");
+const y=dateObj.getFullYear();
+const m=String(dateObj.getMonth()+1).padStart(2,"0");
+const d=String(dateObj.getDate()).padStart(2,"0");
 
-const firestoreDate = `${y}-${m}-${d}`;
-const excelDate = `${d}/${m}/${y}`;
+const firestoreDate=`${y}-${m}-${d}`;
+const excelDate=`${d}/${m}/${y}`;
 
-const day = days[firestoreDate];
+const day=days[firestoreDate];
 
 let clockIn="-";
 let clockOut="-";
@@ -280,7 +181,7 @@ let siteOut="-";
 let ot="-";
 let status="-";
 
-const dayOfWeek = dateObj.getDay();
+const dayOfWeek=dateObj.getDay();
 
 
 /* ลา */
@@ -311,9 +212,9 @@ clockOut=new Date(day.clockOut.seconds*1000)
 .toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
 }
 
-siteIn=day.siteName || "-";
+siteIn=day.siteName||"-";
 
-siteOut=day.checkoutOutside ? "นอกพื้นที่" : day.siteName || "-";
+siteOut=day.checkoutOutside?"นอกพื้นที่":day.siteName||"-";
 
 
 /* สาย */
@@ -332,9 +233,7 @@ if(clockOut!=="-"){
 const [h,m]=clockOut.split(":").map(Number);
 const minutes=h*60+m;
 
-let base=1080;
-
-const diff=minutes-base;
+const diff=minutes-1080;
 
 if(diff>0){
 
@@ -358,15 +257,15 @@ else status="ปกติ";
 }
 
 
-/* ใส่ข้อมูล */
+/* ใส่ข้อมูลลง template เดิม */
 
-sheet[`A${row}`]={t:"s",v:excelDate};
-sheet[`B${row}`]={t:"s",v:clockIn};
-sheet[`C${row}`]={t:"s",v:clockOut};
-sheet[`D${row}`]={t:"s",v:siteIn};
-sheet[`E${row}`]={t:"s",v:siteOut};
-sheet[`F${row}`]={t:"s",v:ot};
-sheet[`G${row}`]={t:"s",v:status};
+setCell(sheet,`A${row}`,excelDate);
+setCell(sheet,`B${row}`,clockIn);
+setCell(sheet,`C${row}`,clockOut);
+setCell(sheet,`D${row}`,siteIn);
+setCell(sheet,`E${row}`,siteOut);
+setCell(sheet,`F${row}`,ot);
+setCell(sheet,`G${row}`,status);
 
 row++;
 
@@ -378,7 +277,9 @@ row++;
 /* ลบ template */
 
 delete workbook.Sheets[templateName];
-workbook.SheetNames = workbook.SheetNames.filter(s=>s!==templateName);
+
+workbook.SheetNames=
+workbook.SheetNames.filter(s=>s!==templateName);
 
 
 /* export */
