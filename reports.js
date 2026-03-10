@@ -135,24 +135,40 @@ const data=docSnap.data();
 const days=data.days||{};
 const name=users[userId]?.name||userId;
 
+const group="user_"+userId;
+
 
 /* USER HEADER */
 
 const header=document.createElement("tr");
 header.className="userHeader";
+header.dataset.group=group;
 
 header.innerHTML=`
-<td colspan="7">👤 ${name}</td>
+<td colspan="7">▶ 👤 ${name}</td>
 `;
 
 tbody.appendChild(header);
+
+
+/* CLICK TO TOGGLE */
+
+header.addEventListener("click",()=>{
+
+const rows=document.querySelectorAll(`.row-${group}`);
+
+rows.forEach(r=>{
+r.classList.toggle("hiddenRow");
+});
+
+});
 
 
 /* SUB HEADER */
 
 const subHeader=document.createElement("tr");
 
-subHeader.className="subHeader";
+subHeader.className=`subHeader row-${group} hiddenRow`;
 
 subHeader.innerHTML=`
 
@@ -206,17 +222,12 @@ status="วันหยุด";
 
 else if(day){
 
-/* CLOCK IN */
-
 if(day.clockIn){
 
 clockIn=new Date(day.clockIn.seconds*1000)
 .toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
 
 }
-
-
-/* CLOCK OUT */
 
 if(day.clockOut){
 
@@ -287,7 +298,6 @@ else status="ปกติ";
 /* STORE DATA */
 
 const row={
-
 name,
 date:displayDate,
 clockIn,
@@ -296,7 +306,6 @@ siteIn,
 siteOut,
 ot,
 status
-
 };
 
 reportData.push(row);
@@ -305,6 +314,8 @@ reportData.push(row);
 /* TABLE ROW */
 
 const tr=document.createElement("tr");
+
+tr.className=`row-${group} hiddenRow`;
 
 tr.innerHTML=`
 
