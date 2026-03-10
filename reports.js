@@ -28,7 +28,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 
-/* ================= AUTH CHECK ================= */
+/* AUTH CHECK */
 
 onAuthStateChanged(auth, async (user)=>{
 
@@ -49,7 +49,7 @@ return;
 });
 
 
-/* ================= HELPER ================= */
+/* HELPER */
 
 function setCell(sheet,cell,value){
 
@@ -62,7 +62,7 @@ sheet[cell].v=value;
 }
 
 
-/* ================= EXPORT EXCEL ================= */
+/* EXPORT */
 
 async function exportExcel(){
 
@@ -77,9 +77,6 @@ return;
 
 const [year,month]=monthInput.split("-");
 
-
-/* โหลด template */
-
 const res=await fetch("templateรายงานการเข้างานประจำเดือน.xlsx");
 const buffer=await res.arrayBuffer();
 
@@ -88,9 +85,6 @@ const workbook=XLSX.read(buffer,{type:"array"});
 const templateName=workbook.SheetNames[0];
 const template=workbook.Sheets[templateName];
 
-
-/* โหลดข้อมูล */
-
 const attendanceSnap=await getDocs(collection(db,"attendance"));
 const leaveSnap=await getDocs(collection(db,"leaveRequests"));
 
@@ -98,14 +92,11 @@ const leaveMap={};
 
 leaveSnap.forEach(doc=>{
 const d=doc.data();
-
 if(d.status==="approved"){
 leaveMap[d.userId+"_"+d.date]=true;
 }
 });
 
-
-/* สร้างช่วงวันที่ 25 → 24 */
 
 const start=new Date(year,month-2,25);
 const end=new Date(year,month-1,24);
@@ -118,8 +109,6 @@ dates.push(new Date(cur));
 cur.setDate(cur.getDate()+1);
 }
 
-
-/* สร้าง sheet */
 
 for(const docSnap of attendanceSnap.docs){
 
@@ -136,7 +125,6 @@ const employeeId=userDoc.exists()?userDoc.data().employeeId:"-";
 const sheet=XLSX.utils.sheet_to_json(template,{header:1});
 const newSheet=XLSX.utils.aoa_to_sheet(sheet);
 
-
 if(template["!merges"]){
 newSheet["!merges"]=JSON.parse(JSON.stringify(template["!merges"]));
 }
@@ -144,7 +132,6 @@ newSheet["!merges"]=JSON.parse(JSON.stringify(template["!merges"]));
 if(template["!cols"]){
 newSheet["!cols"]=JSON.parse(JSON.stringify(template["!cols"]));
 }
-
 
 let sheetName=name;
 let count=1;
@@ -158,14 +145,10 @@ workbook.SheetNames.push(sheetName);
 workbook.Sheets[sheetName]=newSheet;
 
 
-/* header */
-
 setCell(newSheet,"B2",employeeId);
 setCell(newSheet,"B3",name);
 setCell(newSheet,"B5",`${month}/${year}`);
 
-
-/* เริ่มข้อมูล */
 
 let row=7;
 
@@ -213,19 +196,16 @@ clockOut=new Date(day.clockOut.seconds*1000)
 siteIn=day.siteName||"-";
 siteOut=day.checkoutOutside?"นอกพื้นที่":day.siteName||"-";
 
-
 let late=false;
 
 if(clockIn!=="-" && clockIn>"08:00"){
 late=true;
 }
 
-
 if(clockOut!=="-"){
 
 const [h,m]=clockOut.split(":").map(Number);
 const minutes=h*60+m;
-
 const diff=minutes-1080;
 
 if(diff>0){
@@ -238,7 +218,6 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 }
 
 }
-
 
 if(late && ot!=="-") status="สาย,OT";
 else if(late) status="สาย";
@@ -268,7 +247,6 @@ delete workbook.Sheets[templateName];
 workbook.SheetNames=
 workbook.SheetNames.filter(s=>s!==templateName);
 
-
 XLSX.writeFile(workbook,`attendance_${month}_${year}.xlsx`);
 
 }catch(err){
@@ -281,8 +259,19 @@ alert("Export ไม่สำเร็จ");
 }
 
 
-/* ================= BUTTON EVENTS ================= */
+/* BUTTONS */
 
-document.getElementById("exportBtn").addEventListener("click", exportExcel);
+document.addEventListener("DOMContentLoaded",()=>{
 
-document.getElementById("loadBtn").addEventListener("click", () => {});
+const exportBtn=document.getElementById("exportBtn");
+const loadBtn=document.getElementById("loadBtn");
+
+if(exportBtn){
+exportBtn.addEventListener("click",exportExcel);
+}
+
+if(loadBtn){
+loadBtn.addEventListener("click",()=>{});
+}
+
+});
