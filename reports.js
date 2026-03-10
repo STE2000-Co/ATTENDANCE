@@ -46,6 +46,29 @@ window.location.href="index.html";
 });
 
 
+/* DISTANCE CALCULATION */
+
+function distance(lat1, lon1, lat2, lon2){
+
+const R = 6371000;
+
+const dLat = (lat2-lat1) * Math.PI/180;
+const dLon = (lon2-lon1) * Math.PI/180;
+
+const a =
+Math.sin(dLat/2) * Math.sin(dLat/2) +
+Math.cos(lat1*Math.PI/180) *
+Math.cos(lat2*Math.PI/180) *
+Math.sin(dLon/2) *
+Math.sin(dLon/2);
+
+const c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+return R * c;
+
+}
+
+
 /* DATE RANGE 25 → 24 */
 
 function getPeriod(year,month){
@@ -102,11 +125,18 @@ const dates=getPeriod(Number(year),Number(month));
 const attendanceSnap=await getDocs(collection(db,"attendance"));
 const usersSnap=await getDocs(collection(db,"users"));
 const leaveSnap=await getDocs(collection(db,"leaveRequests"));
+const sitesSnap=await getDocs(collection(db,"sites"));
 
 const users={};
 
 usersSnap.forEach(doc=>{
 users[doc.id]=doc.data();
+});
+
+const sites=[];
+
+sitesSnap.forEach(doc=>{
+sites.push(doc.data());
 });
 
 const leaveMap={};
@@ -222,12 +252,17 @@ status="วันหยุด";
 
 else if(day){
 
+/* CLOCK IN */
+
 if(day.clockIn){
 
 clockIn=new Date(day.clockIn.seconds*1000)
 .toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
 
 }
+
+
+/* CLOCK OUT */
 
 if(day.clockOut){
 
@@ -242,11 +277,45 @@ clockOut=new Date(day.clockOut.seconds*1000)
 siteIn = day.siteName || "-";
 
 
-/* SITE OUT */
+/* SITE OUT WITH GPS CHECK */
 
-if(day.checkoutOutside === true){
+if(day.locationOut){
 
-siteOut = "นอกพื้นที่";
+let nearestSite=null;
+let nearestDist=999999;
+
+sites.forEach(site=>{
+
+const dist=distance(
+day.locationOut.lat,
+day.locationOut.lng,
+site.lat,
+site.lng
+);
+
+if(dist < nearestDist){
+
+nearestDist=dist;
+nearestSite=site;
+
+}
+
+});
+
+if(nearestSite){
+
+if(nearestDist <= nearestSite.radius){
+
+siteOut = nearestSite.name;
+
+}else{
+
+const km=(nearestDist/1000).toFixed(2);
+siteOut=`นอกพื้นที่ ${km} กม.`;
+
+}
+
+}
 
 }else{
 
