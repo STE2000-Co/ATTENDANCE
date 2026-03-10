@@ -133,9 +133,24 @@ const name=userDoc.exists()?userDoc.data().name:userId;
 const employeeId=userDoc.exists()?userDoc.data().employeeId:"-";
 
 
-/* clone template */
+/* clone template แบบไม่ทำ style พัง */
 
-const sheet=JSON.parse(JSON.stringify(template));
+const sheet=XLSX.utils.sheet_to_json(template,{header:1});
+const newSheet=XLSX.utils.aoa_to_sheet(sheet);
+
+
+/* copy merges */
+
+if(template["!merges"]){
+newSheet["!merges"]=JSON.parse(JSON.stringify(template["!merges"]));
+}
+
+
+/* copy column width */
+
+if(template["!cols"]){
+newSheet["!cols"]=JSON.parse(JSON.stringify(template["!cols"]));
+}
 
 
 /* ตั้งชื่อ sheet */
@@ -149,14 +164,14 @@ count++;
 }
 
 workbook.SheetNames.push(sheetName);
-workbook.Sheets[sheetName]=sheet;
+workbook.Sheets[sheetName]=newSheet;
 
 
 /* header */
 
-setCell(sheet,"B2",employeeId);
-setCell(sheet,"B3",name);
-setCell(sheet,"B5",`${month}/${year}`);
+setCell(newSheet,"B2",employeeId);
+setCell(newSheet,"B3",name);
+setCell(newSheet,"B5",`${month}/${year}`);
 
 
 /* เริ่มข้อมูล row 7 */
@@ -257,15 +272,15 @@ else status="ปกติ";
 }
 
 
-/* ใส่ข้อมูลลง template เดิม */
+/* ใส่ข้อมูลลง template */
 
-setCell(sheet,`A${row}`,excelDate);
-setCell(sheet,`B${row}`,clockIn);
-setCell(sheet,`C${row}`,clockOut);
-setCell(sheet,`D${row}`,siteIn);
-setCell(sheet,`E${row}`,siteOut);
-setCell(sheet,`F${row}`,ot);
-setCell(sheet,`G${row}`,status);
+setCell(newSheet,`A${row}`,excelDate);
+setCell(newSheet,`B${row}`,clockIn);
+setCell(newSheet,`C${row}`,clockOut);
+setCell(newSheet,`D${row}`,siteIn);
+setCell(newSheet,`E${row}`,siteOut);
+setCell(newSheet,`F${row}`,ot);
+setCell(newSheet,`G${row}`,status);
 
 row++;
 
