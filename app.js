@@ -25,7 +25,6 @@ const firebaseConfig = {
   messagingSenderId: "749702522934",
   appId: "1:749702522934:web:5664ccfd9d04ae88985097"
 };
-
 /* ================= DEVICE ID ================= */
 
 function getDeviceId() {
@@ -38,7 +37,6 @@ function getDeviceId() {
 
   return deviceId;
 }
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -47,7 +45,6 @@ let currentState = "checkin";
 let currentUserId = null;
 let countdownInterval = null;
 let confirmCallback = null;
-
 function resetLoginButton() {
   const loginBtn = document.querySelector(".login-card .primary-btn");
   if (!loginBtn) return;
@@ -180,12 +177,12 @@ onAuthStateChanged(auth, async (user) => {
   const appSection = document.getElementById("appSection");
 
   if (!user) {
-    loginSection.classList.add("active");
-    appSection.classList.remove("active");
+  loginSection.classList.add("active");
+  appSection.classList.remove("active");
 
-    document.body.classList.remove("loading");
-    return;
-  }
+  document.body.classList.remove("loading");
+  return;
+}
 
   currentUserId = user.uid;
 
@@ -193,22 +190,23 @@ onAuthStateChanged(auth, async (user) => {
   const userSnap = await getDoc(userRef);
 
   if (!userSnap.exists()) {
-    showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
+  showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
 
-    resetLoginButton();
+  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
 
-    await auth.signOut();
-    document.body.classList.remove("loading");
-    return;
-  }
+  await auth.signOut();
+  document.body.classList.remove("loading");
+  return;
+}
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
-
+// ===== ROLE REDIRECT =====
   if (userData.role === "admin") {
-    window.location.href = "admin.html";
-    return;
-  }
+  window.location.href = "admin.html";
+  return;
+}
+  // ===== DEVICE LOCK =====
 
   if (!userData.deviceId) {
     await updateDoc(userRef, {
@@ -216,25 +214,26 @@ onAuthStateChanged(auth, async (user) => {
     });
   } else if (userData.deviceId !== currentDeviceId) {
 
-    showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
+  showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
 
-    resetLoginButton();
+  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
 
-    await auth.signOut();
-    document.body.classList.remove("loading");
-    return;
-  }
+  await auth.signOut();
+  document.body.classList.remove("loading");
+  return;
+}
+
+  // ===== SHOW APP =====
 
   loginSection.classList.remove("active");
-  appSection.classList.add("active");
+appSection.classList.add("active");
 
-  document.body.classList.remove("loading");
+  document.body.classList.remove("loading"); // 🔥 สำคัญมาก
 
   loadEmployeeCard(userData, user.uid);
   startClock();
   await restoreStateFromFirestore(user.uid);
 });
-
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
@@ -243,7 +242,7 @@ function loadEmployeeCard(data, uid) {
 
   document.getElementById("empName").innerText =
     data.name || "-";
-  document.getElementById("empId").innerText =
+  document.getElementById("empId").innerText = 
     empId  || "-";
   document.getElementById("empPosition").innerText =
     data.position || "-";
@@ -262,13 +261,12 @@ function loadEmployeeCard(data, uid) {
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
-      margin: 0,
+      margin: 0,          // 🔥 สำคัญ
       marginLeft: 0,
       marginRight: 0
     });
   }
 }
-
 /* ================= CLOCK ================= */
 
 function startClock() {
@@ -285,7 +283,7 @@ function formatTime(ts) {
   return ts?.toDate().toLocaleTimeString("th-TH") || "-";
 }
 
-/* ================= STATE MACHINE ================= */
+/* ================= STATE MACHINE (ไม่แตะ) ================= */
 
 function applyTheme(color) {
   document.documentElement.style.setProperty("--accent", color);
@@ -406,7 +404,7 @@ window.actionHandler = async function () {
 
     showPopup(
       `บันทึกเวลาเข้างานสำเร็จ\n\n` +
-      `สถานที่: ${todayData?.siteIn || "-"}\n` +
+      `สถานที่: ${todayData?.siteName || "-"}\n` +
       `เข้างานเวลา: ${formatTime(todayData?.clockIn)}`
     );
     return;
@@ -425,7 +423,7 @@ window.actionHandler = async function () {
 
       showPopup(
         `บันทึกเวลาเลิกงานสำเร็จ\n\n` +
-        `ไซต์งาน: ${todayData?.siteOut || todayData?.siteIn || "-"}\n` +
+        `ไซต์งาน: ${todayData?.siteName || "-"}\n` +
         `เลิกงานเวลา: ${formatTime(todayData?.clockOut)}\n` +
         `${todayData?.checkoutOutside ? "(นอกพื้นที่ทำงาน)" : "(ภายในพื้นที่ทำงาน)"}`
       );
@@ -471,8 +469,8 @@ async function processAttendance(isCheckin) {
     const payload = {
       clockIn: serverTimestamp(),
       locationIn: { lat, lng },
-      siteIn: site.id,
-      siteOut: null,
+      siteId: site.id,
+      siteName: site.id,
       clockOut: null,
       locationOut: null,
       checkoutOutside: false
@@ -492,18 +490,15 @@ async function processAttendance(isCheckin) {
   } else {
 
     const todayData = snap.data().days?.[today];
-    const siteSnap = await getDoc(doc(db, "sites", todayData.siteIn));
+    const siteSnap = await getDoc(doc(db, "sites", todayData.siteId));
     const site = siteSnap.data();
 
     const distance = getDistance(lat, lng, site.lat, site.lng);
     const outside = distance > site.radius;
 
-    const detected = await detectSite(lat, lng);
-
     await updateDoc(attendanceRef, {
       [`days.${today}.clockOut`]: serverTimestamp(),
       [`days.${today}.locationOut`]: { lat, lng },
-      [`days.${today}.siteOut`]: detected ? detected.id : todayData.siteIn,
       [`days.${today}.checkoutOutside`]: outside
     });
   }
@@ -511,7 +506,6 @@ async function processAttendance(isCheckin) {
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
-
 // ===== PWA Keyboard Fix (iOS) =====
 
 const loginSection = document.getElementById("loginSection");
