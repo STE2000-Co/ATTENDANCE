@@ -111,7 +111,6 @@ leaveMap[d.userId+"_"+d.date]=true;
 reportData=[];
 
 const tbody=document.getElementById("reportTableBody");
-
 tbody.innerHTML="";
 
 
@@ -129,10 +128,26 @@ const header=document.createElement("tr");
 header.className="userHeader";
 
 header.innerHTML=`
-<td colspan="7">👤 ${name}</td>
+<td colspan="6">👤 ${name}</td>
 `;
 
 tbody.appendChild(header);
+
+
+/* ===== SUB HEADER ===== */
+
+const subHeader=document.createElement("tr");
+
+subHeader.innerHTML=`
+<th>วันที่</th>
+<th>เข้า</th>
+<th>ออก</th>
+<th>สถานที่</th>
+<th>OT</th>
+<th>สถานะ</th>
+`;
+
+tbody.appendChild(subHeader);
 
 
 /* ===== LOOP DATES ===== */
@@ -143,9 +158,10 @@ const y=dateObj.getFullYear();
 const m=String(dateObj.getMonth()+1).padStart(2,"0");
 const d=String(dateObj.getDate()).padStart(2,"0");
 
-const date=`${y}-${m}-${d}`;
+const firestoreDate=`${y}-${m}-${d}`;
+const displayDate=`${d}/${m}/${y}`;
 
-const day=days[date];
+const day=days[firestoreDate];
 
 let clockIn="-";
 let clockOut="-";
@@ -156,7 +172,7 @@ let status="-";
 const dayOfWeek=dateObj.getDay();
 
 
-if(leaveMap[userId+"_"+date]){
+if(leaveMap[userId+"_"+firestoreDate]){
 
 status="ลา";
 
@@ -220,17 +236,15 @@ else status="ปกติ";
 
 /* ===== STORE DATA ===== */
 
-const row={
+reportData.push({
 name,
-date,
+date:displayDate,
 clockIn,
 clockOut,
 site,
 ot,
 status
-};
-
-reportData.push(row);
+});
 
 
 /* ===== TABLE ROW ===== */
@@ -239,8 +253,7 @@ const tr=document.createElement("tr");
 
 tr.innerHTML=`
 
-<td></td>
-<td>${date}</td>
+<td>${displayDate}</td>
 <td>${clockIn}</td>
 <td>${clockOut}</td>
 <td>${site}</td>
