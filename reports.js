@@ -69,6 +69,19 @@ return dates;
 }
 
 
+/* FORMAT DATE DD/MM/YYYY */
+
+function formatThaiDate(dateObj){
+
+const d=String(dateObj.getDate()).padStart(2,"0");
+const m=String(dateObj.getMonth()+1).padStart(2,"0");
+const y=dateObj.getFullYear();
+
+return `${d}/${m}/${y}`;
+
+}
+
+
 /* LOAD DATA */
 
 async function loadReport(){
@@ -111,6 +124,7 @@ leaveMap[d.userId+"_"+d.date]=true;
 reportData=[];
 
 const tbody=document.getElementById("reportTableBody");
+
 tbody.innerHTML="";
 
 
@@ -138,13 +152,17 @@ tbody.appendChild(header);
 
 const subHeader=document.createElement("tr");
 
+subHeader.className="subHeader";
+
 subHeader.innerHTML=`
-<th>วันที่</th>
-<th>เข้า</th>
-<th>ออก</th>
-<th>สถานที่</th>
-<th>OT</th>
-<th>สถานะ</th>
+
+<td>วันที่</td>
+<td>เข้า</td>
+<td>ออก</td>
+<td>สถานที่</td>
+<td>OT</td>
+<td>สถานะ</td>
+
 `;
 
 tbody.appendChild(subHeader);
@@ -158,10 +176,10 @@ const y=dateObj.getFullYear();
 const m=String(dateObj.getMonth()+1).padStart(2,"0");
 const d=String(dateObj.getDate()).padStart(2,"0");
 
-const firestoreDate=`${y}-${m}-${d}`;
-const displayDate=`${d}/${m}/${y}`;
+const date=`${y}-${m}-${d}`;
+const displayDate=formatThaiDate(dateObj);
 
-const day=days[firestoreDate];
+const day=days[date];
 
 let clockIn="-";
 let clockOut="-";
@@ -172,7 +190,7 @@ let status="-";
 const dayOfWeek=dateObj.getDay();
 
 
-if(leaveMap[userId+"_"+firestoreDate]){
+if(leaveMap[userId+"_"+date]){
 
 status="ลา";
 
@@ -226,7 +244,7 @@ ot=`${oh}:${String(om).padStart(2,"0")}`;
 
 }
 
-if(late && ot!=="-") status="สาย,OT";
+if(late && ot!=="-") status="สาย + OT";
 else if(late) status="สาย";
 else if(ot!=="-") status="OT";
 else status="ปกติ";
@@ -236,7 +254,7 @@ else status="ปกติ";
 
 /* ===== STORE DATA ===== */
 
-reportData.push({
+const row={
 name,
 date:displayDate,
 clockIn,
@@ -244,7 +262,9 @@ clockOut,
 site,
 ot,
 status
-});
+};
+
+reportData.push(row);
 
 
 /* ===== TABLE ROW ===== */
