@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged
@@ -25,6 +24,7 @@ const firebaseConfig = {
   messagingSenderId: "749702522934",
   appId: "1:749702522934:web:5664ccfd9d04ae88985097"
 };
+
 /* ================= DEVICE ID ================= */
 
 function getDeviceId() {
@@ -37,6 +37,7 @@ function getDeviceId() {
 
   return deviceId;
 }
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -45,6 +46,7 @@ let currentState = "checkin";
 let currentUserId = null;
 let countdownInterval = null;
 let confirmCallback = null;
+
 function resetLoginButton() {
   const loginBtn = document.querySelector(".login-card .primary-btn");
   if (!loginBtn) return;
@@ -177,12 +179,11 @@ onAuthStateChanged(auth, async (user) => {
   const appSection = document.getElementById("appSection");
 
   if (!user) {
-  loginSection.classList.add("active");
-  appSection.classList.remove("active");
-
-  document.body.classList.remove("loading");
-  return;
-}
+    loginSection.classList.add("active");
+    appSection.classList.remove("active");
+    document.body.classList.remove("loading");
+    return;
+  }
 
   currentUserId = user.uid;
 
@@ -190,68 +191,53 @@ onAuthStateChanged(auth, async (user) => {
   const userSnap = await getDoc(userRef);
 
   if (!userSnap.exists()) {
-  showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
-
-  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
-
-  await auth.signOut();
-  document.body.classList.remove("loading");
-  return;
-}
+    showPopup("ไม่มีสิทธิ์เข้าใช้งาน", true);
+    resetLoginButton();
+    await auth.signOut();
+    document.body.classList.remove("loading");
+    return;
+  }
 
   const userData = userSnap.data();
   const currentDeviceId = getDeviceId();
-// ===== ROLE REDIRECT =====
+
   if (userData.role === "admin") {
-  window.location.href = "admin.html";
-  return;
-}
-  // ===== DEVICE LOCK =====
+    window.location.href = "admin.html";
+    return;
+  }
 
   if (!userData.deviceId) {
-    await updateDoc(userRef, {
-      deviceId: currentDeviceId
-    });
-  } else if (userData.deviceId !== currentDeviceId) {
-
-  showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
-
-  resetLoginButton();   // 🔥 เพิ่มบรรทัดนี้
-
-  await auth.signOut();
-  document.body.classList.remove("loading");
-  return;
-}
-
-  // ===== SHOW APP =====
+    await updateDoc(userRef, { deviceId: currentDeviceId });
+  } 
+  else if (userData.deviceId !== currentDeviceId) {
+    showPopup("บัญชีนี้ถูกใช้งานบนอุปกรณ์อื่น", true);
+    resetLoginButton();
+    await auth.signOut();
+    document.body.classList.remove("loading");
+    return;
+  }
 
   loginSection.classList.remove("active");
-appSection.classList.add("active");
+  appSection.classList.add("active");
 
-  document.body.classList.remove("loading"); // 🔥 สำคัญมาก
+  document.body.classList.remove("loading");
 
   loadEmployeeCard(userData, user.uid);
   startClock();
   await restoreStateFromFirestore(user.uid);
 });
+
 /* ================= CARD ================= */
 
 function loadEmployeeCard(data, uid) {
 
   const empId = data.employeeId || uid;
 
-  document.getElementById("empName").innerText =
-    data.name || "-";
-  document.getElementById("empId").innerText = 
-    empId  || "-";
-  document.getElementById("empPosition").innerText =
-    data.position || "-";
-
-  document.getElementById("empDept").innerText =
-    data.department || "-";
-
-  document.getElementById("empIssued").innerText =
-    data.issueDate || "-";
+  document.getElementById("empName").innerText = data.name || "-";
+  document.getElementById("empId").innerText = empId || "-";
+  document.getElementById("empPosition").innerText = data.position || "-";
+  document.getElementById("empDept").innerText = data.department || "-";
+  document.getElementById("empIssued").innerText = data.issueDate || "-";
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", empId, {
@@ -261,12 +247,13 @@ function loadEmployeeCard(data, uid) {
       displayValue: false,
       lineColor: "#ffffff",
       background: "transparent",
-      margin: 0,          // 🔥 สำคัญ
+      margin: 0,
       marginLeft: 0,
       marginRight: 0
     });
   }
 }
+
 /* ================= CLOCK ================= */
 
 function startClock() {
@@ -283,7 +270,7 @@ function formatTime(ts) {
   return ts?.toDate().toLocaleTimeString("th-TH") || "-";
 }
 
-/* ================= STATE MACHINE (ไม่แตะ) ================= */
+/* ================= STATE MACHINE ================= */
 
 function applyTheme(color) {
   document.documentElement.style.setProperty("--accent", color);
@@ -327,110 +314,6 @@ function setState(state) {
   }
 }
 
-function startCountdown() {
-  function update() {
-    const now = new Date();
-    const end = new Date();
-    end.setHours(17, 0, 0, 0);
-    const diff = end - now;
-
-    if (diff <= 0) {
-      setState("checkout");
-      return;
-    }
-
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-
-    document.getElementById("actionBtn").innerText =
-      `เหลือเวลา ${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  }
-
-  update();
-  countdownInterval = setInterval(update, 1000);
-}
-
-/* ================= RESTORE ================= */
-
-async function getTodaySummary(uid) {
-  const today = new Date().toISOString().split("T")[0];
-  const snap = await getDoc(doc(db, "attendance", uid));
-  if (!snap.exists()) return null;
-  return snap.data().days?.[today] || null;
-}
-
-async function restoreStateFromFirestore(uid) {
-  const now = new Date();
-  const hour = now.getHours();
-  const todayData = await getTodaySummary(uid);
-
-  if (!todayData) return evaluateNewDay(hour);
-
-  if (todayData.clockIn && !todayData.clockOut) {
-    if (hour >= 17) setState("checkout");
-    else setState("countdown");
-    return;
-  }
-
-  if (todayData.clockOut) {
-    setState("finished");
-    return;
-  }
-
-  evaluateNewDay(hour);
-}
-
-function evaluateNewDay(hour) {
-  if (hour >= 6 && hour < 17) setState("checkin");
-  else setState("locked");
-}
-
-/* ================= BUTTON ================= */
-
-window.actionHandler = async function () {
-
-  const btn = document.getElementById("actionBtn");
-
-  if (currentState === "checkin") {
-    btn.disabled = true;
-    btn.innerText = "กำลังบันทึก...";
-
-    const result = await processAttendance(true);
-
-    if (!result) return;
-
-    const todayData = await getTodaySummary(currentUserId);
-
-    showPopup(
-      `บันทึกเวลาเข้างานสำเร็จ\n\n` +
-      `สถานที่: ${todayData?.siteName || "-"}\n` +
-      `เข้างานเวลา: ${formatTime(todayData?.clockIn)}`
-    );
-    return;
-  }
-
-  if (currentState === "checkout") {
-    showConfirm("คุณแน่ใจหรือไม่ว่าต้องการเลิกงาน?", async () => {
-
-      btn.disabled = true;
-      btn.innerText = "กำลังบันทึก...";
-
-      const result = await processAttendance(false);
-      if (!result) return;
-
-      const todayData = await getTodaySummary(currentUserId);
-
-      showPopup(
-        `บันทึกเวลาเลิกงานสำเร็จ\n\n` +
-        `ไซต์งาน: ${todayData?.siteName || "-"}\n` +
-        `เลิกงานเวลา: ${formatTime(todayData?.clockOut)}\n` +
-        `${todayData?.checkoutOutside ? "(นอกพื้นที่ทำงาน)" : "(ภายในพื้นที่ทำงาน)"}`
-      );
-    });
-  }
-};
-
 /* ================= MULTI-SITE ATTENDANCE ================= */
 
 async function processAttendance(isCheckin) {
@@ -469,10 +352,10 @@ async function processAttendance(isCheckin) {
     const payload = {
       clockIn: serverTimestamp(),
       locationIn: { lat, lng },
-      siteId: site.id,
-      siteName: site.id,
+      siteIn: site.id,
       clockOut: null,
       locationOut: null,
+      siteOut: null,
       checkoutOutside: false
     };
 
@@ -490,7 +373,7 @@ async function processAttendance(isCheckin) {
   } else {
 
     const todayData = snap.data().days?.[today];
-    const siteSnap = await getDoc(doc(db, "sites", todayData.siteId));
+    const siteSnap = await getDoc(doc(db, "sites", todayData.siteIn));
     const site = siteSnap.data();
 
     const distance = getDistance(lat, lng, site.lat, site.lng);
@@ -499,6 +382,7 @@ async function processAttendance(isCheckin) {
     await updateDoc(attendanceRef, {
       [`days.${today}.clockOut`]: serverTimestamp(),
       [`days.${today}.locationOut`]: { lat, lng },
+      [`days.${today}.siteOut`]: siteSnap.id,
       [`days.${today}.checkoutOutside`]: outside
     });
   }
@@ -506,7 +390,8 @@ async function processAttendance(isCheckin) {
   await restoreStateFromFirestore(currentUserId);
   return true;
 }
-// ===== PWA Keyboard Fix (iOS) =====
+
+/* ===== PWA Keyboard Fix (iOS) ===== */
 
 const loginSection = document.getElementById("loginSection");
 const inputs = document.querySelectorAll("#loginSection input");
@@ -514,16 +399,17 @@ const inputs = document.querySelectorAll("#loginSection input");
 inputs.forEach(input => {
   input.addEventListener("focus", () => {
     loginSection.style.alignItems = "flex-start";
-    loginSection.style.paddingTop = "80px"; 
+    loginSection.style.paddingTop = "80px";
   });
 
   input.addEventListener("blur", () => {
     setTimeout(() => {
       loginSection.style.alignItems = "center";
       loginSection.style.paddingTop = "0px";
-    }, 150); // รอ keyboard ปิดก่อนค่อยคืนตำแหน่ง
+    }, 150);
   });
 });
+
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
 
@@ -535,6 +421,7 @@ window.addEventListener("load", () => {
     }, 2000);
   }
 });
+
 window.goLeave = function () {
   document.body.style.opacity = "0";
   document.body.style.transition = "opacity 0.25s ease";
