@@ -523,18 +523,10 @@ async function processAttendance(isCheckin) {
 
       }
 
-    catch (error) {
+    } catch (err) {
+      console.warn("Site check error:", err);
+    }
 
-  alert("ERROR: " + error.message);
-
-  console.error("Attendance Error:", error);
-
-  showPopup("เกิดข้อผิดพลาดในการบันทึกข้อมูล", true);
-
-  setState(currentState);
-
-  return false;
-}
     const detected = await detectSite(lat, lng);
 
     if (detected) {
